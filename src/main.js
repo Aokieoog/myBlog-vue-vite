@@ -6,6 +6,9 @@ import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 // vueRouter
 import router from './router/index.js';
+// 自定义全局css
+import './assets/globals.css'
+
 
 const app = createApp(App);
 app.use(router);

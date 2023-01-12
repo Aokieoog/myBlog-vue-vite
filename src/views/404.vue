@@ -12,5 +12,7 @@ const mistake = ref('404资源开小查了......');
 </template>
 
 <style scoped>
-
+h1{
+  height: 900px;
+}
 </style>

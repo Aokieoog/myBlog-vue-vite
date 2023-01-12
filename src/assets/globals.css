@@ -1,0 +1,13 @@
+/* 全局样式表 */
+html, body, #app {
+  padding: 0;
+}
+#app {
+  max-width: 1480px
+}
+ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
