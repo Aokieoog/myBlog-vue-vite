@@ -1,13 +1,40 @@
 /* 全局样式表 */
 html, body, #app {
   padding: 0;
+  /* 滚动条兼容 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 #app {
-  max-width: 1480px
+  max-width: 92.5rem;
 }
 ul li {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-
+/* 隐藏滚动条 */
+/* 给需要滚动的元素添加伪类选择器将宽度设置为0，滚动条就会隐藏滚动条width、height、background、border */
+*::-webkit-scrollbar {
+  width: 4px;
+}
+/* 滚动条的滑轨背景颜色，可以用display让起不显示，也可以添加背景图片颜色改变显示效果 */
+*::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+/* 滑块的颜色 */
+* ::-webkit-scrollbar-thumb {
+  background-color: #bbbbbb;
+  border-radius: 5px;
+}
+/* 滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果. */
+* ::-webkit-scrollbar-button {
+  background-color: #eee;
+  display: none;
+}
+/* 横向滚动条和纵向滚动条相交处尖角的颜色 */
+* ::-webkit-scrollbar-corner {
+  background-color: black;
+}
