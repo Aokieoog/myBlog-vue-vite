@@ -1,12 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
 
 const shadowGroup = ref([
   {
     name: 'Basic Shadow',
     type: '',
   },
-]);
+])
 // const getCssVarName = (type: string) => {
 //   return `--el-box-shadow${type ? '-' : ''}${type}`;
 // };
@@ -31,7 +31,7 @@ const shadowGroup = ref([
 </template>
 
 <style scoped>
-ul{
+ul {
   padding: 0;
 }
 </style>

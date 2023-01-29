@@ -1,11 +1,10 @@
 <script setup>
-import { ref } from 'vue';
-
+import { ref } from 'vue'
 // 定义数据类型
 // defineProps({
 //   msg: String,
 // });
-const count = ref(0);
+const count = ref(0)
 const msg = ref('内容')
 </script>
 
