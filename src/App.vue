@@ -4,10 +4,15 @@ import Sidebar from './components/sidebar/sidebar.vue'
 </script>
 
 <template>
-
   <div class="common-layout">
+    <!--全局路由-->
+    <router-view v-show="this.$route.meta.fullPageDisplay" v-slot="{ Component }" class="globalRouting">
+      <keep-alive>
+        <component :is="Component"></component>
+      </keep-alive>
+    </router-view>
     <!--局部路由-->
-    <el-container v-if="!this.$route.meta.fullPageDisplay">
+    <el-container v-show="!this.$route.meta.fullPageDisplay">
       <!--头部-->
       <el-header>Header</el-header>
       <div>
@@ -26,14 +31,8 @@ import Sidebar from './components/sidebar/sidebar.vue'
         </el-main>
       </div>
     </el-container>
-    <!--全局路由-->
-    <router-view v-if="this.$route.meta.fullPageDisplay" v-slot="{ Component }" class="globalRouting">
-      <keep-alive>
-        <component :is="Component"></component>
-      </keep-alive>
-    </router-view>
-  </div>
 
+  </div>
 </template>
 
 <style>

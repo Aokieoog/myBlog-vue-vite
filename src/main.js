@@ -7,16 +7,14 @@ import 'element-plus/dist/index.css';
 /* vueRouter */
 import router from './router/index.js';
 /* axios */
-import axios from ''
+import axios from 'axios'
 /* 自定义全局css */
 import './assets/globals.css'
 
 
 const app = createApp(App);
 
-app.config.globalProperties.$axios = axios;
-
-app.provide('$axios', Axios)
+app.config.globalProperties.$http = axios;
 app.use(router);
 app.use(ElementPlus);
 app.mount('#app');
