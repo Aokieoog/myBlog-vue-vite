@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 
 defineProps({
-  msg: String,
+  msg: String
 })
 const mistake = ref('404资源开小查了......')
 </script>
@@ -12,7 +12,7 @@ const mistake = ref('404资源开小查了......')
 </template>
 
 <style scoped>
-h1 {
+/* h1 {
   height: 900px;
-}
+} */
 </style>

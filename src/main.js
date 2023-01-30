@@ -1,16 +1,26 @@
-import { createApp } from 'vue';
+import { createApp  } from 'vue';
 import './style.css';
 import App from './App.vue';
-// element
+/* element */
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
-// vueRouter
+/* vueRouter */
 import router from './router/index.js';
-// 自定义全局css
+/* axios */
+import axios from ''
+/* 自定义全局css */
 import './assets/globals.css'
 
 
 const app = createApp(App);
+
+app.config.globalProperties.$axios = axios;
+
+app.provide('$axios', Axios)
 app.use(router);
 app.use(ElementPlus);
 app.mount('#app');
+
+/* 挂载VUE原型
+ * vue3.0取消了Vue.prototype，官方文档推荐使用globalProperties
+ */

@@ -10,7 +10,7 @@ const msg = ref('内容')
 
 <template>
   <h1>{{ msg }}</h1>
-  <h1>{{ msg }}</h1>
+
   <h1>{{ msg }}</h1>
   <h1>{{ msg }}</h1>
   <h1>{{ msg }}</h1>

@@ -4,8 +4,8 @@ import { ref } from 'vue'
 const shadowGroup = ref([
   {
     name: 'Basic Shadow',
-    type: '',
-  },
+    type: ''
+  }
 ])
 // const getCssVarName = (type: string) => {
 //   return `--el-box-shadow${type ? '-' : ''}${type}`;
@@ -23,7 +23,7 @@ const shadowGroup = ref([
       <li>个性签名</li>
     </ul>
     <ul>
-      <li>权限管理</li>
+      <li>{{ shadowGroup[0].name }}</li>
       <li></li>
       <li></li>
     </ul>
