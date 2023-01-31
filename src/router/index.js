@@ -15,6 +15,14 @@ const routes = [
       fullPageDisplay:true//需要全页展示的组件
     },
     component: () => import('../views/404.vue')
+  },
+  {
+    path: '/hello',
+    name: 'hello',
+    meta:{
+      fullPageDisplay:false//不需要全页展示的组件
+    },
+    component: () => import('../components/HelloWorld.vue')
   }
 ];
 const router = createRouter({

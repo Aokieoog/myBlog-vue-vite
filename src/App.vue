@@ -1,18 +1,29 @@
 <script setup>
-import { ref } from 'vue'
 import Sidebar from './components/sidebar/sidebar.vue'
+import { useRoute, useRouter } from 'vue-router'
+import { computed, getCurrentInstance, onMounted } from 'vue'
+
+const poxry = getCurrentInstance()
+const route = useRoute()
+const router = useRouter()
+// let params = computed(()=>{route.params})
+
+onMounted(()=>{
+  console.log(route.params)
+  console.log(router)
+})
 </script>
 
 <template>
   <div class="common-layout">
     <!--全局路由-->
-    <router-view v-show="this.$route.meta.fullPageDisplay" v-slot="{ Component }" class="globalRouting">
+    <router-view v-show="" v-slot="{ Component }" class="globalRouting">
       <keep-alive>
         <component :is="Component"></component>
       </keep-alive>
     </router-view>
     <!--局部路由-->
-    <el-container v-show="!this.$route.meta.fullPageDisplay">
+    <el-container v-show="">
       <!--头部-->
       <el-header>Header</el-header>
       <div>
@@ -40,9 +51,6 @@ html, body {
   font-size: 16px;
   background-color: #efefef;
 }
-/* #app {
-  height: 100vh;
-} */
 .common-layout {
   padding: 0 !important;
 }
