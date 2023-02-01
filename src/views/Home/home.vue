@@ -1,8 +1,10 @@
 <script setup>
 import { getCurrentInstance, onMounted, reactive } from 'vue';
+import { useRouter } from 'vue-router'
 
 // 相当于vue2中的this
 const { proxy } = getCurrentInstance()
+const router = useRouter()
 
 /**
  * 定义数据
@@ -28,14 +30,22 @@ function Flushed() {
     } else {
       data.msg = response.data.msg
     }
-    data.show = false
   })
 }
 
-/* 点击动画 */
+/**
+ * 点击动画
+ * @returns {number}
+ * @constructor
+ * proxy.$router,vue2老写法类似于this.$router
+ * router.push,使用hooks属于vue-router 4.0写法
+ */
 function ClickHouse() {
   data.show = true
-  proxy.$router.push({ name: 'hello' })
+  return setTimeout(() => {
+    // proxy.$router.push('hello')
+    router.push('hello')
+  }, 1000)
 }
 
 

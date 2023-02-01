@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 // 定义数据类型
 // defineProps({
 //   msg: String,
 // });
 const count = ref(0)
 const msg = ref('内容')
+const route = useRoute()
+console.log(route.meta)
 </script>
 
 <template>

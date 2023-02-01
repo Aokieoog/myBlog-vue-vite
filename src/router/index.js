@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
-    path: '/',
+    path: '/home',
     name: 'home',
     meta:{
       fullPageDisplay:true//不需要全页展示的组件

@@ -1,29 +1,33 @@
 <script setup>
 import Sidebar from './components/sidebar/sidebar.vue'
-import { useRoute, useRouter } from 'vue-router'
-import { computed, getCurrentInstance, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { onMounted } from 'vue'
 
-const poxry = getCurrentInstance()
 const route = useRoute()
-const router = useRouter()
-// let params = computed(()=>{route.params})
 
-onMounted(()=>{
-  console.log(route.params)
-  console.log(router)
+/**
+ * route.name 获取name
+ * route.matched 获取matched数组,包含内部所有信息
+ * route.meta 获取其路由元信息
+ */
+onMounted(() => {
+  console.log(route.name)
+  console.log(route.matched)
+  console.log(route.meta)
+  console.log(route.meta.fullPageDisplay)
 })
 </script>
 
 <template>
   <div class="common-layout">
     <!--全局路由-->
-    <router-view v-show="" v-slot="{ Component }" class="globalRouting">
+    <router-view v-if="route.meta.fullPageDisplay" v-slot="{ Component }" class="globalRouting">
       <keep-alive>
         <component :is="Component"></component>
       </keep-alive>
     </router-view>
     <!--局部路由-->
-    <el-container v-show="">
+    <el-container v-if="!route.meta.fullPageDisplay">
       <!--头部-->
       <el-header>Header</el-header>
       <div>
@@ -60,7 +64,6 @@ html, body {
 /* 左侧边栏 */
 .el-aside {
   position: fixed;
-  /* width: 13.75rem; */
   height: 100vh;
   margin-top: 3.8rem;
   background: #f9f9f9;
@@ -75,12 +78,15 @@ html, body {
   background: #f9f9f9;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
-/* 路由内容区 */
+/**
+ *路由内容区
+ *calc 可以用来计算加减乘除
+ */
 .el-main {
-  /* calc 可以用来计算加减乘除 */
   float: right;
   width: calc(73.125rem - 13.75rem);
   height: 100vh;
+  margin-top: 3.8rem;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 /* 全局路由 */
