@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 const shadowGroup = ref([
   {
@@ -7,30 +7,38 @@ const shadowGroup = ref([
     type: ''
   }
 ])
-// const getCssVarName = (type: string) => {
-//   return `--el-box-shadow${type ? '-' : ''}${type}`;
-// };
+const datalist = reactive([
+    { sidebar: '首页' },
+    { sidebar: '相册' },
+    { sidebar: '仓库' },
+    { sidebar: '日记' },
+    { sidebar: '关于' },
+    { sidebar: '分类' },
+    { sidebar: '设置' }
+  ]
+)
+
 
 </script>
 
 <template>
   <div class="sidebar">
-    <h1>11</h1>
+    <div class="sidebar-header"></div>
     <ul>
-      <li>用户管理</li>
-      <li>账户管理</li>
-      <li>密码管理</li>
-      <li>个性签名</li>
+      <li v-for="(item) in datalist">{{ item.sidebar }}</li>
     </ul>
     <ul>
       <li>{{ shadowGroup[0].name }}</li>
-      <li></li>
-      <li></li>
     </ul>
   </div>
 </template>
 
 <style scoped>
+.sidebar-header{
+  width: 13.75rem;
+  height: 6.25rem;
+  background-color: #646cff;
+}
 ul {
   padding: 0;
 }

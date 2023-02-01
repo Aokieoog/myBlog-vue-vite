@@ -17,12 +17,12 @@ const routes = [
     component: () => import('../views/404.vue')
   },
   {
-    path: '/hello',
-    name: 'hello',
+    path: '/oilPrices',//今日油价
+    name: 'oilPrices',
     meta:{
       fullPageDisplay:false//不需要全页展示的组件
     },
-    component: () => import('../components/HelloWorld.vue')
+    component: () => import('../views/OilPrices/oilPrices.vue')
   }
 ];
 const router = createRouter({
