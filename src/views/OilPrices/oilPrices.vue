@@ -32,7 +32,6 @@ function OilPrices(address) {
     }
   })
 }
-
 OilPrices('浙江')
 
 </script>
@@ -41,7 +40,7 @@ OilPrices('浙江')
   <h1>{{ title }}</h1>
   <div class="margin-top exterior">
     <div class="inline div-flex">
-      <el-input v-model="city" placeholder="请输入查询城市"></el-input>
+      <el-input v-model="city" placeholder="请输入查询省份,如'浙江'"></el-input>
       <el-button @click="OilPrices(city)">查询</el-button>
     </div>
     <div class="div-flex">
@@ -69,7 +68,7 @@ OilPrices('浙江')
   color: #888;
 }
 .el-input {
-  width: 10.25rem;
+  width: 11.75rem;
   margin-right: 2rem;
 }
 .inline {

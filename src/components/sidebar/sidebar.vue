@@ -1,20 +1,14 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 
-const shadowGroup = ref([
-  {
-    name: 'Basic Shadow',
-    type: ''
-  }
-])
 const datalist = reactive([
-    { sidebar: '首页' },
-    { sidebar: '相册' },
-    { sidebar: '仓库' },
-    { sidebar: '日记' },
-    { sidebar: '关于' },
-    { sidebar: '分类' },
-    { sidebar: '设置' }
+    { sidebar: '首页', toa: 'home' },
+    { sidebar: '相册', toa: 'oilPrices' },
+    { sidebar: '仓库', toa: '404' },
+    { sidebar: '日记', toa: 'home' },
+    { sidebar: '关于', toa: 'home' },
+    { sidebar: '分类', toa: 'home' },
+    { sidebar: '设置', toa: 'home' }
   ]
 )
 
@@ -24,22 +18,44 @@ const datalist = reactive([
 <template>
   <div class="sidebar">
     <div class="sidebar-header"></div>
-    <ul>
-      <li v-for="(item) in datalist">{{ item.sidebar }}</li>
-    </ul>
-    <ul>
-      <li>{{ shadowGroup[0].name }}</li>
+    <ul v-for="(item) in datalist">
+      <li>
+        <router-link :to="item.toa">{{ item.sidebar }}</router-link>
+      </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
-.sidebar-header{
+a{
+  padding: 7px 70px;
+  background-color: #e1e1e1;
+  border-radius: 7px;
+}
+.sidebar-header {
   width: 13.75rem;
   height: 6.25rem;
   background-color: #646cff;
 }
 ul {
-  padding: 0;
+  margin-bottom: 0;
+  padding-left: 0;
+  list-style: none;
+}
+ul li {
+  position: relative;
+  margin-bottom: 2px;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+a:hover {
+  background-color: #ececec;
+}
+ul li:after {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  bottom: -10px;
+  left: -10px;
 }
 </style>

@@ -1,5 +1,6 @@
 <script setup>
 import Sidebar from './components/sidebar/sidebar.vue'
+import Header  from './components/header/header.vue'
 import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
 
@@ -29,7 +30,9 @@ onMounted(() => {
     <!--局部路由-->
     <el-container v-if="!route.meta.fullPageDisplay">
       <!--头部-->
-      <el-header>Header</el-header>
+      <el-header>
+        <Header></Header>
+      </el-header>
       <div>
         <!--左菜单侧栏-->
         <el-aside>
@@ -66,7 +69,7 @@ html, body {
   position: fixed;
   width: 13.7rem !important;
   height: 100vh;
-  margin-top: 3.8rem;
+  margin-top: 3.2rem;
   background: #f9f9f9;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
@@ -75,7 +78,7 @@ html, body {
   position: fixed;
   z-index: 10;
   width: 73.125rem;
-  height: 3.125rem;
+  height: 3.125rem !important;
   background: #f9f9f9;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
@@ -87,7 +90,7 @@ html, body {
   float: right;
   width: calc(73.125rem - 13.75rem);
   height: 100vh;
-  padding-top: 3.8rem !important;
+  padding-top: 3.2rem !important;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 /* 全局路由 */

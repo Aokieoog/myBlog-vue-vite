@@ -44,7 +44,7 @@ function ClickHouse() {
   data.show = true
   return setTimeout(() => {
     // proxy.$router.push('hello')
-    router.push('hello')
+    router.push('oilPrices')
   }, 1000)
 }
 
@@ -54,7 +54,7 @@ function ClickHouse() {
 
 <template>
   <div :class="{animate__animated:data.show ,animate__bounceOut:data.show}">
-    <h1>{{ data.msg }}</h1>
+    <p>{{ data.msg }}</p>
     <el-button @click="Flushed">刷新</el-button>
     <el-button @click="ClickHouse">进入</el-button>
   </div>
@@ -62,5 +62,7 @@ function ClickHouse() {
 
 
 <style scoped>
-
+p{
+  font-size: 25px;
+}
 </style>
