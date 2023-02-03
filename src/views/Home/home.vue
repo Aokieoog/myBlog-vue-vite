@@ -14,7 +14,9 @@ const router = useRouter()
  */
 let data = reactive({
   msg: '',
-  show: false
+  show: false,
+  account: '222',
+  password: '111'
 })
 
 /* 生命周期调用 */
@@ -53,16 +55,36 @@ function ClickHouse() {
 
 
 <template>
-  <div :class="{animate__animated:data.show ,animate__bounceOut:data.show}">
+  <div :class="'box',{animate__animated:data.show ,animate__bounceOut:data.show}">
     <p>{{ data.msg }}</p>
-    <el-button @click="Flushed">刷新</el-button>
-    <el-button @click="ClickHouse">进入</el-button>
+    <div class="form">
+      <el-input v-model="data.account"></el-input>
+      <el-input v-model="data.password"></el-input>
+    </div>
+    <div>
+      <el-button @click="Flushed">刷新</el-button>
+      <el-button @click="ClickHouse">进入</el-button>
+    </div>
   </div>
 </template>
 
 
 <style scoped>
-p{
+.box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+p {
   font-size: 25px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  margin-bottom: 2rem;
+}
+.form .el-input:nth-child(1){
+  margin: 3rem 0 1rem 0;
 }
 </style>

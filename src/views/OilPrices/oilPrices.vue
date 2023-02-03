@@ -32,6 +32,7 @@ function OilPrices(address) {
     }
   })
 }
+
 OilPrices('浙江')
 
 </script>
@@ -46,16 +47,20 @@ OilPrices('浙江')
     <div class="div-flex">
       <el-button color="#626aef">#0号柴油</el-button>
       <el-button color="green">{{ resdata.t0 }} 元</el-button>
-    </div><div class="div-flex">
+    </div>
+    <div class="div-flex">
       <el-button color="#626aef">#89号汽油</el-button>
       <el-button color="green">{{ resdata.t89 }} 元</el-button>
-    </div><div class="div-flex">
+    </div>
+    <div class="div-flex">
       <el-button color="#626aef">#92号汽油</el-button>
       <el-button color="green">{{ resdata.t92 }} 元</el-button>
-    </div><div class="div-flex">
+    </div>
+    <div class="div-flex">
       <el-button color="#626aef">#95号汽油</el-button>
       <el-button color="green">{{ resdata.t95 }} 元</el-button>
-    </div><div class="div-flex">
+    </div>
+    <div class="div-flex">
       <el-button color="#626aef">#98号汽油</el-button>
       <el-button color="green">{{ resdata.t98 }} 元</el-button>
     </div>
