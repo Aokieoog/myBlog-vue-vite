@@ -20,7 +20,7 @@ function OilPrices(address) {
       contentType: 'application/json;charset=UTF-8'
     },
     method: 'get',
-    url: 'https://www.mxnzp.com/api/oil/search',
+    url: '/dev/api/oil/search',
     params: {
       province: address,
       app_id: 'l8lesimwu6oumkj9',

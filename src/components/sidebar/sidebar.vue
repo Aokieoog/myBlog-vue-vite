@@ -3,10 +3,9 @@ import { reactive } from 'vue'
 
 const datalist = reactive([
     { sidebar: '首页', toa: 'home' },
-    { sidebar: '相册', toa: 'oilPrices' },
-    { sidebar: '仓库', toa: '404' },
+    { sidebar: '朋友', toa: 'oilPrices' },
+    { sidebar: '相册', toa: '404' },
     { sidebar: '日记', toa: 'home' },
-    { sidebar: '关于', toa: 'home' },
     { sidebar: '分类', toa: 'home' },
     { sidebar: '设置', toa: 'home' }
   ]
@@ -17,7 +16,15 @@ const datalist = reactive([
 
 <template>
   <div class="sidebar">
-    <div class="sidebar-header"></div>
+    <div class="sidebar-header">
+      <div class="sidebar-header-devone"><img alt="" src="/log.png">
+        <i></i>
+      </div>
+      <div style="width: 6.11rem;line-height: 1.2">
+        <p style="font-size: 14px;margin: 0;"><strong style="font-weight: bold">景色宜人</strong></p>
+        <span style="font-size: 12px">The Best Is Yet To Come.</span>
+      </div>
+    </div>
     <ul v-for="(item) in datalist">
       <li>
         <router-link :to="item.toa">{{ item.sidebar }}</router-link>
@@ -27,28 +34,51 @@ const datalist = reactive([
 </template>
 
 <style scoped>
-a{
-  padding: 7px 70px;
-  background-color: #e1e1e1;
-  border-radius: 7px;
+.sidebar-header i {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  margin-bottom: 5px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background-color: #3ef13e;
+}
+.sidebar-header img {
+  width: 3.75rem;
+  height: 3.75rem;
+  border-radius: 50%;
+}
+.sidebar-header-devone {
+  display: flex;
+  align-items: flex-end;
+}
+a {
+  padding: 0.25rem 5rem;
+  color: #878787;
 }
 .sidebar-header {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
   width: 13.75rem;
-  height: 6.25rem;
-  background-color: #646cff;
+  height: 5.625rem;
+  padding-top: 0.625rem;
 }
 ul {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   margin-bottom: 0;
   padding-left: 0;
   list-style: none;
 }
 ul li {
-  position: relative;
-  margin-bottom: 2px;
-  padding: 6px 10px;
+  line-height: 2rem;
+  width: 12.5rem;
+  height: 2rem;
   border-radius: 5px;
 }
-a:hover {
+li:hover {
   background-color: #ececec;
 }
 ul li:after {
