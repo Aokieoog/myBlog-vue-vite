@@ -2,16 +2,14 @@
 import { reactive } from 'vue'
 
 const datalist = reactive([
-    { sidebar: '首页', toa: 'home' },
-    { sidebar: '朋友', toa: 'oilPrices' },
-    { sidebar: '相册', toa: '404' },
-    { sidebar: '日记', toa: 'home' },
-    { sidebar: '分类', toa: 'home' },
-    { sidebar: '设置', toa: 'home' }
+    { sidebar: '首页', toa: 'home', icon: 'icon-shouye' },
+    { sidebar: '朋友', toa: 'oilPrices', icon: 'icon-pinglun' },
+    { sidebar: '相册', toa: '404', icon: 'icon-tupian' },
+    { sidebar: '日记', toa: 'home', icon: 'icon-dingdan' },
+    { sidebar: '分类', toa: 'home', icon: 'icon-quan' },
+    { sidebar: '设置', toa: 'home', icon: 'icon-gengduo' }
   ]
 )
-
-
 </script>
 
 <template>
@@ -27,7 +25,10 @@ const datalist = reactive([
     </div>
     <ul v-for="(item) in datalist">
       <li>
-        <router-link :to="item.toa">{{ item.sidebar }}</router-link>
+        <router-link :to="item.toa">
+          <svg-icon :iconName="item.icon"></svg-icon>
+          {{ item.sidebar }}
+        </router-link>
       </li>
     </ul>
   </div>
@@ -52,8 +53,8 @@ const datalist = reactive([
   align-items: flex-end;
 }
 a {
-  padding: 0.25rem 5rem;
   color: #878787;
+  padding: 0 4rem;
 }
 .sidebar-header {
   display: flex;
