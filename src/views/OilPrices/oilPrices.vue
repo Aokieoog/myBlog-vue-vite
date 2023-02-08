@@ -1,6 +1,7 @@
 <script setup>
 import { getCurrentInstance, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
@@ -29,6 +30,15 @@ function OilPrices(address) {
   }).then((res) => {
     if (res.data.code === 1) {
       resdata.value = res.data.data
+    }else {
+      // VUE2写法
+      // proxy.$message('message')
+      // VUE3写法
+      ElMessage({
+        showClose: false,
+        message: 'Oops, this is a error message.',
+        type: 'error',
+      })
     }
   })
 }
