@@ -1,4 +1,4 @@
-import { createApp  } from 'vue';
+import { createApp } from 'vue';
 import './style.css';
 import App from './App.vue';
 /* element */
@@ -15,6 +15,8 @@ import './assets/animate.css'
 /* Svg图标全局注册组件 */
 import SvgIcon from './components/svgIconFont/svgIcon.vue'
 import './assets/svgIconFont/svgIconFont'
+/* message */
+import message from './utils/message.js'
 
 
 const app = createApp(App);
@@ -22,9 +24,10 @@ const app = createApp(App);
 app.config.globalProperties.$http = axios;
 app.use(router);
 app.use(ElementPlus);
-app.component('SvgIcon',SvgIcon)
+app.component('SvgIcon', SvgIcon)
+// app.provide('message', data )
 
-router.isReady().then(()=>app.mount('#app'))
+router.isReady().then(() => app.mount('#app'))
 
 /* 挂载VUE原型
  * vue3.0取消了Vue.prototype，官方文档推荐使用globalProperties

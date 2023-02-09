@@ -1,5 +1,5 @@
 <script setup>
-import { getCurrentInstance, ref } from 'vue'
+import { getCurrentInstance, inject, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 
@@ -34,11 +34,12 @@ function OilPrices(address) {
       // VUE2写法
       // proxy.$message('message')
       // VUE3写法
-      ElMessage({
-        showClose: false,
-        message: 'Oops, this is a error message.',
-        type: 'error',
-      })
+      // ElMessage({
+      //   showClose: false,
+      //   message: 'Oops, this is a error message.',
+      //   type: 'error',
+      // })
+      inject('message')
     }
   })
 }
