@@ -7,7 +7,7 @@ const routes = [
     meta: {
       fullPageDisplay: true//需要全页展示的组件
     },
-    component: () => import('../views/Login/login.vue')
+    component: () => import('views/Login/login.vue')
   },
   {
     path: '/home',
@@ -15,7 +15,7 @@ const routes = [
     meta: {
       fullPageDisplay: false
     },
-    component: () => import('../views/Home/home.vue')
+    component: () => import('views/Home/home.vue')
   },
   {
     path: '/:pathMatch(.*)',
@@ -23,7 +23,7 @@ const routes = [
     meta: {
       fullPageDisplay: true//需要全页展示的组件
     },
-    component: () => import('../views/404.vue')
+    component: () => import('views/404.vue')
   },
   {
     path: '/oilPrices',//今日油价
@@ -31,7 +31,7 @@ const routes = [
     meta: {
       fullPageDisplay: false//不需要全页展示的组件
     },
-    component: () => import('../views/OilPrices/oilPrices.vue')
+    component: () => import('views/OilPrices/oilPrices.vue')
   }
 ];
 const router = createRouter({

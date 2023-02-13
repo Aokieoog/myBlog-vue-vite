@@ -1,14 +1,28 @@
 import {ElMessage} from 'element-plus'
 
-const message = (show,data,type) => {
-  ElMessage({
-    showClose:show,
-    message:data,
-    type:type
-  })
-  return ElMessage
-}
+
 
 export default{
-  message
+  /* 提示 */
+  message (data) {
+    ElMessage(data)
+  },
+  /* 成功 */
+  success(data) {
+    ElMessage({
+      message: data,
+      type: 'success',
+    })
+  },
+  /* 警告 */
+  warning(data){
+    ElMessage({
+      message: data,
+      type: 'warning',
+    })
+  },
+  /* 错误 */
+  error(data){
+    ElMessage.error(data)
+  }
 }

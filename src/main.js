@@ -25,7 +25,6 @@ app.config.globalProperties.$http = axios;
 app.use(router);
 app.use(ElementPlus);
 app.component('SvgIcon', SvgIcon)
-// app.provide('message', data )
 
 router.isReady().then(() => app.mount('#app'))
 

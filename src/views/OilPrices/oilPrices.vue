@@ -1,7 +1,9 @@
 <script setup>
 import { getCurrentInstance, inject, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
+// import  msg  from '../../utils/message'
+import msg from '/src/utils/message'
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
@@ -39,7 +41,10 @@ function OilPrices(address) {
       //   message: 'Oops, this is a error message.',
       //   type: 'error',
       // })
-      inject('message')
+      msg.success('zhouzhou')
+      msg.message('jiejie')
+      msg.error('jiejie')
+      msg.warning('jiejie')
     }
   })
 }
