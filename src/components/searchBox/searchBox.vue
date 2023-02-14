@@ -1,5 +1,5 @@
 <script setup>
-import SvgIcon from '../svgIconFont/svgIcon.vue'</script>
+import SvgIcon from '../svgIconFont/svgIcon.vue';</script>
 
 <template>
   <div>
@@ -41,7 +41,7 @@ input:focus {
   border: none;
   border-radius: 0 0.9375rem 0.9375rem 0;
 }
-.el-button:active{
+.el-button:active {
   box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 </style>
