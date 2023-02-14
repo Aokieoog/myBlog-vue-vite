@@ -32,6 +32,7 @@ function OilPrices(address) {
   }).then((res) => {
     if (res.data.code === 1) {
       resdata.value = res.data.data
+      msg.success(res.data.msg)
     }else {
       // VUE2写法
       // proxy.$message('message')
@@ -41,10 +42,7 @@ function OilPrices(address) {
       //   message: 'Oops, this is a error message.',
       //   type: 'error',
       // })
-      msg.success('zhouzhou')
-      msg.message('jiejie')
-      msg.error('jiejie')
-      msg.warning('jiejie')
+      msg.error(res.data.msg)
     }
   })
 }

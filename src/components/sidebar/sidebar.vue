@@ -34,7 +34,7 @@ const datalist = reactive([
   </div>
 </template>
 
-<style scoped>
+<style lang="less" scoped>
 .sidebar-header i {
   width: 0.4375rem;
   height: 0.4375rem;

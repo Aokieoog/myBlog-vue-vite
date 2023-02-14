@@ -32,6 +32,14 @@ const routes = [
       fullPageDisplay: false//不需要全页展示的组件
     },
     component: () => import('views/OilPrices/oilPrices.vue')
+  },
+  {
+    path: '/searchBox',
+    name: '/searchBox',
+    meta: {
+      fullPageDisplay: false
+    },
+    component:()=>import('components/searchBox/searchBox.vue')
   }
 ];
 const router = createRouter({
