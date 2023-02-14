@@ -21,7 +21,7 @@ div {
 }
 input {
   float: left;
-  width: 9.25rem;
+  width: 9.24rem;
   height: 1.875rem;
   border-radius: 0.9375rem 0 0 0.9375rem;
   border: none;
