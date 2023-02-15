@@ -21,16 +21,18 @@ div {
 }
 input {
   float: left;
-  width: 9.24rem;
+  width: 9.14rem;
   height: 1.875rem;
   border-radius: 0.9375rem 0 0 0.9375rem;
   border: none;
   padding: 0 0 0 0.9375rem;
+
 }
 input:hover {
   background-color: #e0e6ed;
 }
 input:focus {
+  box-shadow: rgba(68,139,255,0.25)0px 0px 0px 2px;
   outline: 1px solid #448bff; //边框不用border，用outline
 }
 .el-button {

@@ -47,6 +47,7 @@ const datalist = reactive([
   width: 3.75rem;
   height: 3.75rem;
   border-radius: 50%;
+  box-shadow: 2px 2px 3px #e1e1e1;
 }
 .sidebar-header-devone {
   display: flex;
