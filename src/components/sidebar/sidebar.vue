@@ -23,7 +23,7 @@ const datalist = reactive([
         <span style="font-size: 12px">The Best Is Yet To Come.</span>
       </div>
     </div>
-    <ul v-for="(item) in datalist">
+    <ul v-for="(item,index) in datalist" :key="index">
       <li>
         <router-link :to="item.toa">
           <svg-icon :iconName="item.icon"></svg-icon>

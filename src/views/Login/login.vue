@@ -1,5 +1,5 @@
 <script setup>
-import { getCurrentInstance, onMounted, reactive } from 'vue';
+import { getCurrentInstance, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 // 相当于vue2中的this
@@ -37,7 +37,7 @@ function Flushed() {
 
 /**
  * 点击动画
- * @returns {number}
+ * @returns {NodeJS.Timeout}
  * @constructor
  * proxy.$router,vue2老写法类似于this.$router
  * router.push,使用hooks属于vue-router 4.0写法
@@ -85,7 +85,7 @@ p {
   width: 20rem;
   margin-bottom: 2rem;
 }
-.form .el-input:nth-child(1){
+.form .el-input:nth-child(1) {
   margin: 3rem 0 1rem 0;
 }
 </style>

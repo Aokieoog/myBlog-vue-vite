@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
@@ -7,7 +7,7 @@ const routes = [
     meta: {
       fullPageDisplay: true//需要全页展示的组件
     },
-    component: () => import('views/Login/login.vue')
+    component: () => import('@/views/Login/login.vue')
   },
   {
     path: '/home',
@@ -15,7 +15,7 @@ const routes = [
     meta: {
       fullPageDisplay: false
     },
-    component: () => import('views/Home/home.vue')
+    component: () => import('@/views/Home/home.vue')
   },
   {
     path: '/:pathMatch(.*)',
@@ -23,7 +23,7 @@ const routes = [
     meta: {
       fullPageDisplay: true//需要全页展示的组件
     },
-    component: () => import('views/404.vue')
+    component: () => import('@/views/404.vue')
   },
   {
     path: '/oilPrices',//今日油价
@@ -31,7 +31,7 @@ const routes = [
     meta: {
       fullPageDisplay: false//不需要全页展示的组件
     },
-    component: () => import('views/OilPrices/oilPrices.vue')
+    component: () => import('@/views/OilPrices/oilPrices.vue')
   },
   {
     path: '/searchBox',
@@ -39,16 +39,16 @@ const routes = [
     meta: {
       fullPageDisplay: false
     },
-    component:()=>import('components/searchBox/searchBox.vue')
+    component: () => import('@/components/searchBox/searchBox.vue')
   }
-];
+]
 const router = createRouter({
   history: createWebHistory(),
   routes: routes
-});
+})
 router.beforeEach((to, from, next) => {
-  console.log('到哪里去:', to);
-  console.log('来自:', from);
-  next(true);
-});
-export default router;
+  console.log('到哪里去:', to)
+  console.log('来自:', from)
+  next(true)
+})
+export default router

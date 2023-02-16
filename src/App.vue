@@ -1,21 +1,21 @@
 <script setup>
-import Sidebar from 'components/sidebar/sidebar.vue';
-import Header from 'components/header/header.vue';
-import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
+import Sidebar from '@/components/sidebar/sidebar.vue'
+import Header from '@/components/header/header.vue'
+import { useRoute } from 'vue-router'
+import { onMounted } from 'vue'
 
-const route = useRoute();
+const route = useRoute()
 /**
  * route.name 获取name
  * route.matched 获取matched数组,包含内部所有信息
  * route.meta 获取其路由元信息
  */
 onMounted(() => {
-  console.log(route.name);
-  console.log(route.matched);
-  console.log(route.meta);
-  console.log(route.meta.fullPageDisplay);
-});
+  console.log(route.name)
+  console.log(route.matched)
+  console.log(route.meta)
+  console.log(route.meta.fullPageDisplay)
+})
 </script>
 
 <template>
