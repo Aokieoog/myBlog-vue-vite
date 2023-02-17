@@ -1,5 +1,5 @@
 <script setup>
-import { getCurrentInstance, inject, ref } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
 import { useRoute } from 'vue-router'
 // import { ElMessage } from 'element-plus'
 // import  msg  from '../../utils/message'

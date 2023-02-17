@@ -7,6 +7,7 @@
 <script setup>
 /* 全局svgicon标签组件 */
 import { computed } from 'vue'
+
 const props = defineProps({
   iconName: {
     type: String,
@@ -20,7 +21,7 @@ const props = defineProps({
     type: String,
     default: '#409eff'
   }
-});
+})
 
 // 图标在Iocnfont中的名字
 const iconClassName = computed(() => {
@@ -30,10 +31,10 @@ const iconClassName = computed(() => {
 // 给图标添加上类名
 const svgClass = computed(() => {
   if (props.className) {
-    return `svg-icon ${props.className}`;
+    return `svg-icon ${props.className}`
   }
-  return 'svg-icon';
-});
+  return 'svg-icon'
+})
 </script>
 <style scoped>
 .svg-icon {

@@ -1,11 +1,11 @@
-import { createApp } from 'vue';
-import './style.css';
-import App from './App.vue';
+import { createApp } from 'vue'
+import './style.css'
+import App from './App.vue'
 /* element */
-import ElementPlus from 'element-plus';
-import 'element-plus/dist/index.css';
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 /* vueRouter */
-import router from './router/index.js';
+import router from './router/index.js'
 /* axios */
 import axios from 'axios'
 /* 自定义全局css */
@@ -17,13 +17,16 @@ import SvgIcon from './components/svgIconFont/svgIcon.vue'
 import './assets/svgIconFont/svgIconFont'
 /* message */
 import message from './utils/message.js'
+/* echarts */
+import * as echarts from 'echarts'
 
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.config.globalProperties.$http = axios;
-app.use(router);
-app.use(ElementPlus);
+app.config.globalProperties.$http = axios
+app.config.globalProperties.$echarts = echarts
+app.use(router)
+app.use(ElementPlus)
 app.component('SvgIcon', SvgIcon)
 
 router.isReady().then(() => app.mount('#app'))
