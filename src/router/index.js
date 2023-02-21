@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: '/home',
-    name: 'login',
+    name: 'home',
     meta: {
       fullPageDisplay: false
     },
@@ -40,6 +40,22 @@ const routes = [
       fullPageDisplay: false
     },
     component: () => import('@/components/searchBox/searchBox.vue')
+  },
+  {
+    path: '/lineChart',
+    name: '/lineChart',
+    meta: {
+      fullPageDisplay: false
+    },
+    component: () => import('@/components/echarts/lineChart.vue')
+  },
+  {
+    path: '/getHeatMap',
+    name: '/getHeatMap',
+    meta: {
+      fullPageDisplay: false
+    },
+    component: () => import('@/components/echarts/getHeatMap.vue')
   }
 ]
 const router = createRouter({

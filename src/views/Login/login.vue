@@ -47,7 +47,7 @@ function ClickHouse() {
   console.log(data.show)
   return setTimeout(() => {
     // proxy.$router.push('hello')
-    router.push('oilPrices')
+    router.push('home')
   }, 1000)
 }
 

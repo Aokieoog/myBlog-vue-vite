@@ -1,4 +1,9 @@
 <script setup>
+/**
+ * @说明: 油价页面
+ * @作者: Aoki
+ * @时间: 2023/02/20 11:26:45 
+*/
 import { getCurrentInstance, ref } from 'vue'
 import { useRoute } from 'vue-router'
 // import { ElMessage } from 'element-plus'

@@ -3,16 +3,17 @@
  * @说明: 首页
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
-*/
+ */
 import { getCurrentInstance, onMounted, ref } from 'vue'
 
 const { proxy } = getCurrentInstance()
 let main = ref(null)
+let name = ref('发布统计图')
 onMounted(() => {
   const myChart = proxy.$echarts.init(main.value)
   myChart.setOption({
     title: {
-      text: '发布统计图'
+      // text: '发布统计图'
     },
     xAxis: {
       type: 'category',
@@ -47,18 +48,32 @@ onMounted(() => {
 
   })
 })
-
 </script>
 
 <template>
-  <h1>图形</h1>
-  <div ref="main" class="about"></div>
+  <div class="box">
+    <p>{{ name }}</p>
+    <div ref="main" class="about"></div>
+  </div>
 </template>
 
 
 <style lang="less" scoped>
+.box {
+  width: 316px;
+  height: 289px;
+  p {
+    width: 281px;
+    height: 19px;
+    font-size: 14px;
+    text-align: left;
+    line-height: 20px;
+    color: #777777;
+    margin: 5px 0 10px 21px;
+  }
+}
 .about {
-  height: 400px;
-  width: 100%;
+  width: 275px;
+  height: 240px;
 }
 </style>
