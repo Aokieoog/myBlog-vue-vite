@@ -6,15 +6,15 @@
         <div class="week">周四</div>
         <div class="week">周六</div>
       </div>
-      <div class="column" v-for="(columnData, columnIndex) in dateData" :key="columnIndex">
-        <div class="title">{{columnData.title}}</div>
+      <div v-for="(columnData, columnIndex) in dateData" :key="columnIndex" class="column">
+        <div class="title">{{ columnData.title }}</div>
         <div
-          class="date-wrapper"
           v-for="(dateData, dateIndex) in columnData.data"
           :key="dateIndex"
           :style="`background:${getColor(dateData.number)};`"
+          class="date-wrapper"
         >
-          <Tooltip placement="top" :delay="300" :content="`${dateData.date}：${dateData.number}次通过`">
+          <Tooltip :content="`${dateData.date}：${dateData.number}次通过`" :delay="300" placement="top">
             <div class="date"></div>
           </Tooltip>
         </div>
@@ -24,7 +24,7 @@
       <div class="slider">
         <div class="slider-desc">0</div>
         <div style="width:120px;">
-          <Slider :value="sliderValue" :max="12" range :tip-format="sliderFormat" @on-change="sliderChange"></Slider>
+          <Slider :max="12" :tip-format="sliderFormat" :value="sliderValue" range @on-change="sliderChange"></Slider>
         </div>
         <div class="slider-desc">12+</div>
       </div>
@@ -42,10 +42,11 @@
 </template>
 
 <script>
-// import moment from 'moment'
+import moment from 'moment'
+
 export default {
   name: 'submission-chart',
-  data () {
+  data() {
     return {
       dateData: [],
       submissionRecord: {},
@@ -58,12 +59,12 @@ export default {
       type: Object
     }
   },
-  mounted () {
+  mounted() {
     this.formatProblemData()
     this.init()
   },
   methods: {
-    init () {
+    init() {
       // 上一年信息
       let prevYear = moment().format('YYYY') - 1
       let prevTodayFormatStr = prevYear + '-' + moment().format('MM-DD')
@@ -123,7 +124,7 @@ export default {
       }
       this.dateData = dateData
     },
-    formatProblemData () {
+    formatProblemData() {
       let submissionRecord = {}
       // let OIProblems = this.profile.oi_problems_status.problems || {}
       // // 格式化profile中oi的提交记录数据，创建submissionRecord对象，将create_time作为key进行存储
@@ -139,7 +140,7 @@ export default {
       // submissionRecord 最后的格式应为 {'2020-01-01':10, '2020-01-02': 11}
       this.submissionRecord = submissionRecord
     },
-    getColor (number) {
+    getColor(number) {
       // level color
       // 左闭右开
       let color = '#EBEDF0'
@@ -156,10 +157,10 @@ export default {
       }
       return color
     },
-    sliderFormat (val) {
+    sliderFormat(val) {
       return '提交次数: ' + val
     },
-    sliderChange (val) {
+    sliderChange(val) {
       // 没有使用v-model绑定sliderValue而是采用回调的原因
       // 1.拖拽1px sliderValue都会引起组件重绘，此组件计算嵌套了2个for循环，导致页面出现卡顿slider不流畅的情况
       this.sliderValue = val
@@ -173,32 +174,26 @@ export default {
   width: 820px;
   height: 180px;
   background-color: #fff;
-  margin: auto;
-  margin-top: 20px;
+  margin: 20px auto auto;
   padding: 0px 0;
   font-size: 12px;
-
   .calendar {
     margin-left: 16px;
     margin-right: 16px;
     display: flex;
-
     .weeks {
       width: 30px;
       margin-right: 3px;
       margin-top: 22px;
-
       .week {
         margin-top: 13px;
         width: 30px;
         height: 14px;
       }
     }
-
     .column {
       width: 11px;
       margin-right: 3px;
-
       .title {
         width: 14px;
         height: 14px;
@@ -207,17 +202,14 @@ export default {
         overflow: visible;
         white-space: nowrap;
       }
-
       .date-wrapper {
         width: 11px;
         height: 11px;
         background: #EBEDF0;
         margin-bottom: 3px;
-
         .date {
           width: 11px;
           height: 11px;
-
           :hover {
             width: 13px;
             height: 13px;
@@ -226,57 +218,46 @@ export default {
       }
     }
   }
-
   .operation {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-
     .slider {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 200px;
-
       .slider-desc {
         width: 11px;
         margin: 0 8px;
       }
     }
-
     .legend {
       display: flex;
-      justify-content:center;
+      justify-content: center;
       align-items: center;
-
       .level-desc {
         margin-right: 6px;
         margin-left: 3px;
       }
-
       .level {
         margin-right: 3px;
         width: 11px;
         height: 11px;
       }
-
       .level-1 {
         background: #EBEDF0;
       }
-
       .level-2 {
         background: #C6E48B;
       }
-
       .level-3 {
         background: #7BC96F;
       }
-
       .level-4 {
         background: #239A3B;
       }
-
       .level-5 {
         background: #196127;
       }
