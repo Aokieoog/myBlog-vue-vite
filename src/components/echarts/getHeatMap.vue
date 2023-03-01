@@ -42,6 +42,7 @@
 </template>
 
 <script>
+// 引入时间方法
 import moment from 'moment'
 
 export default {
