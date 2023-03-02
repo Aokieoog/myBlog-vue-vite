@@ -1,268 +1,175 @@
+<script setup>
+/**
+ * @说明: 热力图
+ * @作者: Aoki
+ * @时间: 2023/02/17 17:22:22
+ */
+import { getCurrentInstance, onMounted, ref } from 'vue'
+
+const { proxy } = getCurrentInstance()
+let heatMap = ref(null)
+let name = ref('热力图')
+
+function getVirtualData(year) {
+  const date = +proxy.$echarts.time.parse(year + '-01-01')
+  const end = +proxy.$echarts.time.parse(year + '-12-31')
+  const dayTime = 3600 * 24 * 1000
+  const data = []
+  for (let time = date; time <= end; time += dayTime) {
+    data.push([
+      proxy.$echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
+      Math.floor(Math.random() * 10000)
+    ])
+  }
+  return data
+}
+
+onMounted(() => {
+  getVirtualData()
+  const myChart = proxy.$echarts.init(heatMap.value)
+  myChart.setOption({
+    tooltip: {
+      formatter: function (params) {
+        return '降雨量: ' + params.value[1]
+      }
+    },
+    visualMap: {
+      show: false,
+      min: 0,
+      max: 5,
+      inRange: {
+        color: ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127', '#196127']
+      }
+    },
+    calendar: {
+      itemStyle: {
+        color: '#ccc',
+        borderWidth: 1,
+        borderColor: '#fff'
+      },
+      color: 'red',
+      range: '2016',
+      splitLine: true,
+      dayLabel: {
+        firstDay: 7
+      },
+      monthLabel: {
+        nameMap: [
+          '一月',
+          '二月',
+          '三月',
+          '四月',
+          '五月',
+          '六月',
+          '七月',
+          '八月',
+          '九月',
+          '十月',
+          '十一月',
+          '十二月'
+        ]
+      },
+      silent: {
+        show: false
+      }
+    },
+    series: {
+      itemStyle: {
+        color: ['red', 'green', '#fff', '#ccc']
+      },
+      type: 'heatmap',
+      coordinateSystem: 'calendar',
+      data: [
+        [1451577600000, 1],
+        [1451664000000, 2],
+        [1451750400000, 5],
+        [1451836800000, 0],
+        [1451923200000, 0],
+        [1452009600000, 0],
+        [1452096000000, 0],
+        [1452182400000, 0],
+        [1452268800000, 0],
+        [1452355200000, 0],
+        [1452441600000, 0],
+        [1452528000000, 0],
+        [1452614400000, 0],
+        [1452700800000, 0],
+        [1452787200000, 0],
+        [1452873600000, 0],
+        [1452960000000, 0],
+        [1453046400000, 0],
+        [1453132800000, 0],
+        [1453219200000, 0],
+        [1453305600000, 0],
+        [1453392000000, 0],
+        [1453478400000, 0],
+        [1453564800000, 0],
+        [1453651200000, 0],
+        [1453737600000, 2],
+        [1453824000000, 2],
+        [1453910400000, 3],
+        [1453996800000, 0],
+        [1454083200000, 6],
+        [1454169600000, 0],
+        [1454256000000, 7],
+        [1454342400000, 0],
+        [1454428800000, 0],
+        [1454515200000, 0],
+        [1454601600000, 0],
+        [1454688000000, 0],
+        [1454774400000, 1],
+        [1454860800000, 2],
+        [1454947200000, 1],
+        [1455033600000, 1],
+        [1455120000000, 1],
+        [1455206400000, 2],
+        [1455292800000, 3],
+        [1455379200000, 1],
+        [1455465600000, 4],
+        [1455552000000, 1],
+        [1455638400000, 4],
+        [1455724800000, 2],
+        [1455811200000, 2],
+        [1455897600000, 2],
+        [1455984000000, 2],
+        [1456070400000, 2],
+        [1456156800000, 2],
+        [1456243200000, 1],
+        [1456329600000, 1],
+        [1456416000000, 1],
+        [1456502400000, 3],
+        [1456588800000, 4],
+        [1456675200000, 2]
+      ]
+    }
+  })
+})
+</script>
+
 <template>
-  <div class="submission-chart">
-    <div class="calendar">
-      <div class="weeks">
-        <div class="week">周二</div>
-        <div class="week">周四</div>
-        <div class="week">周六</div>
-      </div>
-      <div v-for="(columnData, columnIndex) in dateData" :key="columnIndex" class="column">
-        <div class="title">{{ columnData.title }}</div>
-        <div
-          v-for="(dateData, dateIndex) in columnData.data"
-          :key="dateIndex"
-          :style="`background:${getColor(dateData.number)};`"
-          class="date-wrapper"
-        >
-          <Tooltip :content="`${dateData.date}：${dateData.number}次通过`" :delay="300" placement="top">
-            <div class="date"></div>
-          </Tooltip>
-        </div>
-      </div>
-    </div>
-    <div class="operation">
-      <div class="slider">
-        <div class="slider-desc">0</div>
-        <div style="width:120px;">
-          <Slider :max="12" :tip-format="sliderFormat" :value="sliderValue" range @on-change="sliderChange"></Slider>
-        </div>
-        <div class="slider-desc">12+</div>
-      </div>
-      <div class="legend">
-        <div class="level-desc">少</div>
-        <div class="level level-1"></div>
-        <div class="level level-2"></div>
-        <div class="level level-3"></div>
-        <div class="level level-4"></div>
-        <div class="level level-5"></div>
-        <div class="level-desc">多</div>
-      </div>
-    </div>
+  <div class="box">
+    <p>{{ name }}</p>
+    <div ref="heatMap" class="about"></div>
   </div>
 </template>
 
-<script>
-// 引入时间方法
-import moment from 'moment'
 
-export default {
-  name: 'submission-chart',
-  data() {
-    return {
-      dateData: [],
-      submissionRecord: {},
-      sliderValue: [0, 12]
-    }
-  },
-  props: {
-    profile: {
-      default: {},
-      type: Object
-    }
-  },
-  mounted() {
-    this.formatProblemData()
-    this.init()
-  },
-  methods: {
-    init() {
-      // 上一年信息
-      let prevYear = moment().format('YYYY') - 1
-      let prevTodayFormatStr = prevYear + '-' + moment().format('MM-DD')
-      let prevToday = moment(prevTodayFormatStr).format('YYYY-MM-DD')
-      // 上年今日的是星期几
-      let prevTodayWeekNum = moment(prevToday).weekday() || 7
-      // 初始日期（上年临近的星期一）
-      let firstMondayDate = prevTodayWeekNum > 1 ? moment(prevToday).add(8 - prevTodayWeekNum, 'days').format('YYYY-MM-DD') : prevToday
-      // 初始日期至今日的天数，包括今日
-      let days = moment().diff(moment(firstMondayDate), 'days') + 1
-      // 每周天数
-      let columns = 7
-      // 最大列数（周数）
-      let lineNums = Math.ceil(days / columns)
-      // 绘制图表的源数据
-      let dateData = []
-      let monthCN = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-      let startSliderNum = this.sliderValue[0]
-      let endSliderNum = this.sliderValue[1]
-      for (let i = 0; i < lineNums; i++) {
-        // 最近一星期不一定满的
-        let weekColumn = (i === lineNums - 1 ? days % columns ? days % columns : columns : columns)
-        // 开始计算title（月份的图例）
-        // 思路：第一列直接根据第一天的月份
-        //      之后的嘛列数根据上一周的最后一天减去第一天的月份，如果大于1代表月份发生了改变，下一列的title显示最新的月份
-        let theWeekStartMonth = moment(firstMondayDate).add(i * 7, 'days').format('M')
-        let theWeekEndMonth = moment(firstMondayDate).add(i * 7 + weekColumn, 'days').format('M')
-        let title = (i === 0) ? monthCN[theWeekStartMonth - 1] : ''
-        let ifSwitchMonth = false
-        if (theWeekEndMonth - theWeekStartMonth) {
-          ifSwitchMonth = true
-        }
-        if (i && dateData[i - 1].ifSwitchMonth) {
-          title = monthCN[theWeekEndMonth - 1]
-        }
-        // 图表源数据格式：columns：列数，title：列标题，ifSwitchMonth：月份是否发生改变，data：每格数据
-        dateData.push({
-          columns: weekColumn,
-          title: title,
-          ifSwitchMonth: ifSwitchMonth,
-          data: []
-        })
-        for (let j = 0; j < dateData[i].columns; j++) {
-          let date = moment(firstMondayDate).add(i * 7 + j, 'days').format('YYYY-MM-DD')
-          let number = 0
-          // 提交次数在slider范围内再进行次数赋值
-          if ((this.submissionRecord[date] >= startSliderNum && this.submissionRecord[date] < endSliderNum) ||
-            (this.submissionRecord[date] > 12 && endSliderNum === 12)) {
-            number = this.submissionRecord[date]
-          }
-          // number：提交次数，date：提交日期
-          dateData[i].data.push({
-            number: number,
-            date: date
-          })
-        }
-      }
-      this.dateData = dateData
-    },
-    formatProblemData() {
-      let submissionRecord = {}
-      // let OIProblems = this.profile.oi_problems_status.problems || {}
-      // // 格式化profile中oi的提交记录数据，创建submissionRecord对象，将create_time作为key进行存储
-      // Object.keys(OIProblems).forEach(problemID => {
-      //   if (OIProblems[problemID]['status'] === 0) {
-      //     let date = moment(OIProblems[problemID]['create_time']).format('YYYY-MM-DD')
-      //     // 第一次出现提交次数设置1，之后每次出现提交次数+1
-      //     submissionRecord[date.toString()] = submissionRecord[date] ? ((submissionRecord[date])) + 1 : 1
-      //   }
-      // })
-
-      // 处理你的业务逻辑
-      // submissionRecord 最后的格式应为 {'2020-01-01':10, '2020-01-02': 11}
-      this.submissionRecord = submissionRecord
-    },
-    getColor(number) {
-      // level color
-      // 左闭右开
-      let color = '#EBEDF0'
-      if (number >= 12) {
-        color = '#196127'
-      } else if (number >= 8) {
-        color = '#239A3B'
-      } else if (number >= 4) {
-        color = '#7BC96F'
-      } else if (number >= 1) {
-        color = '#C6E48B'
-      } else {
-        color = '#EBEDF0'
-      }
-      return color
-    },
-    sliderFormat(val) {
-      return '提交次数: ' + val
-    },
-    sliderChange(val) {
-      // 没有使用v-model绑定sliderValue而是采用回调的原因
-      // 1.拖拽1px sliderValue都会引起组件重绘，此组件计算嵌套了2个for循环，导致页面出现卡顿slider不流畅的情况
-      this.sliderValue = val
-      this.init()
-    }
+<style lang="less" scoped>
+.box {
+  width: 316px;
+  height: 289px;
+  p {
+    width: 281px;
+    height: 19px;
+    font-size: 14px;
+    text-align: left;
+    line-height: 20px;
+    color: #777777;
+    margin: 5px 0 10px 21px;
   }
 }
-</script>
-<style lang="less" scoped>
-.submission-chart {
-  width: 820px;
-  height: 180px;
-  background-color: #fff;
-  margin: 20px auto auto;
-  padding: 0px 0;
-  font-size: 12px;
-  .calendar {
-    margin-left: 16px;
-    margin-right: 16px;
-    display: flex;
-    .weeks {
-      width: 30px;
-      margin-right: 3px;
-      margin-top: 22px;
-      .week {
-        margin-top: 13px;
-        width: 30px;
-        height: 14px;
-      }
-    }
-    .column {
-      width: 11px;
-      margin-right: 3px;
-      .title {
-        width: 14px;
-        height: 14px;
-        margin-bottom: 8px;
-        text-align: left;
-        overflow: visible;
-        white-space: nowrap;
-      }
-      .date-wrapper {
-        width: 11px;
-        height: 11px;
-        background: #EBEDF0;
-        margin-bottom: 3px;
-        .date {
-          width: 11px;
-          height: 11px;
-          :hover {
-            width: 13px;
-            height: 13px;
-          }
-        }
-      }
-    }
-  }
-  .operation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    .slider {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 200px;
-      .slider-desc {
-        width: 11px;
-        margin: 0 8px;
-      }
-    }
-    .legend {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      .level-desc {
-        margin-right: 6px;
-        margin-left: 3px;
-      }
-      .level {
-        margin-right: 3px;
-        width: 11px;
-        height: 11px;
-      }
-      .level-1 {
-        background: #EBEDF0;
-      }
-      .level-2 {
-        background: #C6E48B;
-      }
-      .level-3 {
-        background: #7BC96F;
-      }
-      .level-4 {
-        background: #239A3B;
-      }
-      .level-5 {
-        background: #196127;
-      }
-    }
-  }
+.about {
+  width: 275px;
+  height: 240px;
 }
 </style>

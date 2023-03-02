@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'login',
     meta: {
       fullPageDisplay: true//需要全页展示的组件
