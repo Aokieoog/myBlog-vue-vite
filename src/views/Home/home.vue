@@ -3,8 +3,9 @@
  * @说明: 首页
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
-*/
+ */
 import { getCurrentInstance, onMounted, ref } from 'vue'
+import GetHeatMap from '@/components/echarts/getHeatMap.vue'
 
 const { proxy } = getCurrentInstance()
 let main = ref(null)
@@ -51,8 +52,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h1>图形</h1>
-  <div ref="main" class="about"></div>
+    <GetHeatMap></GetHeatMap>
 </template>
 
 
