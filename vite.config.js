@@ -20,7 +20,12 @@ export default defineConfig({
         changeOrigin: true, //支持跨域
         //重写路径,替换/dev
         rewrite: (path) => path.replace(/^\/dev/, '')
-      }
+      },
+      // '/text':{
+      //   target:'https://meiriyiwen.com',
+      //   changeOrigin:true,
+      //   rewrite:(path)=>path.replace(/^\/text/,'')
+      // }
     }
   }
 

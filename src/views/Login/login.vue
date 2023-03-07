@@ -15,13 +15,14 @@ const router = useRouter()
 let data = reactive({
   msg: '',
   show: false,
-  account: '222',
-  password: '111'
+  account: '',
+  password: ''
 })
 
 /* 生命周期调用 */
 onMounted(() => {
   Flushed()
+  // text()
 })
 
 /* 每日一句接口 */
@@ -34,6 +35,16 @@ function Flushed() {
     }
   })
 }
+
+/***
+ *
+ */
+// function text() {
+//   proxy.$http.get('text/').then((res) => {
+//     res.data
+//     console.log(res.data)
+//   })
+// }
 
 /**
  * 点击动画
@@ -56,28 +67,45 @@ function ClickHouse() {
 
 
 <template>
+  <h1>Login</h1>
   <div :class="['box',{animate__animated:data.show ,animate__bounceOut:data.show}]">
     <p>{{ data.msg }}</p>
-    <div class="form">
-      <el-input v-model="data.account"></el-input>
-      <el-input v-model="data.password"></el-input>
-    </div>
-    <div>
-      <el-button @click="Flushed">刷新</el-button>
-      <el-button @click="ClickHouse">进入</el-button>
+    <div class="form_box">
+      <div class="form">
+        <el-input v-model="data.account" placeholder="Please input account"></el-input>
+        <el-input v-model="data.password" placeholder="Please input password" show-password type="password"></el-input>
+      </div>
+      <div>
+        <el-button color="#68945c" style="color: white" @click="Flushed">Flushed</el-button>
+        <el-button color="#88abda" style="color: white" @click="ClickHouse">Login</el-button>
+      </div>
     </div>
   </div>
+  <p class="record">京ICP备17006801号-2 Theme by handsome© 2023 All rights reserved.</p>
 </template>
 
 
-<style scoped>
+<style lang="less" scoped>
+h1 {
+  color: #88abda;
+}
 .box {
   display: flex;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 59.375rem;
+  margin-bottom: 15rem;
+  p {
+    font-size: 25px;
+    line-height: 30px;
+    width: 37.5rem;
+    text-align: left;
+    text-indent: 3rem;
+  }
 }
-p {
-  font-size: 25px;
+.record {
+  font-size: 12px;
 }
 .form {
   display: flex;

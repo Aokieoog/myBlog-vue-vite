@@ -8,7 +8,6 @@ import { getCurrentInstance, onMounted, ref } from 'vue'
 
 const { proxy } = getCurrentInstance()
 let heatMap = ref(null)
-let name = ref('热力图')
 
 function getVirtualData(year) {
   const date = +proxy.$echarts.time.parse(year + '-01-01')
@@ -39,9 +38,11 @@ onMounted(() => {
       max: 5,
       inRange: {
         color: ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127', '#196127']
-      }
+      },
     },
     calendar: {
+      left:40,
+      right:45,
       itemStyle: {
         color: '#ccc',
         borderWidth: 3,
@@ -89,29 +90,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="box">
-    <p>{{ name }}</p>
-    <div ref="heatMap" class="about"></div>
-  </div>
+  <div ref="heatMap" class="about"></div>
 </template>
 
 
 <style lang="less" scoped>
-.box {
-  width: 37.6875rem;
-  height: 11.5625rem;
-  p {
-    width: 281px;
-    height: 19px;
-    font-size: 14px;
-    text-align: left;
-    line-height: 20px;
-    color: #777777;
-    margin: 5px 0 10px 21px;
-  }
-}
 .about {
   width: 37.6875rem;
   height: 11.5625rem;
+  //display: flex;
 }
 </style>
