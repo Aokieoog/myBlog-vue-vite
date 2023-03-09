@@ -65,10 +65,10 @@ import LineChart from '@/components/echarts/lineChart.vue'</script>
   //margin: 0 0 0 13.75rem;
   //padding: 0 0.9375rem;
 }
-.box_getheatmap{
-  width: 634px;
-  height: 228px;
-}
+//.box_getheatmap{
+//  width: 634px;
+//  height: 228px;
+//}
 .linechart {
   float: left;
 }
