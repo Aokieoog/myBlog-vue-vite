@@ -35,7 +35,7 @@ const routes = [
   },
   {
     path: '/searchBox',
-    name: '/searchBox',
+    name: 'searchBox',
     meta: {
       fullPageDisplay: false
     },
@@ -43,7 +43,7 @@ const routes = [
   },
   {
     path: '/lineChart',
-    name: '/lineChart',
+    name: 'lineChart',
     meta: {
       fullPageDisplay: false
     },
@@ -51,11 +51,19 @@ const routes = [
   },
   {
     path: '/getHeatMap',
-    name: '/getHeatMap',
+    name: 'getHeatMap',
     meta: {
       fullPageDisplay: false
     },
     component: () => import('@/components/echarts/getHeatMap.vue')
+  },
+  {
+    path: '/pieLike',
+    name: 'pieLike',
+    meta: {
+      fullPageDisplay: true
+    },
+    component: () => import('@/components/echarts/pieLike.vue')
   }
 ]
 const router = createRouter({
