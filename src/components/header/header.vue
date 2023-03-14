@@ -2,14 +2,24 @@
 import SearchBox from '../searchBox/searchBox.vue'
 import GetHeatMap from '@/components/echarts/getHeatMap.vue'
 import LineChart from '@/components/echarts/lineChart.vue'
-import { ref } from 'vue'
 import PieLike from '@/components/echarts/pieLike.vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 
 let show = ref(false)
 
 function showeach() {
   show.value = !show.value
 }
+onMounted(()=>{
+  document.addEventListener('click', (e) => {
+    if (e.target.className !== 'visualization') {
+      show.value = false
+    }
+  })
+})
+onBeforeUnmount(()=>{
+  window.removeEventListener('click', () => {}, true)
+})
 </script>
 
 <template>
@@ -17,7 +27,7 @@ function showeach() {
     <img alt="" src="https://www.ihewro.com/logo.svg" type="image/svg+xml">
   </div>
   <div class="box">
-    <div class="visualization" @click="showeach">
+    <div class="visualization" @click.stop="showeach">
       <svg-icon icon-name="icon-gaishuai"></svg-icon>
     </div>
     <div class="box_echarts" v-show="show">
