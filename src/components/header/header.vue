@@ -3,6 +3,7 @@ import SearchBox from '../searchBox/searchBox.vue'
 import GetHeatMap from '@/components/echarts/getHeatMap.vue'
 import LineChart from '@/components/echarts/lineChart.vue'
 import { ref } from 'vue'
+import PieLike from '@/components/echarts/pieLike.vue'
 
 let show = ref(false)
 
@@ -25,9 +26,15 @@ function showeach() {
         <p style="margin: 0 0 0 5px;font-size: 12px;text-align: left">统计近10个月提交信息</p>
         <GetHeatMap class="getheatmap"></GetHeatMap>
       </div>
-      <div style="width:317px;height:290px;padding: 0 15px">
-        <p style="margin: 5px 0 10px 5px;text-align: left">发布统计图</p>
-        <LineChart class="linechart"></LineChart>
+      <div style="display:flex;">
+        <div style="width:317px;height:290px;padding: 0 15px;">
+          <p style="margin: 5px 0 10px 5px;text-align: left">发布统计图</p>
+          <LineChart class="linechart"></LineChart>
+        </div>
+        <div style="width: 317px;height: 290px;padding: 0 15px">
+          <p style="margin: 5px 0 10px 5px;text-align: left">分类统计图</p>
+          <PieLike></PieLike>
+        </div>
       </div>
     </div>
     <div class="searchBox">
