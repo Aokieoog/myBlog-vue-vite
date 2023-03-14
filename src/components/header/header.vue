@@ -55,7 +55,7 @@ onBeforeUnmount(()=>{
 
 <style lang="less" scoped>
 .box_echarts {
-  width: 920px;
+  width: 694px;
   height: 515px;
   background-color: #f9f9f9;
   position: absolute;
