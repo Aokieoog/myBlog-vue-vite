@@ -14,6 +14,7 @@ export default defineConfig({
 
   // 代理配置
   server: {
+    port:5173,
     proxy: {
       '/dev': {
         target: 'https://www.mxnzp.com', //目标url
