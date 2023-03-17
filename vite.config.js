@@ -16,6 +16,7 @@ export default defineConfig({
   server: {
     port:5173,
     proxy: {
+      // 部署后发现问题,target转换成现网域名
       '/dev': {
         target: 'https://www.mxnzp.com', //目标url
         changeOrigin: true, //支持跨域
