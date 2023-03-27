@@ -8,7 +8,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 let show = ref(false)
 
 function showeach() {
-  show.value = !show.value
+  show.value = true
 }
 onMounted(()=>{
   document.addEventListener('click', (e) => {
@@ -30,7 +30,7 @@ onBeforeUnmount(()=>{
     <div class="visualization" @click.stop="showeach">
       <svg-icon icon-name="icon-gaishuai"></svg-icon>
     </div>
-    <div class="box_echarts" v-show="show">
+    <div class="box_echarts animate__animated animate__fadeInTopLeft" v-show="show">
       <div class="box_getheatmap">
         <p style="margin: 5px 0 0 5px;text-align: left;font-size: 14px;font-weight: 700">动态日历</p>
         <p style="margin: 0 0 0 5px;font-size: 12px;text-align: left">统计近10个月提交信息</p>

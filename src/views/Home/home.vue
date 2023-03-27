@@ -11,7 +11,7 @@ console.log('dd+', mock.mockid())
 
 
 <template>
-  <h1>爱的色放lads法拉第解放拉萨九点零分</h1>
+  <h1>博客君</h1>
 </template>
 
 

@@ -57,7 +57,7 @@ OilPrices('浙江')
 </script>
 
 <template>
-  <h1>{{ title }}</h1>
+  <h2>{{ title }}</h2>
   <div class="margin-top exterior">
     <div class="inline div-flex">
       <el-input v-model="city" placeholder="请输入查询省份,如'浙江'"></el-input>
