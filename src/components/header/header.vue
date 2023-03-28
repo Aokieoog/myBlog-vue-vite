@@ -10,15 +10,17 @@ let show = ref(false)
 function showeach() {
   show.value = true
 }
-onMounted(()=>{
+
+onMounted(() => {
   document.addEventListener('click', (e) => {
     if (e.target.className !== 'visualization') {
       show.value = false
     }
   })
 })
-onBeforeUnmount(()=>{
-  window.removeEventListener('click', () => {}, true)
+onBeforeUnmount(() => {
+  window.removeEventListener('click', () => {
+  }, true)
 })
 </script>
 
@@ -30,7 +32,7 @@ onBeforeUnmount(()=>{
     <div class="visualization" @click.stop="showeach">
       <svg-icon icon-name="icon-gaishuai"></svg-icon>
     </div>
-    <div class="box_echarts animate__animated animate__fadeInTopLeft" v-show="show">
+    <div v-show="show" :class="['box_echarts',{anima:show}]">
       <div class="box_getheatmap">
         <p style="margin: 5px 0 0 5px;text-align: left;font-size: 14px;font-weight: 700">动态日历</p>
         <p style="margin: 0 0 0 5px;font-size: 12px;text-align: left">统计近10个月提交信息</p>
@@ -96,8 +98,8 @@ onBeforeUnmount(()=>{
   //padding: 0 0.9375rem;
 }
 .box_getheatmap {
-  width: 634px;
-  height: 228px;
+  width: 39.625rem;
+  height: 14.25rem;
 }
 .linechart {
   float: left;
@@ -105,5 +107,23 @@ onBeforeUnmount(()=>{
 .getheatmap {
   //width: 39.625rem;
   //height: 14.25rem;
+}
+.anima {
+  animation: myfirst 1s;
+  overflow: hidden;
+}
+.anima::-webkit-scrollbar {
+  width: 0 !important
+}
+@keyframes myfirst {
+  from {
+    width: 0px;
+    height: 0px;
+    border-radius: 100%
+  }
+  to {
+    width: 694px;
+    height: 515px;
+  }
 }
 </style>
