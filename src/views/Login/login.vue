@@ -61,11 +61,7 @@ function ClickHouse() {
     router.push('home')
   }, 1000)
 }
-
-
 </script>
-
-
 <template>
   <h1>Login</h1>
   <div :class="['box',{animate__animated:data.show ,animate__bounceOut:data.show}]">
@@ -83,8 +79,6 @@ function ClickHouse() {
   </div>
   <p class="record">京ICP备17006801号-2 Theme by handsome© 2023 All rights reserved.</p>
 </template>
-
-
 <style lang="less" scoped>
 h1 {
   color: #88abda;
@@ -105,7 +99,7 @@ h1 {
   }
 }
 .record {
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .form {
   display: flex;
@@ -115,5 +109,13 @@ h1 {
 }
 .form .el-input:nth-child(1) {
   margin: 3rem 0 1rem 0;
+}
+.form_box{
+    width: 25rem;
+    margin: 0 auto;
+    padding: 2.5rem;
+    background-color: #fff;
+    border-radius: 0.3125rem;
+    box-shadow: 0 0.3125rem 0.625rem rgba(0, 0, 0, 0.1);
 }
 </style>

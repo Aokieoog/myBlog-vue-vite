@@ -3,18 +3,24 @@
  * @说明: 油价页面
  * @作者: Aoki
  * @时间: 2023/02/21 10:02:02
-*/
-import { getCurrentInstance, ref } from 'vue'
-import { useRoute } from 'vue-router'
+ */
+import { getCurrentInstance, onMounted, ref } from 'vue'
 // import { ElMessage } from 'element-plus'
 // import  msg  from '../../utils/message'
 import msg from '/src/utils/message'
 
 const { proxy } = getCurrentInstance()
-const route = useRoute()
 const title = ref('今日油价')
-let city = ref('')//查询城市
+let city1 = ref(['安徽', '北京', '重庆', '福建', '甘肃', '广东', '广西', '贵州', '海南', '河北', '黑龙江', '河南', '湖北', '湖南', '江苏', '江西', '吉林', '辽宁', '内蒙古', '宁夏', '青海', '陕西', '上海', '山东', '山西', '四川', '天津', '西藏', '新疆', '云南', '浙江'
+])//查询城市
+let city = ref('')
 let resdata = ref({})
+let tableData = ref([])
+
+
+onMounted(() => {
+  setTime()
+})
 
 /**
  * 查询省份汽油物价
@@ -37,8 +43,10 @@ function OilPrices(address) {
   }).then((res) => {
     if (res.data.code === 1) {
       resdata.value = res.data.data
+      tableData.value.push(resdata.value)
+      localStorage.setItem('myArray', JSON.stringify(tableData.value))
       msg.success(res.data.msg)
-    }else {
+    } else {
       // VUE2写法
       // proxy.$message('message')
       // VUE3写法
@@ -52,67 +60,37 @@ function OilPrices(address) {
   })
 }
 
-OilPrices('浙江')
+function setTime() {
+  const myArray = JSON.parse(localStorage.getItem('myArray'))
+  if (myArray) {
+    tableData.value = myArray
+  } else {
+    city1.value.map((x, i) => {
+      setTimeout(() => {
+        OilPrices(x)
+      }, i * 3000)
+    })
+  }
+}
 
+function Update() {
+  localStorage.removeItem('myArray')
+}
 </script>
 
 <template>
   <h2>{{ title }}</h2>
-  <div class="margin-top exterior">
-    <div class="inline div-flex">
-      <el-input v-model="city" placeholder="请输入查询省份,如'浙江'"></el-input>
-      <el-button @click="OilPrices(city)">查询</el-button>
-    </div>
-    <div class="div-flex">
-      <el-button color="#626aef">#0号柴油</el-button>
-      <el-button color="green">{{ resdata.t0 }} 元</el-button>
-    </div>
-    <div class="div-flex">
-      <el-button color="#626aef">#89号汽油</el-button>
-      <el-button color="green">{{ resdata.t89 }} 元</el-button>
-    </div>
-    <div class="div-flex">
-      <el-button color="#626aef">#92号汽油</el-button>
-      <el-button color="green">{{ resdata.t92 }} 元</el-button>
-    </div>
-    <div class="div-flex">
-      <el-button color="#626aef">#95号汽油</el-button>
-      <el-button color="green">{{ resdata.t95 }} 元</el-button>
-    </div>
-    <div class="div-flex">
-      <el-button color="#626aef">#98号汽油</el-button>
-      <el-button color="green">{{ resdata.t98 }} 元</el-button>
-    </div>
-  </div>
-
+  <el-button style="margin-bottom: 1rem;float: right" @click="Update">更新</el-button>
+  <el-table :data="tableData" border style="width: 100%">
+    <el-table-column label="省份" prop="province" width="" />
+    <el-table-column label="0#汽油" prop="t0" width="" />
+    <el-table-column label="89#汽油" prop="t89" width="" />
+    <el-table-column label="92#汽油" prop="t92" width="" />
+    <el-table-column label="95#汽油" prop="t95" width="" />
+    <el-table-column label="98#汽油" prop="t98" width="" />
+  </el-table>
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
-}
-.el-input {
-  width: 11.75rem;
-  margin-right: 2rem;
-}
-.inline {
-  display: inline;
-}
-.margin-top {
-  margin-top: 2rem;
-}
-.div-flex {
-  display: flex;
-  justify-content: space-between;
-  width: 20rem;
-  margin-bottom: 2rem;
-}
-.div-flex .el-button {
-  width: 8rem;
-}
-.exterior {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
+
 </style>
