@@ -39,7 +39,7 @@ const handleClose = (key, keyPath) => {
         </div>
       </div>
       <el-menu-item v-for="(item,i) in datalist" :key="i" :index="item.toa">
-        <svg-icon :iconName="item.icon"></svg-icon>
+        <svg-icon :iconName="item.icon"></svg-icon>&nbsp;
         <template #title>{{ item.sidebar }}</template>
       </el-menu-item>
     </el-menu>
