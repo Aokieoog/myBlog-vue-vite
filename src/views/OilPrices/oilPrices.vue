@@ -75,6 +75,7 @@ function setTime() {
 
 function Update() {
   localStorage.removeItem('myArray')
+  setTime()
 }
 </script>
 
