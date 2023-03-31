@@ -4,31 +4,39 @@
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
  */
-import mock from '@/mock/mockjs'
+
 import { getCurrentInstance, onMounted, ref } from 'vue'
 
 const { proxy } = getCurrentInstance()
-const title = ref('博客君')
-let listImage = ref([])
-console.log('dd+', mock.mockid())
+let title = ref('')
+let text =  ref('')
+
+
 onMounted(() => {
-  proxy.$http.get('/dev/api/image/girl/list/random?count=1&app_id=l8lesimwu6oumkj9&app_secret=cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09').then((res) => {
-    if (res.data.code === 1) {
-      listImage.value = res.data.data
-    }
-  })
+
 })
+function Fasong() {
+  proxy.$http.post('https://api.openai.com/v1/chat/completions', {
+    model: 'gpt-3.5-turbo',
+    messages: [{ role: 'user', content: title.value }],
+    temperature: 0.7
+  }, {
+    headers: {
+      contentType: 'application/json;charset=UTF-8',
+      Authorization: 'Bearer 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'
+    }
+  }).then((res) => {
+    text.value = res.data.choices[0].message.content
+  })
+}
 
 </script>
 
 
 <template>
-  <h1>{{ title }}</h1>
-  <div class="image">
-    <div v-for="(item,i) in listImage.slice(0,9)" :key="i" class="image_box">
-      <img :src="item.imageUrl" alt="" style="width: 300px;height: 150px">
-    </div>
-  </div>
+  <span>{{text}}</span>
+  <el-input v-model="title">{{ title }}</el-input>
+  <el-button @click="Fasong">Click</el-button>
 </template>
 
 
