@@ -1,16 +1,14 @@
 <script setup>
 /**
- * @说明: 首页
+ * @说明: 相册
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
  */
-import mock from '@/mock/mockjs'
 import { getCurrentInstance, onMounted, ref } from 'vue'
 
 const { proxy } = getCurrentInstance()
 const title = ref('博客君')
 let listImage = ref([])
-console.log('dd+', mock.mockid())
 onMounted(() => {
   proxy.$http.get('/dev/api/image/girl/list/random?count=1&app_id=l8lesimwu6oumkj9&app_secret=cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09').then((res) => {
     if (res.data.code === 1) {

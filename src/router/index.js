@@ -64,6 +64,13 @@ const routes = [
       fullPageDisplay: true
     },
     component: () => import('@/components/echarts/pieLike.vue')
+  },{
+    path: '/PhotoAlbum',
+    name: 'PhotoAlbum',
+    meta: {
+      fullPageDisplay: false
+    },
+    component: () => import('@/views/PhotoAlbum/PhotoAlbum.vue')
   }
 ]
 const router = createRouter({
