@@ -37,6 +37,7 @@ function Fasong() {
   <span>{{text}}</span>
   <el-input v-model="title">{{ title }}</el-input>
   <el-button @click="Fasong">Click</el-button>
+
 </template>
 
 
