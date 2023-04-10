@@ -1,6 +1,7 @@
 <script setup>
 import { getCurrentInstance, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import msg from '@/utils/message.js'
 
 // 相当于vue2中的this
 const { proxy } = getCurrentInstance()
@@ -54,12 +55,16 @@ function Flushed() {
  * router.push,使用hooks属于vue-router 4.0写法
  */
 function ClickHouse() {
-  data.show = true
-  console.log(data.show)
-  return setTimeout(() => {
-    // proxy.$router.push('hello')
-    router.push('home')
-  }, 1000)
+  if (data.account === 'main' && data.password === '123456'){
+    data.show = true
+    console.log(data.show)
+    return setTimeout(() => {
+      // proxy.$router.push('hello')
+      router.push('home')
+    }, 1000)
+  }else{
+    msg.error('请输入正确的账号密码!')
+  }
 }
 </script>
 <template>
@@ -73,7 +78,7 @@ function ClickHouse() {
       </div>
       <div>
         <el-button color="#68945c" style="color: white" @click="Flushed">Flushed</el-button>
-        <el-button color="#88abda" style="color: white" @click="ClickHouse">Login</el-button>
+        <el-button color="#88abda" style="color: white" @click="ClickHouse()">Login</el-button>
       </div>
     </div>
   </div>
