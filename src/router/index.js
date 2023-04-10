@@ -77,6 +77,23 @@ const router = createRouter({
   history: createWebHistory(),
   routes: routes
 })
+
+// 请求接口获取动态路由配置
+async function getRoutesFromApi() {
+  const response = await axios.get('/api/routes')
+  return response.data
+}
+
+// 初始化应用时动态添加路由
+async function initApp() {
+  const dynamicRoutes = await getRoutesFromApi()
+  dynamicRoutes.forEach(route => {
+    router.addRoute(route)
+  })
+}
+
+initApp()
+
 router.beforeEach((to, from, next) => {
   console.log('到哪里去:', to)
   console.log('来自:', from)
