@@ -71,6 +71,13 @@ const routes = [
       fullPageDisplay: false
     },
     component: () => import('@/views/PhotoAlbum/PhotoAlbum.vue')
+  },{
+    path: '/diary',
+    name: 'diary',
+    meta: {
+      fullPageDisplay: false
+    },
+    component: () => import('@/views/Diary/diary.vue')
   }
 ]
 const router = createRouter({
