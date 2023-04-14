@@ -14,7 +14,7 @@ let messages = reactive([
   { sender: 'assistant', content: '我们支持支付宝、微信、银联等多种支付方式。' }
 ])
 let newMessage = ref('')
-let refmessage = ref(null)
+let refmsg = ref(null)
 
 
 onMounted(() => {
@@ -38,7 +38,7 @@ function sendMessage() {
     messages.push({ sender: 'assistant', content: datacenter })
   })
   newMessage.value = ''
-  let container = refmessage.value
+  let container = refmsg.value
   container.scrollTop = container.scrollHeight
 }
 
@@ -47,15 +47,11 @@ function sendMessage() {
 
 
 <template>
-  <!--<span>{{text}}</span>-->
-  <!--<el-input v-model="title">{{ title }}</el-input>-->
-  <!--<el-button @click="Fasong">Click</el-button>-->
-
-  <div ref="refmessage" class="chat-box">
+  <div ref="refmsg" class="chat-box">
     <div>
       <div class="chat-box-div">
-        <div v-for="(msg, index) in messages" :key="index" :class="{ 'left': msg.sender === 'assistant', 'right': msg.sender === 'user' }" class="message">
-          <div class="bubble">{{ msg.content }}</div>
+        <div v-for="(data, index) in messages" :key="index" :class="{ 'left': data.sender === 'assistant', 'right': data.sender === 'user' }" class="message">
+          <div class="bubble">{{ data.content }}</div>
         </div>
       </div>
       <div class="input-box">
