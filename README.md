@@ -23,3 +23,15 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 const response = await openai.listEngines();
+```
+
+### .env文件
+
+```js
+.env                # 所有情况下都会加载
+.env.local          # 所有情况下都会加载，但会被 git 忽略
+.env.[mode]         # 只在指定模式下加载
+.env.[mode].local   # 只在指定模式下加载，但会被 git 忽略
+```
+
+默认情况下，开发服务器 (`dev` 命令) 运行在 `development` (开发) 模式，而 `build` 命令则运行在 `production` (生产) 模式。

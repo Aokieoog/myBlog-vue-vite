@@ -4,42 +4,39 @@
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
  */
+import { getCurrentInstance, onMounted, reactive, ref } from 'vue';
 
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
-
-const { proxy } = getCurrentInstance()
+const { proxy } = getCurrentInstance();
 let messages = reactive([
   // { role: 'assistant', content: '你好，有什么可以帮助你的吗？' },
   // { role: 'user', content: '请问这个产品支持哪些支付方式？' },
   // { role: 'assistant', content: '我们支持支付宝、微信、银联等多种支付方式。' }
-])
-let newMessage = ref('')
-let refmsg = ref(null)
-
-
+]);
+let newMessage = ref('');
+let refmsg = ref(null);
 onMounted(() => {
-
-})
+});
 
 function sendMessage() {
-  messages.push({ role: 'user', content: newMessage.value })
-
-  proxy.$http.post('https://api.openai.com/v1/chat/completions', {
-    model: 'gpt-3.5-turbo',
-    messages: messages,
-    temperature: 0.7
-  }, {
-    headers: {
-      contentType: 'application/json;charset=UTF-8',
-      Authorization: 'Bearer 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'
-    }
-  }).then((res) => {
-    let datacenter = res.data.choices[0].message.content
-    messages.push({ role: 'assistant', content: datacenter })
-  })
-  newMessage.value = ''
-  let container = refmsg.value
-  container.scrollTop = container.scrollHeight
+  if (newMessage.value) {
+    messages.push({ role: 'user', content: newMessage.value });
+    proxy.$http.post('https://api.openai.com/v1/chat/completions', {
+      model: 'gpt-3.5-turbo',
+      messages: messages,
+      temperature: 0.7
+    }, {
+      headers: {
+        contentType: 'application/json;charset=UTF-8',
+        Authorization: 'Bearer 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'
+      }
+    }).then((res) => {
+      let datacenter = res.data.choices[0].message.content;
+      messages.push({ role: 'assistant', content: datacenter });
+    });
+    newMessage.value = '';
+    let container = refmsg.value;
+    container.scrollTop = container.scrollHeight;
+  }
 }
 
 
@@ -55,7 +52,7 @@ function sendMessage() {
         </div>
       </div>
       <div class="input-box">
-        <textarea v-model="newMessage" class="input"></textarea>
+        <textarea v-model.trim="newMessage" @keydown.enter.prevent="sendMessage" class="input"></textarea>
         <button class="send-button" @click="sendMessage">发送</button>
       </div>
     </div>
@@ -115,6 +112,8 @@ function sendMessage() {
   flex-grow: 1;
   box-sizing: border-box;
   height: 80px;
+  min-height: 80px;
+  max-height: 80px;
   margin-right: 10px;
   padding: 10px;
   border: none;

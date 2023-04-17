@@ -5,7 +5,8 @@ const routes = [
     path: '/',
     name: 'login',
     meta: {
-      fullPageDisplay: true//需要全页展示的组件
+      fullPageDisplay: true, //需要全页展示的组件
+      title:"登录"
     },
     component: () => import('@/views/Login/login.vue')
   },
@@ -13,7 +14,8 @@ const routes = [
     path: '/home',
     name: 'home',
     meta: {
-      fullPageDisplay: false
+      fullPageDisplay: false,
+      title:"主页"
     },
     component: () => import('@/views/Home/home.vue')
   },
@@ -21,7 +23,8 @@ const routes = [
     path: '/:pathMatch(.*)',
     name: '404',
     meta: {
-      fullPageDisplay: true//需要全页展示的组件
+      fullPageDisplay: true, //需要全页展示的组件
+      title:"404"
     },
     component: () => import('@/views/404.vue')
   },
@@ -29,7 +32,8 @@ const routes = [
     path: '/oilPrices',//今日油价
     name: 'oilPrices',
     meta: {
-      fullPageDisplay: false//不需要全页展示的组件
+      fullPageDisplay: false, //不需要全页展示的组件
+      title:"今日油价"
     },
     component: () => import('@/views/OilPrices/oilPrices.vue')
   },
@@ -86,24 +90,25 @@ const router = createRouter({
 })
 
 // 请求接口获取动态路由配置
-async function getRoutesFromApi() {
-  const response = await axios.get('/api/routes')
-  return response.data
-}
+// async function getRoutesFromApi() {
+//   const response = await axios.get('/api/routes')
+//   return response.data
+// }
 
 // 初始化应用时动态添加路由
-async function initApp() {
-  const dynamicRoutes = await getRoutesFromApi()
-  dynamicRoutes.forEach(route => {
-    router.addRoute(route)
-  })
-}
+// async function initApp() {
+//   const dynamicRoutes = await getRoutesFromApi()
+//   dynamicRoutes.forEach(route => {
+//     router.addRoute(route)
+//   })
+// }
 
-initApp()
+// initApp()
 
 router.beforeEach((to, from, next) => {
   console.log('到哪里去:', to)
   console.log('来自:', from)
+  document.title = to.meta.title;
   next(true)
 })
 export default router

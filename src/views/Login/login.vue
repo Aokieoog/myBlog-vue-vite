@@ -24,6 +24,8 @@ let data = reactive({
 onMounted(() => {
   Flushed()
   // text()
+  console.log("现在的环境变量为:"+ import.meta.env.VITE_DEV_PARAM);
+  console.log(import.meta.env.VITE_BASE_URL);
 })
 
 /* 每日一句接口 */
@@ -36,16 +38,6 @@ function Flushed() {
     }
   })
 }
-
-/***
- *
- */
-// function text() {
-//   proxy.$http.get('text/').then((res) => {
-//     res.data
-//     console.log(res.data)
-//   })
-// }
 
 /**
  * 点击动画
