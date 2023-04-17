@@ -55,7 +55,7 @@ function Flushed() {
  * router.push,使用hooks属于vue-router 4.0写法
  */
 function ClickHouse() {
-  if (data.account === 'main' && data.password === '123456'){
+  if (data.account === 'admin' && data.password === '123'){
     data.show = true
     console.log(data.show)
     return setTimeout(() => {

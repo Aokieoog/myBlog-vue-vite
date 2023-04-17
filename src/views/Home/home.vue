@@ -92,12 +92,15 @@ function sendMessage() {
   padding: 10px;
   border-radius: 15px 15px 15px 0;
   background-color: #fff;
+  text-align: left;
+  white-space: pre-line; // 保持返回的文字格式
 }
 .right .bubble {
   max-width: 80%;
   padding: 10px;
   border-radius: 15px 15px 0 15px;
   background-color: #00bcd4;
+  text-align: left;
 }
 .input-box {
   position: fixed;
