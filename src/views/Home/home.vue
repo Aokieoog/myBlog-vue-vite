@@ -4,23 +4,23 @@
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
  */
-import { getCurrentInstance, onMounted, reactive, ref } from 'vue';
+import { getCurrentInstance, onMounted, reactive, ref } from 'vue'
 
-const { proxy } = getCurrentInstance();
+const { proxy } = getCurrentInstance()
 let messages = reactive([
   // { role: 'assistant', content: '你好，有什么可以帮助你的吗？' },
   // { role: 'user', content: '请问这个产品支持哪些支付方式？' },
   // { role: 'assistant', content: '我们支持支付宝、微信、银联等多种支付方式。' }
-]);
-let newMessage = ref('');
-let refmsg = ref(null);
+])
+let newMessage = ref('')
+let refmsg = ref(null)
 onMounted(() => {
-});
+})
 
 function sendMessage() {
   if (newMessage.value) {
-    messages.push({ role: 'user', content: newMessage.value });
-    proxy.$http.post('https://api.openai.com/v1/chat/completions', {
+    messages.push({ role: 'user', content: newMessage.value })
+    proxy.$http.post('https://closeai.deno.dev/v1/chat/completions', {
       model: 'gpt-3.5-turbo',
       messages: messages,
       temperature: 0.7
@@ -30,12 +30,12 @@ function sendMessage() {
         Authorization: 'Bearer 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'
       }
     }).then((res) => {
-      let datacenter = res.data.choices[0].message.content;
-      messages.push({ role: 'assistant', content: datacenter });
-    });
-    newMessage.value = '';
-    let container = refmsg.value;
-    container.scrollTop = container.scrollHeight;
+      let datacenter = res.data.choices[0].message.content
+      messages.push({ role: 'assistant', content: datacenter })
+    })
+    newMessage.value = ''
+    let container = refmsg.value
+    container.scrollTop = container.scrollHeight
   }
 }
 

@@ -34,7 +34,7 @@ function OilPrices(address) {
       contentType: 'application/json;charset=UTF-8'
     },
     method: 'get',
-    url: '/dev/api/oil/search',
+    url: `${import.meta.env.VITE_BASE_URL}/api/oil/search`,
     params: {
       province: address,
       app_id: 'l8lesimwu6oumkj9',

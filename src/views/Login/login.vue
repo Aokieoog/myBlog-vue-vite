@@ -24,13 +24,13 @@ let data = reactive({
 onMounted(() => {
   Flushed()
   // text()
-  console.log("现在的环境变量为:"+ import.meta.env.VITE_DEV_PARAM);
-  console.log(import.meta.env.VITE_BASE_URL);
+  console.log('现在的环境变量为:' + import.meta.env.VITE_DEV_PARAM)
+  console.log(import.meta.env.VITE_BASE_URL)
 })
 
 /* 每日一句接口 */
 function Flushed() {
-  proxy.$http.get('/dev/api/daily_word/recommend?count=1&app_id=l8lesimwu6oumkj9&app_secret=cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09').then((response) => {
+  proxy.$http.get(`${import.meta.env.VITE_BASE_URL}/api/daily_word/recommend?count=1&app_id=l8lesimwu6oumkj9&app_secret=cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09`).then((response) => {
     if (response.data.code === 1) {
       data.msg = response.data.data[0].content
     } else {
@@ -47,14 +47,14 @@ function Flushed() {
  * router.push,使用hooks属于vue-router 4.0写法
  */
 function ClickHouse() {
-  if (data.account === 'admin' && data.password === '123'){
+  if (data.account === 'admin' && data.password === '123') {
     data.show = true
     console.log(data.show)
     return setTimeout(() => {
       // proxy.$router.push('hello')
       router.push('home')
     }, 1000)
-  }else{
+  } else {
     msg.error('请输入正确的账号密码!')
   }
 }
@@ -107,12 +107,12 @@ h1 {
 .form .el-input:nth-child(1) {
   margin: 3rem 0 1rem 0;
 }
-.form_box{
-    width: 25rem;
-    margin: 0 auto;
-    padding: 2.5rem;
-    background-color: #fff;
-    border-radius: 0.3125rem;
-    box-shadow: 0 0.3125rem 0.625rem rgba(0, 0, 0, 0.1);
+.form_box {
+  width: 25rem;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background-color: #fff;
+  border-radius: 0.3125rem;
+  box-shadow: 0 0.3125rem 0.625rem rgba(0, 0, 0, 0.1);
 }
 </style>

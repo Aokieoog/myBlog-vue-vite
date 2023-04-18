@@ -10,7 +10,7 @@ const { proxy } = getCurrentInstance()
 const title = ref('博客君')
 let listImage = ref([])
 onMounted(() => {
-  proxy.$http.get('/dev/api/image/girl/list/random?count=1&app_id=l8lesimwu6oumkj9&app_secret=cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09').then((res) => {
+  proxy.$http.get(`${import.meta.env.VITE_BASE_URL}/api/image/girl/list/random?count=1&app_id=l8lesimwu6oumkj9&app_secret=cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09`).then((res) => {
     if (res.data.code === 1) {
       listImage.value = res.data.data
     }
@@ -22,11 +22,13 @@ onMounted(() => {
 
 <template>
   <h1>{{ title }}</h1>
-  <div class="image">
-    <div v-for="(item,i) in listImage.slice(0,9)" :key="i" class="image_box">
-      <img :src="item.imageUrl" alt="" style="width: 300px;height: 150px">
-    </div>
-  </div>
+  <!--<div class="image">-->
+  <!--  <div v-for="(item,i) in listImage.slice(0,9)" :key="i" class="image_box">-->
+  <!--    <img :src="item.imageUrl" alt="" style="width: 300px;height: 150px">-->
+  <!--  </div>-->
+  <!--</div>-->
+  <video style="width: 100px;height: 80px;border: 1px red solid" src="https://datasink.cloudlinks.cn/sa?project=production
+"></video>
 </template>
 
 
