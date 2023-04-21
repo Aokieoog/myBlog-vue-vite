@@ -1,10 +1,9 @@
 <script setup>
-import { getCurrentInstance, onMounted, ref, nextTick } from 'vue'
+import { getCurrentInstance, onMounted, ref } from 'vue'
 
 const { proxy } = getCurrentInstance()
 let main = ref(null)
 onMounted(() => {
-  nextTick(()=>{
     const myChart = proxy.$echarts.init(main.value)
     myChart.setOption({
       tooltip: {
@@ -33,7 +32,6 @@ onMounted(() => {
         }
       ]
     })
-  })
 })
 </script>
 

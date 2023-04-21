@@ -4,7 +4,7 @@
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
  */
-import { getCurrentInstance, nextTick, onMounted, ref } from 'vue'
+import { getCurrentInstance, onMounted, ref } from 'vue'
 
 const { proxy } = getCurrentInstance()
 let heatMap = ref(null)
@@ -24,8 +24,7 @@ function getVirtualData(year) {
 }
 
 onMounted(() => {
-  nextTick(() => {
-    getVirtualData()
+    getVirtualData(2021)
     const myChart = proxy.$echarts.init(heatMap.value)
     myChart.setOption({
       tooltip: {
@@ -87,7 +86,6 @@ onMounted(() => {
         ]
       }
     })
-  })
 })
 </script>
 
@@ -100,6 +98,5 @@ onMounted(() => {
 .about {
   width: 37.6875rem;
   height: 11.5625rem;
-  //display: flex;
 }
 </style>

@@ -4,12 +4,11 @@
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
  */
-import { getCurrentInstance, nextTick, onMounted, ref } from 'vue'
+import { getCurrentInstance, onMounted, ref } from 'vue'
 
 const { proxy } = getCurrentInstance()
 let main = ref(null)
 onMounted(() => {
-  nextTick(() => {
     const myChart = proxy.$echarts.init(main.value)
     myChart.setOption({
       xAxis: {
@@ -44,7 +43,6 @@ onMounted(() => {
       ]
 
     })
-  })
 })
 </script>
 

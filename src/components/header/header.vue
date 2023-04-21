@@ -32,7 +32,7 @@ onBeforeUnmount(() => {
     <div class="visualization" @click.stop="showeach">
       <svg-icon icon-name="icon-gaishuai"></svg-icon>
     </div>
-    <div v-show="show" :class="['box_echarts',{anima:show}]">
+    <div v-if="show" :class="['box_echarts',{anima:show}]">
       <div class="box_getheatmap">
         <p style="margin: 5px 0 0 5px;text-align: left;font-size: 14px;font-weight: 700">动态日历</p>
         <p style="margin: 0 0 0 5px;font-size: 12px;text-align: left">统计近10个月提交信息</p>
@@ -117,8 +117,8 @@ onBeforeUnmount(() => {
 }
 @keyframes myfirst {
   from {
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     border-radius: 100%
   }
   to {
