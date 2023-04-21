@@ -64,6 +64,7 @@ function ClickHouse() {
 }
 </script>
 <template>
+  <div>
   <h1>Login</h1>
   <div :class="['box',{animate__animated:data.show ,animate__bounceOut:data.show}]">
     <p>{{ data.msg }}</p>
@@ -79,6 +80,7 @@ function ClickHouse() {
     </div>
   </div>
   <p class="record">京ICP备17006801号-2 Theme by handsome© 2023 All rights reserved.</p>
+  </div>
 </template>
 <style lang="less" scoped>
 h1 {
