@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import msg from '@/utils/message.js'
 import { get } from '@/utils/http/http.js'
 import { dailywordrecommend, parms } from '@/utils/http/api'
+import generateToken from '@/utils/http/token'
 
 const router = useRouter()
 
@@ -31,7 +32,6 @@ onMounted(() => {
 
 /* 每日一句接口 */
 function Flushed() {
-
   get(dailywordrecommend,parms).then((response) => {
     if (response.code === 1) {
       data.msg = response.data[0].content
@@ -51,7 +51,9 @@ function Flushed() {
 function ClickHouse() {
   if (data.account === 'admin' && data.password === '123') {
     data.show = true
-    console.log(data.show)
+    const Token = generateToken()
+    localStorage.setItem('token',Token)
+    console.log(Token)
     return setTimeout(() => {
       // proxy.$router.push('hello')
       router.push('home')

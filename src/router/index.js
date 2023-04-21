@@ -1,12 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 const routes = [
   {
     path: '/',
     name: 'login',
     meta: {
       fullPageDisplay: true, //需要全页展示的组件
-      title:"登录"
+      title: '登录'
     },
     component: () => import('@/views/Login/login.vue')
   },
@@ -15,7 +14,7 @@ const routes = [
     name: 'home',
     meta: {
       fullPageDisplay: false,
-      title:"主页"
+      title: '主页'
     },
     component: () => import('@/views/Home/home.vue')
   },
@@ -24,7 +23,7 @@ const routes = [
     name: '404',
     meta: {
       fullPageDisplay: true, //需要全页展示的组件
-      title:"404"
+      title: '404'
     },
     component: () => import('@/views/404.vue')
   },
@@ -33,7 +32,7 @@ const routes = [
     name: 'oilPrices',
     meta: {
       fullPageDisplay: false, //不需要全页展示的组件
-      title:"今日油价"
+      title: '今日油价'
     },
     component: () => import('@/views/OilPrices/oilPrices.vue')
   },
@@ -68,14 +67,14 @@ const routes = [
       fullPageDisplay: true
     },
     component: () => import('@/components/echarts/pieLike.vue')
-  },{
+  }, {
     path: '/PhotoAlbum',
     name: 'PhotoAlbum',
     meta: {
       fullPageDisplay: false
     },
     component: () => import('@/views/PhotoAlbum/PhotoAlbum.vue')
-  },{
+  }, {
     path: '/diary',
     name: 'diary',
     meta: {
@@ -106,9 +105,11 @@ const router = createRouter({
 // initApp()
 
 router.beforeEach((to, from, next) => {
-  console.log('到哪里去:', to)
-  console.log('来自:', from)
-  document.title = to.meta.title;
-  next(true)
+  document.title = to.meta.title
+  if (!localStorage.getItem('token') && to.meta.fullPageDisplay == false) {
+    next({ path: '/' })
+  } else {
+    next()
+  }
 })
 export default router

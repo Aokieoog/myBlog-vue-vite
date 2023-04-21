@@ -1,6 +1,6 @@
 import axios from 'axios'
-import token from '@/utils/http/token.js'
 import router from '@/router/index.js'
+import msg from '@/utils/message'
 
 const request = axios.create({
   // 获取环境变量中的 API 基础路径
@@ -12,13 +12,7 @@ const request = axios.create({
 request.interceptors.request.use(
   config => {
     // 在这里做一些请求前的处理，例如添加 token 等
-    const locatoken = localStorage.getItem('token')
-    if (locatoken == token) {
-      return config
-    } else {
-      router.push('/')
-      return Promise.reject(new Error('未登录或登录信息已过期，请重新登录'))
-    }
+    return config
   },
   error => {
     // 对请求错误做些什么
@@ -30,6 +24,13 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     // 在这里对返回的数据进行处理，例如格式化日期等
+    const locatoken = localStorage.getItem('token')
+    if (!locatoken && location.pathname !== '/') {
+      msg.error('登陆失效,请重新登录')
+      setTimeout(() => {
+        router.push('/')
+      },1000)
+    }
     return response.data
   },
   error => {
