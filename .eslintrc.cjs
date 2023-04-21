@@ -34,5 +34,9 @@ module.exports = {
     ],
     'import/no-named-default': 'off', //导出检查
     'vue/multi-word-component-names': 'off' //组件名称检查
-  }
+  },
+  "ignorePatterns": [
+    "/README.md",
+    "README.md"
+  ] //禁止检查某一文件
 }
