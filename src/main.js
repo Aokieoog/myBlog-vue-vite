@@ -6,8 +6,6 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 /* vueRouter */
 import router from './router/index.js'
-/* axios */
-import axios from 'axios'
 /* 自定义全局css */
 import './assets/globals.css'
 /* Animate-css动画库 */
@@ -23,7 +21,6 @@ import * as echarts from 'echarts'
 
 const app = createApp(App)
 
-app.config.globalProperties.$http = axios
 app.config.globalProperties.$echarts = echarts
 app.use(router)
 app.use(ElementPlus)

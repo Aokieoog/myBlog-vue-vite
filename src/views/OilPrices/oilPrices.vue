@@ -5,13 +5,12 @@
  * @时间: 2023/02/21 10:02:02
  */
 import { getCurrentInstance, onMounted, ref } from 'vue'
-// import { ElMessage } from 'element-plus'
-// import  msg  from '../../utils/message'
 import msg from '/src/utils/message'
+import {get} from '@/utils/http/http.js'
 
 const { proxy } = getCurrentInstance()
 const title = ref('今日油价')
-let city1 = ref(['安徽', '北京', '重庆', '福建', '甘肃', '广东', '广西', '贵州', '海南', '河北', '黑龙江', '河南', '湖北', '湖南', '江苏', '江西', '吉林', '辽宁', '内蒙古', '宁夏', '青海', '陕西', '上海', '山东', '山西', '四川', '天津', '西藏', '新疆', '云南', '浙江'
+const city1 = ref(['安徽', '北京', '重庆', '福建', '甘肃', '广东', '广西', '贵州', '海南', '河北', '黑龙江', '河南', '湖北', '湖南', '江苏', '江西', '吉林', '辽宁', '内蒙古', '宁夏', '青海', '陕西', '上海', '山东', '山西', '四川', '天津', '西藏', '新疆', '云南', '浙江'
 ])//查询城市
 let city = ref('')
 let resdata = ref({})
@@ -28,8 +27,31 @@ onMounted(() => {
  * @param headers 自定义请求头部
  * @constructor
  */
-function OilPrices(address) {
-  proxy.$http({
+async function OilPrices(address) {
+  let data = {
+    province: address,
+    app_id: 'l8lesimwu6oumkj9',
+    app_secret: 'cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09'
+  }
+  let res = await get('/api/oil/search',data)
+  if (res.code === 1){
+    resdata.value = res.data
+    tableData.value.push(resdata.value)
+    localStorage.setItem('myArray', JSON.stringify(tableData.value))
+    msg.success(res.data.msg)
+  } else {
+    // VUE2写法
+    // proxy.$message('message')
+    // VUE3写法
+    // ElMessage({
+    //   showClose: false,
+    //   message: 'Oops, this is a error message.',
+    //   type: 'error',
+    // })
+    msg.error(res.data.msg)
+  }
+
+/*  proxy.$http({
     headers: {
       contentType: 'application/json;charset=UTF-8'
     },
@@ -57,7 +79,7 @@ function OilPrices(address) {
       // })
       msg.error(res.data.msg)
     }
-  })
+  }) */
 }
 
 function setTime() {

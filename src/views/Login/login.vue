@@ -1,10 +1,10 @@
 <script setup>
-import { getCurrentInstance, onMounted, reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import msg from '@/utils/message.js'
+import { get } from '@/utils/http/http.js'
+import { dailywordrecommend, parms } from '@/utils/http/api'
 
-// 相当于vue2中的this
-const { proxy } = getCurrentInstance()
 const router = useRouter()
 
 /**
@@ -26,15 +26,17 @@ onMounted(() => {
   // text()
   console.log('现在的环境变量为:' + import.meta.env.VITE_DEV_PARAM)
   console.log(import.meta.env.VITE_BASE_URL)
+  console.log(dailywordrecommend)
 })
 
 /* 每日一句接口 */
 function Flushed() {
-  proxy.$http.get(`${import.meta.env.VITE_BASE_URL}/api/daily_word/recommend?count=1&app_id=l8lesimwu6oumkj9&app_secret=cWdQQnp0Nnd6QUpweFJhM2F1L0ZwZz09`).then((response) => {
-    if (response.data.code === 1) {
-      data.msg = response.data.data[0].content
+
+  get(dailywordrecommend,parms).then((response) => {
+    if (response.code === 1) {
+      data.msg = response.data[0].content
     } else {
-      data.msg = response.data.msg
+      data.msg = response.msg
     }
   })
 }
