@@ -1,41 +1,7 @@
-<template>
-  <div class="chat-box">
-    <div>
-      <div  ref="message" v-for="(msg, index) in messages" :key="index" :class="{ 'left': msg.sender === 'other', 'right': msg.sender === 'me' }" class="message">
-        <div class="bubble">{{ msg.content }}</div>
-      </div>
-    </div>
-    <div class="input-box">
-      <textarea v-model="newMessage" class="input"></textarea>
-      <button class="send-button" @click="sendMessage">发送</button>
-    </div>
-  </div>
-</template>
+<script setup>
 
-<script>
-export default {
-  data() {
-    return {
-      messages: [
-        { sender: 'other', content: '你好，有什么可以帮助你的吗？' },
-        { sender: 'me', content: '请问这个产品支持哪些支付方式？' },
-        { sender: 'other', content: '我们支持支付宝、微信、银联等多种支付方式。' }
-      ],
-      newMessage: ''
-    }
-  },
-  mounted() {
-    let container = this.$refs.message
-    container.scrollTop = container.scrollHeight
-  },
-  methods: {
-    sendMessage() {
-      this.messages.push({ sender: 'me', content: this.newMessage })
-      this.newMessage = ''
-    }
-  }
-}
 </script>
+
 
 <style scoped>
 .chat-box {

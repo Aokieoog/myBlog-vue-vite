@@ -48,3 +48,9 @@ Charts] Can't get DOM width or height. Please check dom.clientWidth and dom.clie
 ntime-core.esm-bundler.js:40 [Vue warn]: Extraneous non-props attributes (class) were passed to component but could not be automatically inherited because component renders fragment or text root nodes. at <Login class="globalRouting" onVnodeUnmounted=fn<onVnodeUnmounted> ref=Ref< Proxy(Object) {__v_skip: true} > > at <KeepAlive> at <RouterView key=0 class="globalRouting" > at <App>
 ```
 解决方案:在`<template>`标签内增加一个`<div>`
+>3.问题:定义变量第一次为空
+```js
+// let imageurl = [] 用此写法swiper第一次加载会报错
+let imageurl = ref([])
+```
+解决方案:`let imageurl = ref([])`

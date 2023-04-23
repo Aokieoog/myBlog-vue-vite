@@ -67,20 +67,30 @@ const routes = [
       fullPageDisplay: true
     },
     component: () => import('@/components/echarts/pieLike.vue')
-  }, {
+  },
+  {
     path: '/PhotoAlbum',
     name: 'PhotoAlbum',
     meta: {
       fullPageDisplay: false
     },
     component: () => import('@/views/PhotoAlbum/PhotoAlbum.vue')
-  }, {
+  },
+  {
     path: '/diary',
     name: 'diary',
     meta: {
       fullPageDisplay: false
     },
     component: () => import('@/views/Diary/diary.vue')
+  },
+  {
+    path: '/Swiper',
+    name: 'Swiper',
+    meta: {
+      fullPageDisplay: true
+    },
+    component: () => import('@/components/Swiper/Swiper.vue')
   }
 ]
 const router = createRouter({
