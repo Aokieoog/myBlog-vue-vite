@@ -2,6 +2,9 @@
 
 </script>
 
+<template>
+  <div></div>
+</template>
 
 <style scoped>
 .chat-box {

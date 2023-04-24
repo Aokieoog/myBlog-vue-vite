@@ -4,7 +4,8 @@ import { useRouter } from 'vue-router'
 import msg from '@/utils/message.js'
 import { get } from '@/utils/http/http.js'
 import { dailywordrecommend, parms } from '@/utils/http/api'
-import generateToken from '@/utils/http/token'
+// import generateToken from '@/utils/http/token'
+import cookie from '@/utils/http/cookie.js'
 
 const router = useRouter()
 
@@ -51,9 +52,7 @@ function Flushed() {
 function ClickHouse() {
   if (data.account === 'admin' && data.password === '123') {
     data.show = true
-    const Token = generateToken()
-    localStorage.setItem('token',Token)
-    console.log(Token)
+    cookie()
     return setTimeout(() => {
       // proxy.$router.push('hello')
       router.push('home')

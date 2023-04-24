@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import util from '@/utils/util'
 const routes = [
   {
     path: '/',
@@ -115,8 +116,9 @@ const router = createRouter({
 // initApp()
 
 router.beforeEach((to, from, next) => {
+  let token = util.getCookie('token')
   document.title = to.meta.title
-  if (!localStorage.getItem('token') && to.meta.fullPageDisplay == false) {
+  if (!token && to.meta.fullPageDisplay == false) {
     next({ path: '/' })
   } else {
     next()

@@ -1,7 +1,4 @@
 import {ElMessage} from 'element-plus'
-
-
-
 export default{
   /* 提示 */
   message (data) {
