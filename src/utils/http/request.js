@@ -1,6 +1,7 @@
 import axios from 'axios'
 import router from '@/router/index.js'
 import msg from '@/utils/message'
+import util from '@/utils/util.js'
 
 const request = axios.create({
   // 获取环境变量中的 API 基础路径
@@ -24,8 +25,8 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     // 在这里对返回的数据进行处理，例如格式化日期等
-    const locatoken = localStorage.getItem('token')
-    if (!locatoken && location.pathname !== '/') {
+    let token = util.getCookie('token')
+    if (!token && location.pathname !== '/') {
       msg.error('登陆失效,请重新登录')
       setTimeout(() => {
         router.push('/')

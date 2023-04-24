@@ -41,7 +41,8 @@ const routes = [
     path: '/searchBox',
     name: 'searchBox',
     meta: {
-      fullPageDisplay: false
+      fullPageDisplay: false,
+      title: '搜索框'
     },
     component: () => import('@/components/searchBox/searchBox.vue')
   },
@@ -49,7 +50,8 @@ const routes = [
     path: '/lineChart',
     name: 'lineChart',
     meta: {
-      fullPageDisplay: false
+      fullPageDisplay: false,
+      title: '图表'
     },
     component: () => import('@/components/echarts/lineChart.vue')
   },
@@ -57,7 +59,8 @@ const routes = [
     path: '/getHeatMap',
     name: 'getHeatMap',
     meta: {
-      fullPageDisplay: false
+      fullPageDisplay: false,
+      title: '热力图'
     },
     component: () => import('@/components/echarts/getHeatMap.vue')
   },
@@ -65,7 +68,8 @@ const routes = [
     path: '/pieLike',
     name: 'pieLike',
     meta: {
-      fullPageDisplay: true
+      fullPageDisplay: true,
+      title: '图饼'
     },
     component: () => import('@/components/echarts/pieLike.vue')
   },
@@ -73,7 +77,7 @@ const routes = [
     path: '/PhotoAlbum',
     name: 'PhotoAlbum',
     meta: {
-      fullPageDisplay: false
+      fullPageDisplay: false,
     },
     component: () => import('@/views/PhotoAlbum/PhotoAlbum.vue')
   },
