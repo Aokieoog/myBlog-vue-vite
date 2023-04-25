@@ -8,9 +8,9 @@ import { onMounted, reactive, ref } from 'vue'
 import { post } from '@/utils/http/http.js'
 
 let messages = reactive([
-  // { role: 'assistant', content: '你好，有什么可以帮助你的吗？' },
-  // { role: 'user', content: '请问这个产品支持哪些支付方式？' },
-  // { role: 'assistant', content: '我们支持支付宝、微信、银联等多种支付方式。' }
+  { role: 'assistant', content: '你好，有什么可以帮助你的吗？' },
+  { role: 'user', content: '请问这个产品支持哪些支付方式？' },
+  { role: 'assistant', content: '我们支持支付宝、微信、银联等多种支付方式。' }
 ])
 let newMessage = ref('')
 let refmsg = ref(null)
@@ -63,16 +63,14 @@ async function sendMessage() {
 
 <template>
   <div ref="refmsg" class="chat-box">
-    <div>
-      <div class="chat-box-div">
-        <div v-for="(data, index) in messages" :key="index" :class="{ 'left': data.role === 'assistant', 'right': data.role === 'user' }" class="message">
-          <div class="bubble">{{ data.content }}</div>
-        </div>
+    <div class="chat-box-div">
+      <div v-for="(data, index) in messages" :key="index" :class="{ 'left': data.role === 'assistant', 'right': data.role === 'user' }" class="message">
+        <div class="bubble">{{ data.content }}</div>
       </div>
-      <div class="input-box">
-        <textarea v-model.trim="newMessage" class="input" @keydown.enter.prevent="sendMessage"></textarea>
-        <button class="send-button" @click="sendMessage">发送</button>
-      </div>
+    </div>
+    <div class="input-box">
+      <textarea v-model.trim="newMessage" class="input" @keydown.enter.prevent="sendMessage"></textarea>
+      <button class="send-button" @click="sendMessage">发送</button>
     </div>
   </div>
 
@@ -83,8 +81,14 @@ async function sendMessage() {
 .chat-box {
   display: flex;
   flex-direction: column;
-  height: 600px;
+  width: 800px;
+  height: 591px;
+  background-color: #448bff;
   overflow-y: auto;
+}
+.chat-box-div{
+  width: 800px;
+  height: 500px;
 }
 .message {
   display: flex;
@@ -118,11 +122,11 @@ async function sendMessage() {
   text-align: left;
 }
 .input-box {
-  position: fixed;
   bottom: 0;
   display: flex;
   align-items: center;
-  width: 890px;
+  width: 780px;
+  height: 80px;
   padding: 10px;
   background-color: #f5f5f5;
 }

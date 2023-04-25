@@ -3,7 +3,7 @@ import SearchBox from '../searchBox/searchBox.vue'
 import GetHeatMap from '@/components/echarts/getHeatMap.vue'
 import LineChart from '@/components/echarts/lineChart.vue'
 import PieLike from '@/components/echarts/pieLike.vue'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { watchEffect, ref } from 'vue'
 
 let show = ref(false)
 
@@ -11,7 +11,7 @@ function showeach() {
   show.value = true
 }
 
-onMounted(() => {
+/* onMounted(() => {
   document.addEventListener('click', (e) => {
     if (e.target.className !== 'visualization') {
       show.value = false
@@ -21,6 +21,18 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('click', () => {
   }, true)
+}) */
+
+watchEffect((onInvalidate) => {
+  const handler = (e) => {
+    if (e.target.className !== 'visualization') {
+      show.value = false
+    }
+  }
+  document.addEventListener('click', handler)
+  onInvalidate(() => {
+    document.removeEventListener('click', handler)
+  })
 })
 </script>
 
