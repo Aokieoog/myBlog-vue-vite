@@ -11,9 +11,9 @@ export function get(url, params) {
     })
   })
 }
-export function post(url, data, header) {
+export function post(url, data, config) {
   return new Promise((resolve, reject) => {
-    request.post(url, data, header)
+    request.post(url, data, config)
     .then(response => {
       resolve(response)
     })

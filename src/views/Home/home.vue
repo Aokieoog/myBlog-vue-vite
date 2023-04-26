@@ -26,14 +26,14 @@ async function sendMessage() {
       messages: messages,
       temperature: 0.7
     }
-    const header = {
+    const config = {
       headers: {
         contentType: 'application/json;charset=UTF-8',
         Authorization: 'Bearer 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'
       }
     }
     // 异步写法
-    let res = await post('https://closeai.deno.dev/v1/chat/completions', data, header)
+    let res = await post('https://closeai.deno.dev/v1/chat/completions', data, config)
     messages.push({ role: 'assistant', content: res.choices[0].message.content })
     let container = refmsg.value
     container.scrollTop = container.scrollHeight
