@@ -29,7 +29,7 @@ async function sendMessage() {
     const config = {
       headers: {
         contentType: 'application/json;charset=UTF-8',
-        Authorization: 'Bearer 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'
+        Authorization: 'Bearer SK-cesihi'
       }
     }
     // 异步写法
