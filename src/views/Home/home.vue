@@ -14,16 +14,28 @@ let messages = reactive([
 ])
 let newMessage = ref('')
 let chatboxdiv = ref(null)
+let centerDialogVisible = ref(false)
+let skyinput = ref('')
+const sky = localStorage.getItem('Sky')
 
 const scrollToBottom = () => {
   nextTick(() => {
     chatboxdiv.value.scrollTop = chatboxdiv.value.scrollHeight
-    console.log(chatboxdiv.value.scrollTop, chatboxdiv.value.scrollHeight)
   })
 }
 
+// 检测是否存在SKY
+function Skytrue() {
+  if (!sky) {
+    centerDialogVisible.value = true
+  }
+}
+function CenterDialog(){
+  localStorage.setItem('Sky',skyinput.value)
+}
 async function sendMessage() {
-  if (newMessage.value) {
+  Skytrue()
+  if (newMessage.value && sky) {
     messages.push({ role: 'user', content: newMessage.value })
     newMessage.value = ''
     await nextTick(() => {
@@ -78,11 +90,24 @@ async function sendMessage() {
       </div>
     </div>
     <div class="input-box">
-      <el-input  :rows="3" size="mini" resize="none" placeholder="请输入内容" type="textarea" v-model.trim="newMessage" class="input" @keydown.enter.prevent="sendMessage"></el-input>
-        <el-button class="send-button" @click="sendMessage">发送</el-button>
+      <el-input v-model.trim="newMessage" :rows="3" class="input" placeholder="请输入内容" resize="none" type="textarea" @keydown.enter.prevent="sendMessage"></el-input>
+      <el-button class="send-button" @click="sendMessage">发送</el-button>
     </div>
   </div>
 
+  <el-dialog v-model="centerDialogVisible" center title="Sky" width="30%">
+    <span>
+      <el-input v-model.trim="skyinput"></el-input>
+    </span>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">关闭</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false ,CenterDialog">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 
