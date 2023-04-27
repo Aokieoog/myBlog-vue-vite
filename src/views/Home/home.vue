@@ -26,6 +26,9 @@ async function sendMessage() {
   if (newMessage.value) {
     messages.push({ role: 'user', content: newMessage.value })
     newMessage.value = ''
+    await nextTick(() => {
+      scrollToBottom()
+    })
     let data = {
       model: 'gpt-3.5-turbo',
       messages: messages,
