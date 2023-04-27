@@ -4,7 +4,7 @@
  * @作者: Aoki
  * @时间: 2023/02/17 17:22:22
  */
-import { onMounted, reactive, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { post } from '@/utils/http/http.js'
 
 let messages = reactive([
@@ -13,9 +13,14 @@ let messages = reactive([
   { role: 'assistant', content: '我们支持支付宝、微信、银联等多种支付方式。' }
 ])
 let newMessage = ref('')
-let refmsg = ref(null)
-onMounted(() => {
-})
+let chatboxdiv = ref(null)
+
+const scrollToBottom = () => {
+  nextTick(() => {
+    chatboxdiv.value.scrollTop = chatboxdiv.value.scrollHeight
+    console.log(chatboxdiv.value.scrollTop, chatboxdiv.value.scrollHeight)
+  })
+}
 
 async function sendMessage() {
   if (newMessage.value) {
@@ -35,8 +40,9 @@ async function sendMessage() {
     // 异步写法
     let res = await post('https://closeai.deno.dev/v1/chat/completions', data, config)
     messages.push({ role: 'assistant', content: res.choices[0].message.content })
-    let container = refmsg.value
-    container.scrollTop = container.scrollHeight
+    await nextTick(() => {
+      scrollToBottom()
+    })
     // 传统写法
     /* post('https://closeai.deno.dev/v1/chat/completions', {
      model: 'gpt-3.5-turbo',
@@ -63,7 +69,7 @@ async function sendMessage() {
 
 <template>
   <div ref="refmsg" class="chat-box">
-    <div class="chat-box-div">
+    <div ref="chatboxdiv" class="chat-box-div">
       <div v-for="(data, index) in messages" :key="index" :class="{ 'left': data.role === 'assistant', 'right': data.role === 'user' }" class="message">
         <div class="bubble">{{ data.content }}</div>
       </div>
@@ -83,10 +89,15 @@ async function sendMessage() {
   flex-direction: column;
   width: 800px;
   height: 591px;
-  background-color: #448bff;
+  //background-color: #e6e6e6;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   overflow-y: auto;
+  position: relative;
+  top: 1rem;
+  margin: 0 auto;
 }
-.chat-box-div{
+.chat-box-div {
+  overflow-y: auto;
   width: 800px;
   height: 500px;
 }
@@ -95,10 +106,10 @@ async function sendMessage() {
   margin: 10px 0;
 }
 .message.left:last-child {
-  padding-bottom: 120px;
+  padding-bottom: 20px;
 }
 .message.right:last-child {
-  padding-bottom: 120px;
+  padding-bottom: 20px;
 }
 .message.left {
   justify-content: flex-start;
