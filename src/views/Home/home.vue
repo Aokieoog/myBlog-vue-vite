@@ -78,8 +78,8 @@ async function sendMessage() {
       </div>
     </div>
     <div class="input-box">
-      <textarea v-model.trim="newMessage" class="input" @keydown.enter.prevent="sendMessage"></textarea>
-      <button class="send-button" @click="sendMessage">发送</button>
+      <el-input  :rows="3" size="mini" resize="none" placeholder="请输入内容" type="textarea" v-model.trim="newMessage" class="input" @keydown.enter.prevent="sendMessage"></el-input>
+        <el-button class="send-button" @click="sendMessage">发送</el-button>
     </div>
   </div>
 
@@ -132,7 +132,7 @@ async function sendMessage() {
   max-width: 80%;
   padding: 10px;
   border-radius: 15px 15px 0 15px;
-  background-color: #00bcd4;
+  background-color: #27ae60;
   text-align: left;
 }
 .input-box {
@@ -148,19 +148,9 @@ async function sendMessage() {
   flex-grow: 1;
   box-sizing: border-box;
   height: 80px;
-  min-height: 80px;
-  max-height: 80px;
   margin-right: 10px;
   padding: 10px;
   border: none;
   border-radius: 5px;
-}
-.send-button {
-  padding: 10px;
-  cursor: pointer;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  background-color: #2196f3;
 }
 </style>
