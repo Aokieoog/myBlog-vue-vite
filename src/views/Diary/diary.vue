@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div></div>
+  <div><iframe src="https://ip.skk.moe/simple" style="width: 100%; border: 0"></iframe></div>
 </template>
 
 <style scoped>
