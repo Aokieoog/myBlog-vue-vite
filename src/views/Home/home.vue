@@ -16,7 +16,8 @@ let newMessage = ref('')
 let chatboxdiv = ref(null)
 let centerDialogVisible = ref(false)
 let skyinput = ref('')
-const sky = localStorage.getItem('Sky')
+const sky = ref(null)
+
 
 const scrollToBottom = () => {
   nextTick(() => {
@@ -26,16 +27,23 @@ const scrollToBottom = () => {
 
 // 检测是否存在SKY
 function Skytrue() {
-  if (!sky) {
+  try {
+    sky.value = localStorage.getItem('Sky')
+  } catch (error) {
+    console.error('Failed to retrieve data from local storage:', error)
+  }
+  if (!sky.value) {
     centerDialogVisible.value = true
   }
 }
-function CenterDialog(){
-  localStorage.setItem('Sky',skyinput.value)
+
+function CenterDialog() {
+    localStorage.setItem('Sky', skyinput.value)
 }
 async function sendMessage() {
   Skytrue()
-  if (newMessage.value && sky) {
+  console.log(sky.value)
+  if (newMessage.value && sky.value) {
     messages.push({ role: 'user', content: newMessage.value })
     newMessage.value = ''
     await nextTick(() => {
@@ -49,7 +57,7 @@ async function sendMessage() {
     const config = {
       headers: {
         contentType: 'application/json;charset=UTF-8',
-        Authorization: 'Bearer SK-cesihi'
+        Authorization: `Bearer ${sky.value}`
       }
     }
     // 异步写法
@@ -101,7 +109,7 @@ async function sendMessage() {
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="centerDialogVisible = false">关闭</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false ,CenterDialog">
+        <el-button type="primary" @click="centerDialogVisible = false,CenterDialog()">
           确定
         </el-button>
       </span>

@@ -38,7 +38,7 @@ async function OilPrices(address) {
     resdata.value = res.data
     tableData.value.push(resdata.value)
     localStorage.setItem('myArray', JSON.stringify(tableData.value))
-    msg.success(res.data.msg)
+    msg.success(res.msg)
   } else {
     // VUE2写法
     // proxy.$message('message')
@@ -48,7 +48,7 @@ async function OilPrices(address) {
     //   message: 'Oops, this is a error message.',
     //   type: 'error',
     // })
-    msg.error(res.data.msg)
+    msg.error(res.msg)
   }
 
 /*  proxy.$http({
