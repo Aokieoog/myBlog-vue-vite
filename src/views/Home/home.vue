@@ -8,9 +8,7 @@ import { nextTick, reactive, ref } from 'vue'
 import { post } from '@/utils/http/http.js'
 
 let messages = reactive([
-  { role: 'assistant', content: '你好，有什么可以帮助你的吗？' },
-  { role: 'user', content: '请问这个产品支持哪些支付方式？' },
-  { role: 'assistant', content: '我们支持支付宝、微信、银联等多种支付方式。' }
+  { role: 'assistant', content: '你好，有什么可以帮助你的吗？' }
 ])
 let newMessage = ref('')
 let chatboxdiv = ref(null)
