@@ -70,7 +70,7 @@ function ClickHouse() {
     <div class="form_box">
       <div class="form">
         <el-input v-model="data.account" placeholder="Please input account"></el-input>
-        <el-input v-model="data.password" placeholder="Please input password" show-password type="password"></el-input>
+        <el-input v-model="data.password" placeholder="Please input password" show-password type="password" @keydown.enter.prevent="ClickHouse"></el-input>
       </div>
       <div>
         <el-button color="#68945c" style="color: white" @click="Flushed">Flushed</el-button>
