@@ -17,13 +17,17 @@ import './assets/svgIconFont/svgIconFont'
 import message from './utils/message.js'
 /* echarts */
 import * as echarts from 'echarts'
+import { createPinia } from 'pinia'
+/* 需要vue3.3版本否则报错 */
 
 
 const app = createApp(App)
+const pinia = createPinia()
 
 app.config.globalProperties.$echarts = echarts
 app.use(router)
 app.use(ElementPlus)
+app.use(pinia)
 app.component('SvgIcon', SvgIcon)
 
 router.isReady().then(() => app.mount('#app'))

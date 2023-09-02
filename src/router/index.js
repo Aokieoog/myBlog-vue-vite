@@ -96,6 +96,14 @@ const routes = [
       fullPageDisplay: true
     },
     component: () => import('@/components/Swiper/Swiper.vue')
+  },
+  {
+    path: '/counter',
+    name: 'counter',
+    meta: {
+      fullPageDisplay: true
+    },
+    component: () => import('@/dome/counter.vue')
   }
 ]
 const router = createRouter({
