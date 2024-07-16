@@ -65,9 +65,9 @@ html, body {
   font-size: 16px;
   background-color: #efefef;
 }
-/* 左侧边栏 */
+/* 侧边栏 */
 .el-aside {
-  width: 12vw !important;
+  width: 15vw !important;
   background: #f9f9f9;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }

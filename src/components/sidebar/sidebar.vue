@@ -33,7 +33,7 @@ const handleClose = (key, keyPath) => {
         <div class="sidebar-header-devone" @click="!isCollapse" ><img alt="" src="/log.png">
           <i></i>
         </div>
-        <div style="width: 6.11rem;line-height: 1.2">
+        <div style="line-height: 1.2">
           <p style="font-size: 14px;margin: 0;"><strong style="font-weight: bold">景色宜人</strong></p>
           <span style="font-size: 12px">The Best Is Yet To Come.</span>
         </div>
@@ -47,14 +47,17 @@ const handleClose = (key, keyPath) => {
 </template>
 
 <style lang="less" scoped>
+.sidebar{
+  User-select: none
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   height: 100%;
 }
 .sidebar-header i {
   width: 0.4375rem;
   height: 0.4375rem;
-  margin-bottom: 5px;
-  margin-left: 5px;
+  margin-bottom: 0.3125rem;
+  margin-left: 0.3125rem;
   border-radius: 50%;
   background-color: #3ef13e;
 }
@@ -76,9 +79,8 @@ a {
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: center;
-  width: 13.75rem;
   height: 5.625rem;
   padding-top: 0.625rem;
+  justify-content: center;
 }
 </style>

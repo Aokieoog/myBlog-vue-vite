@@ -69,13 +69,14 @@ watchEffect((onInvalidate) => {
 
 <style lang="less" scoped>
 .box_echarts {
-  width: 694px;
-  height: 515px;
+  z-index: 99;
+  width: 43.375rem;
+  height: 32.1875rem;
   background-color: #f9f9f9;
   position: absolute;
-  top: 50px;
-  left: 220px;
-  padding: 15px 15px;
+  top: 3.125rem;
+  left: 28.75rem;
+  padding: 0.9375rem 0.9375rem;
 }
 .visualization {
   position: relative;

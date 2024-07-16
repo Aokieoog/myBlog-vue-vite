@@ -85,7 +85,8 @@ const routes = [
     path: '/diary',
     name: 'diary',
     meta: {
-      fullPageDisplay: false
+      fullPageDisplay: false,
+      title: 'ip'
     },
     component: () => import('@/views/Diary/diary.vue')
   },
