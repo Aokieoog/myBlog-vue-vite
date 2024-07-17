@@ -65,6 +65,7 @@ watchEffect((onInvalidate) => {
       <SearchBox></SearchBox>
     </div>
   </div>
+    
 </template>
 
 <style lang="less" scoped>

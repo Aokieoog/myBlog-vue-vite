@@ -38,6 +38,15 @@ const routes = [
     component: () => import('@/views/OilPrices/oilPrices.vue')
   },
   {
+    path: '/js3book',//剑三记账本
+    name: 'js3book',
+    meta: {
+      fullPageDisplay: false, //不需要全页展示的组件
+      title: '剑三记账本'
+    },
+    component: () => import('@/views/Js3book/js3book.vue')
+  },
+  {
     path: '/searchBox',
     name: 'searchBox',
     meta: {

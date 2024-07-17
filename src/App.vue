@@ -29,16 +29,13 @@ const route = useRoute();
     <!--局部路由-->
     <el-container class="routerpart" v-if="!route.meta.fullPageDisplay">
       <!--头部-->
-      <el-header>
-        <Header></Header>
-      </el-header>
-      <el-container>
-        <!--左菜单侧栏-->
-          <el-aside>
-            <Sidebar></Sidebar>
-          </el-aside>
+      <Sidebar></Sidebar>
+      <div class="contbox">
+        <!--左菜单侧栏预留-->
+          <!-- <el-aside>
+          </el-aside> -->
         <!--路由内容区-->
-          <el-main>
+          <el-main class="mainbox">
             <!-- 传一个组件在router-view中 -->
             <router-view v-slot="{ Component }">
               <keep-alive>
@@ -46,45 +43,29 @@ const route = useRoute();
               </keep-alive>
             </router-view>
           </el-main>
-          <el-aside>
-            <Sidebar></Sidebar>
-          </el-aside>
-      </el-container>
+      </div>
     </el-container>
 
   </div>
 </template>
 
-<style>
+<style lang="less" scoped>
+.mainbox{
+  margin:0 5%
+}
 .routerpart{
-  height: 100vh;
-  width: 80vw;
-  overflow:hidden;
+  width:100vw;
+  display:flex;
+  flex-direction: column;
+}
+.contbox{
+  width:100%;
+  display:flex;
+  margin-top:60px;
 }
 html, body {
   font-size: 16px;
   background-color: #efefef;
-}
-/* 侧边栏 */
-.el-aside {
-  width: 15vw !important;
-  background: #f9f9f9;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
-}
-/* 顶部 */
-.el-header {
-  height: 3.125rem !important;
-  background: #f9f9f9;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-}
-/**
- *路由内容区
- *calc 可以用来计算加减乘除
- */
-.el-main {
-  height: 100vh;
-  overflow:scroll;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 /* 全局路由 */
 .globalRouting {

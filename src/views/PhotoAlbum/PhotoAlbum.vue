@@ -9,7 +9,7 @@ import { get } from '@/utils/http/http.js'
 import { girllistrandom, parms } from '@/utils/http/api'
 import Swiper from '@/components/Swiper/Swiper.vue'
 
-const title = ref('博客君')
+const title = ref('休息一下')
 let listImage = ref([])
 // MD:问题3
 let imageurl = ref([])
@@ -29,7 +29,7 @@ async function GetImage() {
 
 </script>
 <template>
-  <h1>{{ title }}</h1>
+  <h2>{{ title }}</h2>
   <Swiper :data="imageurl"></Swiper>
   <div class="image">
     <div v-for="(item,i) in listImage.slice(0,9)" :key="i" class="image_box">

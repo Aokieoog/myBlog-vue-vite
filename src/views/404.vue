@@ -4,7 +4,7 @@ import { ref } from 'vue'
 defineProps({
   msg: String
 })
-const mistake = ref('404资源开小查了......')
+const mistake = ref('404资源开小差了......')
 </script>
 
 <template>
