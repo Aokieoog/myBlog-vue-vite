@@ -39,6 +39,7 @@ async function OilPrices(address) {
     tableData.value.push(resdata.value)
     localStorage.setItem('myArray', JSON.stringify(tableData.value))
     msg.success(res.msg)
+    console.log(tableData.value);
   } else {
     // VUE2写法
     // proxy.$message('message')

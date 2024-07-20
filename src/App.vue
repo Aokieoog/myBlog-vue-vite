@@ -69,6 +69,9 @@ html, body {
 }
 /* 全局路由 */
 .globalRouting {
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 </style>
