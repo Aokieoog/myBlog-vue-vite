@@ -90,11 +90,20 @@ function adddata (index) {
   let data = wupindata[index]
   const now = new Date()
   data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
-  data.dj = data.jin + zeroPad(data.yin) + zeroPad(data.tong)
-  data.djress = data.ress * data.dj
+  let he = data.jin + zeroPad(data.yin) + zeroPad(data.tong)
+  data.dj = numPad(he)
+  data.djress = numPad(data.ress * he)
   const clonedItem = JSON.parse(JSON.stringify(data));
   Jx3Store.tableData.push(clonedItem);
   localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
+}
+
+const numPad = (amount)=>{
+  const gold = Math.floor(amount / 10000);
+    amount %= 10000;
+    const silver = Math.floor(amount / 100);
+    const copper = amount % 100;
+    return `${gold} 金 ${silver} 银 ${copper} 铜`;
 }
 
 const zeroPad = (num)=>{
