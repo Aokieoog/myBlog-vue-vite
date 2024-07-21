@@ -16,14 +16,14 @@
           <el-popover placement="bottom" :width="530" trigger="click">
             <div class="item-actions">
               <span class="item-span">单价：</span>
-              <el-input v-model="item.jin" maxlength="5" style="width: 60px" />
+              <el-input-number controls="false" v-model="item.jin" maxlength="5" style="width: 60px" />
               <img class="qianimage" src="src/assets/png/jin.png" alt="jin" />
-              <el-input v-model="item.yin" maxlength="2" style="width: 50px" />
+              <el-input-number v-model="item.yin" maxlength="2" style="width: 50px" />
               <img class="qianimage" src="src/assets/png/yin.png" alt="yin" />
-              <el-input v-model="item.tong" maxlength="2" style="width: 50px" />
+              <el-input-number v-model="item.tong" maxlength="2" style="width: 50px" />
               <img class="qianimage" src="src/assets/png/tong.png" alt="tong" />
               <span class="item-span" style="margin-left:10px;">数量：</span>
-              <el-input v-model="item.ress" maxlength="5" style="width: 82px" />
+              <el-input-number v-model="item.ress" maxlength="5" style="width: 82px" />
               <el-button class="itembutton" type="success" @click="adddata(index)" round>添加</el-button>
             </div>
             <template #reference>
