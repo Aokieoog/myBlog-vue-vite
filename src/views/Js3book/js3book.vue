@@ -18,13 +18,13 @@
               <span class="item-span">单价：</span>
               <el-input v-model="item.jin" @keyup="item.jin = item.jin.replace(/[\D\s]/g, '')" maxlength="5"
                 autofocus="true" style="width: 60px;color: #f75e02;" />
-              <img class="qianimage" src="src/assets/png/jin.png" alt="jin" />
+              <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
               <el-input v-model="item.yin" @keyup="item.yin = item.yin.replace(/[\D\s]/g, '')" maxlength="2"
                 style="width: 50px" />
-              <img class="qianimage" src="src/assets/png/yin.png" alt="yin" />
+              <img class="qianimage" src="@/assets/png/yin.png" alt="yin" />
               <el-input v-model="item.tong" @keyup="item.tong = item.tong.replace(/[\D\s]/g, '')" maxlength="2"
                 style="width: 50px" />
-              <img class="qianimage" src="src/assets/png/tong.png" alt="tong" />
+              <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
               <span class="item-span" style="margin-left:10px;">数量：</span>
               <el-input class="shulianginput" v-model="item.ress" @keyup="item.ress = item.ress.replace(/[\D\s]/g, '')"
                 maxlength="5" style="width: 82px" />
@@ -86,7 +86,7 @@ const { tableData } = storeToRefs(Jx3Store);
 const wupindata = reactive([
   {
     name: "绝世上衣·【寒】",
-    image: "src/assets/png/598.png",
+    image: "@/assets/png/598.png",
     date: "",
     jin: "",
     yin: "",
@@ -96,7 +96,7 @@ const wupindata = reactive([
     djress: "",
   }, {
     name: "绝世上衣·【炎】",
-    image: "src/assets/png/598.png",
+    image: "@/assets/png/598.png",
     date: "",
     jin: "",
     yin: "",
