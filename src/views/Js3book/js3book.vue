@@ -86,7 +86,7 @@ const { tableData } = storeToRefs(Jx3Store);
 const wupindata = reactive([
   {
     name: "绝世上衣·【寒】",
-    image: "@/assets/png/598.png",
+    image: "src/assets/png/598.png",
     date: "",
     jin: "",
     yin: "",
@@ -96,7 +96,7 @@ const wupindata = reactive([
     djress: "",
   }, {
     name: "绝世上衣·【炎】",
-    image: "@/assets/png/598.png",
+    image: "src/assets/png/598.png",
     date: "",
     jin: "",
     yin: "",
