@@ -12,14 +12,8 @@
 
     <div class="container-wrapper">
       <div class="container">
-        <div class="item" v-for="(item,index) in wupindata">
+        <div class="item" v-for="(item, index) in wupindata">
           <el-popover placement="bottom" :width="530" trigger="click">
-            <template #reference>
-              <div style="display: flex; align-items: center">
-                <img class="icon" :src="item.image" alt="Icon" />
-                <div class="item-text">{{ item.name }}</div>
-              </div>
-            </template>
             <div class="item-actions">
               <span class="item-span">单价：</span>
               <el-input v-model="item.jin" maxlength="5" style="width: 60px" />
@@ -32,6 +26,12 @@
               <el-input v-model="item.ress" maxlength="5" style="width: 82px" />
               <el-button class="itembutton" type="success" @click="adddata(index)" round>添加</el-button>
             </div>
+            <template #reference>
+              <div style="display: flex; align-items: center">
+                <img class="icon" :src="item.image" alt="Icon" />
+                <div class="item-text">{{ item.name }}</div>
+              </div>
+            </template>
           </el-popover>
         </div>
       </div>
@@ -42,10 +42,10 @@
           <el-table-column prop="dj" label="单价" width="180" />
           <el-table-column prop="ress" label="数量" width="100" />
           <el-table-column prop="djress" label="总价" width="180" />
-          <el-table-column fixed="right" label="Operations" width="120">
+          <el-table-column fixed="right" label="状态" width="120">
             <template #default="scope">
               <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.$index)">
-                Remove
+                删除
               </el-button>
             </template>
           </el-table-column>
@@ -57,20 +57,16 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-// const datainput = reactive({
-//   jin: "",
-//   yin: "",
-//   tong: "",
-//   dj: "",
-//   ress: "",
-//   djress: "",
-// });
+import { storeToRefs } from 'pinia';
+import { useJx3book } from "@/pinia/useJx3book/useJx3book";
+const Jx3Store = useJx3book()
+const { tableData } = storeToRefs(Jx3Store);
 
 const wupindata = reactive([
   {
     name: "绝世上衣·【寒】",
-    date: "2024-07-20",
     image: "src/assets/png/598.png",
+    date: "",
     jin: "",
     yin: "",
     tong: "",
@@ -79,8 +75,8 @@ const wupindata = reactive([
     djress: "",
   }, {
     name: "绝世上衣·【炎】",
-    date: "2024-07-12",
     image: "src/assets/png/598.png",
+    date: "",
     jin: "",
     yin: "",
     tong: "",
@@ -90,40 +86,28 @@ const wupindata = reactive([
   },
 ])
 
-const tableData = reactive([
-  {
-    name: "绝世上衣·【炎】",
-    date: "2024-07-12",
-    image: "src/assets/png/598.png",
-    jin: "1",
-    yin: "3",
-    tong: "4",
-    dj: "5",
-    ress: "556",
-    djress: "21313",
-  },
-  {
-    name: "绝世上衣·【炎】",
-    date: "2024-07-12",
-    image: "src/assets/png/598.png",
-    jin: "",
-    yin: "",
-    tong: "",
-    dj: "",
-    ress: "12333",
-    djress: "1133",
-  },
-]);
-
 function adddata (index) {
+  let data = wupindata[index]
   const now = new Date()
-  const date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
-  console.log(wupindata,tableData)
-  tableData.push(wupindata[index])
+  data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+  data.dj = data.jin + zeroPad(data.yin) + zeroPad(data.tong)
+  data.djress = data.ress * data.dj
+  const clonedItem = JSON.parse(JSON.stringify(data));
+  Jx3Store.tableData.push(clonedItem);
+  localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
+}
+
+const zeroPad = (num)=>{
+  let s = num+"";
+  while (s.length < 2) {
+    s = "0" + s;
+  }
+  return s;
 }
 
 const deleteRow = (index) => {
-  tableData.splice(index, 1)
+  Jx3Store.tableData.splice(index, 1)
+  localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
 }
 </script>
 
