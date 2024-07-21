@@ -16,14 +16,18 @@
           <el-popover placement="bottom" :width="530" trigger="click">
             <div class="item-actions">
               <span class="item-span">单价：</span>
-              <el-input-number controls="false" v-model="item.jin" maxlength="5" style="width: 60px" />
+              <el-input v-model="item.jin" @keyup="item.jin = item.jin.replace(/[\D\s]/g, '')" maxlength="5"
+                autofocus="true" style="width: 60px;color: #f75e02;" />
               <img class="qianimage" src="src/assets/png/jin.png" alt="jin" />
-              <el-input-number v-model="item.yin" maxlength="2" style="width: 50px" />
+              <el-input v-model="item.yin" @keyup="item.yin = item.yin.replace(/[\D\s]/g, '')" maxlength="2"
+                style="width: 50px" />
               <img class="qianimage" src="src/assets/png/yin.png" alt="yin" />
-              <el-input-number v-model="item.tong" maxlength="2" style="width: 50px" />
+              <el-input v-model="item.tong" @keyup="item.tong = item.tong.replace(/[\D\s]/g, '')" maxlength="2"
+                style="width: 50px" />
               <img class="qianimage" src="src/assets/png/tong.png" alt="tong" />
               <span class="item-span" style="margin-left:10px;">数量：</span>
-              <el-input-number v-model="item.ress" maxlength="5" style="width: 82px" />
+              <el-input class="shulianginput" v-model="item.ress" @keyup="item.ress = item.ress.replace(/[\D\s]/g, '')"
+                maxlength="5" style="width: 82px" />
               <el-button class="itembutton" type="success" @click="adddata(index)" round>添加</el-button>
             </div>
             <template #reference>
@@ -38,10 +42,26 @@
       <div class="containerright">
         <el-table :data="tableData" border style="width: 100%">
           <el-table-column prop="date" label="时间" width="110" />
-          <el-table-column prop="name" label="名称" width="180" />
-          <el-table-column prop="dj" label="单价" width="180" />
-          <el-table-column prop="ress" label="数量" width="100" />
-          <el-table-column prop="djress" label="总价" width="180" />
+          <el-table-column prop="name" label="名称" width="180">
+            <template #default="scope">
+              <span style="color: rgb(119 2 247);">{{ scope.row.name }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="dj" label="单价" width="180">
+            <template #default="scope">
+              <span style="color: #f75e02;">{{ scope.row.dj }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="ress" label="数量" width="100">
+            <template #default="scope">
+              <span style="color: rgb(123 141 64);">{{ scope.row.ress }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="djress" label="总价" width="180">
+            <template #default="scope">
+              <span style="color: #f75e02;">{{ scope.row.djress }}</span>
+            </template>
+          </el-table-column>
           <el-table-column fixed="right" label="状态" width="120">
             <template #default="scope">
               <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.$index)">
@@ -56,6 +76,7 @@
 </template>
 
 <script setup>
+import msg from '@/utils/message.js'
 import { ref, reactive } from "vue";
 import { storeToRefs } from 'pinia';
 import { useJx3book } from "@/pinia/useJx3book/useJx3book";
@@ -88,26 +109,40 @@ const wupindata = reactive([
 
 function adddata (index) {
   let data = wupindata[index]
-  const now = new Date()
-  data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
-  let he = data.jin + zeroPad(data.yin) + zeroPad(data.tong)
-  data.dj = numPad(he)
-  data.djress = numPad(data.ress * he)
-  const clonedItem = JSON.parse(JSON.stringify(data));
-  Jx3Store.tableData.push(clonedItem);
-  localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
+  console.log(data);
+  if ((data.jin || data.yin || data.tong) && data.ress) {
+    const now = new Date()
+    data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+    let he = data.jin + zeroPad(data.yin) + zeroPad(data.tong)
+    data.dj = numPad(he)
+    data.djress = numPad(data.ress * he)
+    const clonedItem = JSON.parse(JSON.stringify(data));
+    Jx3Store.tableData.push(clonedItem);
+    localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
+  } else {
+    msg.error('请填写单价和数量')
+  }
+
 }
 
-const numPad = (amount)=>{
-  const gold = Math.floor(amount / 10000);
-    amount %= 10000;
-    const silver = Math.floor(amount / 100);
-    const copper = amount % 100;
-    return `${gold} 金 ${silver} 银 ${copper} 铜`;
+// 定义一个函数，用于将数字转换为砖、金、银、铜的表示
+function numPad (amount) {
+  const units = ['砖', '金', '银', '铜'];
+  const dividers = [100000000, 10000, 100, 1]; // 对应砖、金、银、铜的分隔线
+
+  let result = [];
+  for (let i = 0; i < dividers.length; i++) {
+    const unitValue = Math.floor(amount / dividers[i]);
+    if (unitValue > 0) {
+      result.push(`${unitValue}${units[i]}`);
+    }
+    amount %= dividers[i];
+  }
+  return result.join('');
 }
 
-const zeroPad = (num)=>{
-  let s = num+"";
+const zeroPad = (num) => {
+  let s = num + "";
   while (s.length < 2) {
     s = "0" + s;
   }
@@ -230,5 +265,13 @@ const deleteRow = (index) => {
   display: flex;
   align-items: center;
   justify-content: space-evenly
+}
+
+:deep(.el-input__inner) {
+  color: #f75e02;
+}
+
+:deep(.shulianginput .el-input__inner) {
+  color: #7c1df1;
 }
 </style>

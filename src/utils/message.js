@@ -1,25 +1,28 @@
-import {ElMessage} from 'element-plus'
-export default{
+import { ElMessage } from 'element-plus'
+export default {
+  /* 基础消息显示函数 */
+  showMessage (type, data) {
+    ElMessage({
+      type: type,
+      message: data,
+      offset:70,
+      grouping:true
+    });
+  },
   /* 提示 */
   message (data) {
-    ElMessage(data)
+    this.showMessage('info', data);
   },
   /* 成功 */
-  success(data) {
-    ElMessage({
-      message: data,
-      type: 'success',
-    })
+  success (data) {
+    this.showMessage('success', data);
   },
   /* 警告 */
-  warning(data){
-    ElMessage({
-      message: data,
-      type: 'warning',
-    })
+  warning (data) {
+    this.showMessage('warning', data);
   },
   /* 错误 */
-  error(data){
-    ElMessage.error(data)
+  error (data) {
+    this.showMessage('error', data);
   }
-}
+};
