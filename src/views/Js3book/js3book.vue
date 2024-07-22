@@ -15,11 +15,11 @@
     <div class="container-wrapper">
       <div class="container">
         <div class="item" v-for="(item, index) in wupindata">
-          <el-popover placement="bottom" :width="530" trigger="click">
+          <el-popover placement="bottom" :width="540" trigger="click">
             <div class="item-actions">
               <span class="item-span">单价：</span>
-              <el-input v-model="item.jin" @keyup="item.jin = item.jin.replace(/[\D\s]/g, '')" maxlength="5"
-                autofocus="true" style="width: 60px;color: #f75e02;" />
+              <el-input v-model="item.jin" @keyup="item.jin = item.jin.replace(/[\D\s]/g, '')" maxlength="6"
+                autofocus="true" style="width: 70px;color: #f75e02;" />
               <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
               <el-input v-model="item.yin" @keyup="item.yin = item.yin.replace(/[\D\s]/g, '')" maxlength="2"
                 style="width: 50px" />
@@ -44,8 +44,8 @@
       </div>
       <div class="containerright">
         <el-table :data="tableData" border style="width: 100%">
-          <el-table-column prop="date" label="时间" width="110" />
-          <el-table-column prop="name" label="名称" width="180">
+          <el-table-column prop="date" label="买入时间" width="110" />
+          <el-table-column prop="name" label="名称" width="150">
             <template #default="scope">
               <div class="divicon-table">
                 <img class="icon-table" v-if="scope.row.image" :src="scope.row.image" alt="Icon" />
@@ -53,22 +53,59 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="dj" label="单价" width="180">
+          <el-table-column prop="dj" label="买入单价" width="130">
             <template #default="scope">
               <span style="color: #f75e02;">{{ scope.row.dj }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="ress" label="数量" width="100">
+          <el-table-column prop="ress" label="买入数量" width="90">
             <template #default="scope">
               <span style="color: rgb(123 141 64);">{{ scope.row.ress }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="djress" label="总价" width="180">
+          <el-table-column prop="djress" label="买入成本" width="160">
             <template #default="scope">
               <span style="color: #f75e02;">{{ scope.row.djress }}</span>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="状态" width="120">
+          <el-table-column prop="djress" label="总利润" width="160">
+            <template #default="scope">
+              <span style="color: #f75e02;">{{ scope.row.djress }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="djress" label="出售" width="60">
+            <el-popover placement="right" :width="550" trigger="click">
+              <template #reference>
+                <el-button link type="primary" size="small">出售</el-button>
+              </template>
+              <div class="item-actions">
+              <span class="item-span">单价：</span>
+              <el-input  maxlength="6"
+                autofocus="true" style="width: 70px;color: #f75e02;" />
+              <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
+              <el-input maxlength="2"
+                style="width: 50px" />
+              <img class="qianimage" src="@/assets/png/yin.png" alt="yin" />
+              <el-input  maxlength="2"
+                style="width: 50px" />
+              <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
+              <span class="item-span" style="margin-left:10px;">数量：</span>
+              <el-input class="shulianginput"
+                maxlength="5" style="width: 82px" />
+              <el-button class="itembutton" type="success" @click="addData(index)">添加</el-button>
+            </div>
+            <el-divider />
+
+              <el-table :data="Jx3Store.wupindata.tosellData">
+                <el-table-column width="100" property="timeToSell" label="售出时间" />
+                <el-table-column width="100" property="unitPrice" label="售出单价" />
+                <el-table-column width="100" property="quantitySold" label="售出数量" />
+                <el-table-column width="100" property="totalSales" label="售出总额" />
+                <el-table-column width="100" property="profits" label="售出利润" />
+              </el-table>
+            </el-popover>
+          </el-table-column>
+          <el-table-column fixed="right" label="状态" width="60">
             <template #default="scope">
               <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.$index)">
                 删除
@@ -101,9 +138,16 @@ function addName () {
       jin: "",
       yin: "",
       tong: "",
-      dj: "",
-      ress: "",
-      djress: "",
+      dj: "",//买入单价
+      ress: "",//买入数量
+      djress: "",//买入成本
+      tosellData:[{
+        timeToSell: '2024-07-22',//售出时间
+        unitPrice: '123', // 售出单价
+        quantitySold: '10',//售出数量
+        totalSales: '1230',//售出总额
+        profits: '230',//利润
+      }]
     })
     localStorage.setItem('wupin', JSON.stringify(Jx3Store.wupindata))
     nameArticle.value = ''
@@ -132,6 +176,9 @@ function addData (index) {
 
 }
 
+function inCome (index) {
+  msg.showMessage('success', '收益：', index)
+}
 // 定义一个函数，用于将数字转换为砖、金、银、铜的表示
 function numPad (amount) {
   const units = ['砖', '金', '银', '铜'];
@@ -265,7 +312,7 @@ const deleteRow = (index) => {
   margin-right: 10px;
 }
 
-.divicon-table{
+.divicon-table {
   display: flex;
   align-items: center;
   justify-content: center
