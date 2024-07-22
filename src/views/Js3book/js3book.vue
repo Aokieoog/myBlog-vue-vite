@@ -43,7 +43,7 @@
         </div>
       </div>
       <div class="containerright">
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="tableData" border style="width: 100%" ref="tableRef" @row-click="sellTheGoods">
           <el-table-column prop="date" label="买入时间" width="110" />
           <el-table-column prop="name" label="名称" width="150">
             <template #default="scope">
@@ -73,35 +73,30 @@
               <span style="color: #f75e02;">{{ scope.row.djress }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="djress" label="出售" width="60">
-            <el-popover placement="right" :width="550" trigger="click">
+          <el-table-column prop="djress" label="出售" width="60" >
+            <el-popover placement="left" :width="700" trigger="click">
               <template #reference>
                 <el-button link type="primary" size="small">出售</el-button>
               </template>
               <div class="item-actions">
-              <span class="item-span">单价：</span>
-              <el-input  maxlength="6"
-                autofocus="true" style="width: 70px;color: #f75e02;" />
-              <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
-              <el-input maxlength="2"
-                style="width: 50px" />
-              <img class="qianimage" src="@/assets/png/yin.png" alt="yin" />
-              <el-input  maxlength="2"
-                style="width: 50px" />
-              <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
-              <span class="item-span" style="margin-left:10px;">数量：</span>
-              <el-input class="shulianginput"
-                maxlength="5" style="width: 82px" />
-              <el-button class="itembutton" type="success" @click="addData(index)">添加</el-button>
-            </div>
-            <el-divider />
-
-              <el-table :data="Jx3Store.wupindata.tosellData">
-                <el-table-column width="100" property="timeToSell" label="售出时间" />
-                <el-table-column width="100" property="unitPrice" label="售出单价" />
-                <el-table-column width="100" property="quantitySold" label="售出数量" />
-                <el-table-column width="100" property="totalSales" label="售出总额" />
-                <el-table-column width="100" property="profits" label="售出利润" />
+                <span class="item-span">单价：</span>
+                <el-input maxlength="6" autofocus="true" style="width: 70px;color: #f75e02;" />
+                <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
+                <el-input maxlength="2" style="width: 50px" />
+                <img class="qianimage" src="@/assets/png/yin.png" alt="yin" />
+                <el-input maxlength="2" style="width: 50px" />
+                <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
+                <span class="item-span" style="margin-left:10px;">数量：</span>
+                <el-input class="shulianginput" maxlength="5" style="width: 82px" />
+                <el-button class="itembutton" type="success">添加</el-button>
+              </div>
+              <el-divider />
+              <el-table :data="tosellData" show-summary="true">
+                <el-table-column width="110" property="timeToSell" label="售出时间" />
+                <el-table-column width="130" property="unitPrice" label="售出单价" />
+                <el-table-column width="90" property="quantitySold" label="售出数量" />
+                <el-table-column width="160" property="totalSales" label="售出总额" />
+                <el-table-column width="160" property="profits" label="售出利润" />
               </el-table>
             </el-popover>
           </el-table-column>
@@ -128,6 +123,8 @@ const { tableData, wupindata } = storeToRefs(Jx3Store);
 
 const iconAddress = ref("");
 const nameArticle = ref("");
+const tableRef = ref(null);
+let tosellData = reactive([])
 
 function addName () {
   if (nameArticle.value) {
@@ -141,7 +138,13 @@ function addName () {
       dj: "",//买入单价
       ress: "",//买入数量
       djress: "",//买入成本
-      tosellData:[{
+      tosellData: [{
+        timeToSell: '2024-07-22',//售出时间
+        unitPrice: '123', // 售出单价
+        quantitySold: '10',//售出数量
+        totalSales: '1230',//售出总额
+        profits: '230',//利润
+      },{
         timeToSell: '2024-07-22',//售出时间
         unitPrice: '123', // 售出单价
         quantitySold: '10',//售出数量
@@ -176,8 +179,9 @@ function addData (index) {
 
 }
 
-function inCome (index) {
-  msg.showMessage('success', '收益：', index)
+function sellTheGoods (row) {
+  tosellData =row.tosellData
+  console.log(row.tosellData)
 }
 // 定义一个函数，用于将数字转换为砖、金、银、铜的表示
 function numPad (amount) {
