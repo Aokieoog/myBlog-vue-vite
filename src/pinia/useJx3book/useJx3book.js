@@ -8,6 +8,7 @@ export const useJx3book = defineStore('tableData', {
   state: () => {
     return {
       tableData: JSON.parse(localStorage.getItem('jx3')) || [],
+      wupindata: JSON.parse(localStorage.getItem('wupin')) || [],
     }
   },
 })

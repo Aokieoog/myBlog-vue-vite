@@ -1,11 +1,13 @@
 <template>
   <div>
     <div class="navbar">
-      <button class="active">煮饭</button>
-      <button>缝纫</button>
-      <button>制药</button>
-      <button>锻造</button>
-      <button>梓匠</button>
+      <span style="margin-right: 1.25rem;">地址:</span>
+      <el-input v-model="iconAddress" type="url" @keyup="iconAddress = iconAddress.replace(/\s/g, '')"
+        placeholder="请输入图标地址" style="width: 20rem;" />
+      <span style="margin: 0 1.25rem;">名称:</span>
+      <el-input class="nameArticle" v-model="nameArticle" type="text"
+        @keyup="nameArticle = nameArticle.replace(/\s/g, '')" placeholder="请输入物品名称" style="width: 10rem;" />
+      <el-button class="active" @click="addName">添加</el-button>
       <input type="text" placeholder="请输入搜索内容" />
       <button></button>
     </div>
@@ -28,15 +30,16 @@
               <span class="item-span" style="margin-left:10px;">数量：</span>
               <el-input class="shulianginput" v-model="item.ress" @keyup="item.ress = item.ress.replace(/[\D\s]/g, '')"
                 maxlength="5" style="width: 82px" />
-              <el-button class="itembutton" type="success" @click="adddata(index)" round>添加</el-button>
+              <el-button class="itembutton" type="success" @click="addData(index)" round>添加</el-button>
             </div>
             <template #reference>
               <div style="display: flex; align-items: center">
-                <img class="icon" :src="item.image" alt="Icon" />
+                <img class="icon" v-if="item.image" :src="item.image" alt="Icon" />
                 <div class="item-text">{{ item.name }}</div>
               </div>
             </template>
           </el-popover>
+          <el-button type="danger" size="small" text @click="deleteName(index)">删除</el-button>
         </div>
       </div>
       <div class="containerright">
@@ -44,7 +47,10 @@
           <el-table-column prop="date" label="时间" width="110" />
           <el-table-column prop="name" label="名称" width="180">
             <template #default="scope">
-              <span style="color: rgb(119 2 247);">{{ scope.row.name }}</span>
+              <div class="divicon-table">
+                <img class="icon-table" v-if="scope.row.image" :src="scope.row.image" alt="Icon" />
+                <span style="color: rgb(119 2 247);">{{ scope.row.name }}</span>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="dj" label="单价" width="180">
@@ -81,34 +87,35 @@ import { ref, reactive } from "vue";
 import { storeToRefs } from 'pinia';
 import { useJx3book } from "@/pinia/useJx3book/useJx3book";
 const Jx3Store = useJx3book()
-const { tableData } = storeToRefs(Jx3Store);
+const { tableData, wupindata } = storeToRefs(Jx3Store);
 
-const wupindata = reactive([
-  {
-    name: "绝世上衣·【寒】",
-    image: "src/assets/png/598.png",
-    date: "",
-    jin: "",
-    yin: "",
-    tong: "",
-    dj: "",
-    ress: "",
-    djress: "",
-  }, {
-    name: "绝世上衣·【炎】",
-    image: "src/assets/png/598.png",
-    date: "",
-    jin: "",
-    yin: "",
-    tong: "",
-    dj: "",
-    ress: "",
-    djress: "",
-  },
-])
+const iconAddress = ref("");
+const nameArticle = ref("");
 
-function adddata (index) {
-  let data = wupindata[index]
+function addName () {
+  if (nameArticle.value) {
+    Jx3Store.wupindata.push({
+      name: nameArticle.value,
+      image: iconAddress.value || 'https://icon.jx3box.com/icon/1241.png',
+      date: "",
+      jin: "",
+      yin: "",
+      tong: "",
+      dj: "",
+      ress: "",
+      djress: "",
+    })
+    localStorage.setItem('wupin', JSON.stringify(Jx3Store.wupindata))
+    nameArticle.value = ''
+    iconAddress.value = ''
+    msg.success('添加成功')
+  } else {
+    msg.error('请输入物品名称')
+  }
+}
+
+function addData (index) {
+  let data = Jx3Store.wupindata[index]
   console.log(data);
   if ((data.jin || data.yin || data.tong) && data.ress) {
     const now = new Date()
@@ -147,6 +154,12 @@ const zeroPad = (num) => {
     s = "0" + s;
   }
   return s;
+}
+
+const deleteName = (index) => {
+  console.log(index);
+  Jx3Store.wupindata.splice(index, 1)
+  localStorage.setItem('wupin', JSON.stringify(Jx3Store.wupindata))
 }
 
 const deleteRow = (index) => {
@@ -197,8 +210,8 @@ const deleteRow = (index) => {
 
 .navbar button.active {
   background-color: #4caf50;
-  /* Green color for the active button */
   color: white;
+  margin-left: 1rem;
 }
 
 .navbar input[type="text"] {
@@ -241,7 +254,7 @@ const deleteRow = (index) => {
 .item {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   border-bottom: 1px solid #e0e0e0;
   padding: 10px 0;
 }
@@ -252,8 +265,21 @@ const deleteRow = (index) => {
   margin-right: 10px;
 }
 
+.divicon-table{
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+
+.icon-table {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 5px;
+}
+
 .item-text {
   flex: 1;
+  color: #7c1df1;
 }
 
 .item-span {
@@ -272,6 +298,14 @@ const deleteRow = (index) => {
 }
 
 :deep(.shulianginput .el-input__inner) {
+  color: rgb(123, 141, 64);
+}
+
+:deep(.navbar .el-input__inner) {
+  color: rgb(59, 131, 255);
+}
+
+:deep(.nameArticle .el-input__inner) {
   color: #7c1df1;
 }
 </style>
