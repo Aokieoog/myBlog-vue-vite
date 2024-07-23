@@ -5,9 +5,9 @@ html, body, #app {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
 }
-#app {
+/* #app {
   max-width: 92.5rem;
-}
+} */
 ul li {
   list-style: none;
   margin: 0;

@@ -19,7 +19,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <div>
+  <div class="divbox">
     <!--全局路由-->
     <router-view v-if="route.meta.fullPageDisplay" v-slot="{ Component }" class="globalRouting">
       <keep-alive>
@@ -51,17 +51,21 @@ const route = useRoute();
 
 <style lang="less" scoped>
 .mainbox{
-  margin:0 5%
+  margin:0 5%;
+  padding:0 10px
 }
 .routerpart{
   width:100vw;
+  height: 100vh;
+  background-color:#efefef;
   display:flex;
   flex-direction: column;
 }
 .contbox{
   width:100%;
+  overflow: hidden;
   display:flex;
-  margin-top:60px;
+  margin-top:3.75rem;
 }
 html, body {
   font-size: 16px;
@@ -69,9 +73,10 @@ html, body {
 }
 /* 全局路由 */
 .globalRouting {
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
+  background-color: #fefefe;
 }
 </style>

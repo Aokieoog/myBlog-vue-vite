@@ -6,44 +6,46 @@
         placeholder="请输入图标地址" style="width: 20rem;" />
       <span style="margin: 0 1.25rem;">名称:</span>
       <el-input class="nameArticle" v-model="nameArticle" type="text"
-        @keyup="nameArticle = nameArticle.replace(/\s/g, '')" placeholder="请输入物品名称" style="width: 10rem;" />
+        @keyup="nameArticle = nameArticle.replace(/\s/g, '')" placeholder="请输入物品名称" style="width: 10rem;"
+        maxlength="10" />
       <el-button class="active" @click="addName">添加</el-button>
-      <input type="text" placeholder="请输入搜索内容" />
-      <button></button>
+      <!-- <input type="text" placeholder="请输入搜索内容" /> -->
     </div>
 
     <div class="container-wrapper">
       <div class="container">
         <div class="item" v-for="(item, index) in wupindata">
-          <el-popover placement="bottom" :width="540" trigger="click">
-            <div class="item-actions">
-              <span class="item-span">单价：</span>
-              <el-input v-model="item.jin" @keyup="item.jin = item.jin.replace(/[\D\s]/g, '')" maxlength="6"
-                autofocus="true" style="width: 70px;color: #f75e02;" />
-              <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
-              <el-input v-model="item.yin" @keyup="item.yin = item.yin.replace(/[\D\s]/g, '')" maxlength="2"
-                style="width: 50px" />
-              <img class="qianimage" src="@/assets/png/yin.png" alt="yin" />
-              <el-input v-model="item.tong" @keyup="item.tong = item.tong.replace(/[\D\s]/g, '')" maxlength="2"
-                style="width: 50px" />
-              <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
-              <span class="item-span" style="margin-left:10px;">数量：</span>
-              <el-input class="shulianginput" v-model="item.ress" @keyup="item.ress = item.ress.replace(/[\D\s]/g, '')"
-                maxlength="5" style="width: 82px" />
-              <el-button class="itembutton" type="success" @click="addData(index)" round>添加</el-button>
-            </div>
-            <template #reference>
-              <div style="display: flex; align-items: center">
-                <img class="icon" v-if="item.image" :src="item.image" alt="Icon" />
-                <div class="item-text">{{ item.name }}</div>
+          <div style="display: flex;">
+            <el-popover placement="bottom" :width="540" trigger="click">
+              <div class="item-actions">
+                <span class="item-span">单价：</span>
+                <el-input v-model="item.jin" @keyup="item.jin = item.jin.replace(/[\D\s]/g, '')" maxlength="6"
+                  autofocus="true" style="width: 70px;color: #f75e02;" />
+                <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
+                <el-input v-model="item.yin" @keyup="item.yin = item.yin.replace(/[\D\s]/g, '')" maxlength="2"
+                  style="width: 50px" />
+                <img class="qianimage" src="@/assets/png/yin.png" alt="yin" />
+                <el-input v-model="item.tong" @keyup="item.tong = item.tong.replace(/[\D\s]/g, '')" maxlength="2"
+                  style="width: 50px" />
+                <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
+                <span class="item-span" style="margin-left:10px;">数量：</span>
+                <el-input class="shulianginput" v-model="item.ress"
+                  @keyup="item.ress = item.ress.replace(/[\D\s]/g, '')" maxlength="5" style="width: 82px" />
+                <el-button class="itembutton" type="success" @click="addData(index)" round>添加</el-button>
               </div>
-            </template>
-          </el-popover>
+              <template #reference>
+                <div style="display: flex; align-items: center;width: 15rem;">
+                  <img class="icon" v-if="item.image" :src="item.image" alt="Icon" />
+                  <div class="item-text">{{ item.name }}</div>
+                </div>
+              </template>
+            </el-popover>
+          </div>
           <el-button type="danger" size="small" text @click="deleteName(index)">删除</el-button>
         </div>
       </div>
       <div class="containerright">
-        <el-table :data="tableData" border style="width: 100%" ref="tableRef" @row-click="sellTheGoods">
+        <el-table :data="tableData" border style="" height="35rem" @row-click="sellTheGoods">
           <el-table-column prop="date" label="买入时间" width="110" />
           <el-table-column prop="name" label="名称" width="150">
             <template #default="scope">
@@ -68,35 +70,45 @@
               <span style="color: #f75e02;">{{ scope.row.djress }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="djress" label="总利润" width="160">
+          <el-table-column prop="profits" label="总利润" width="160">
             <template #default="scope">
-              <span style="color: #f75e02;">{{ scope.row.djress }}</span>
+              <span style="color: #f75e02;">{{ scope.row.profits }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="djress" label="出售" width="60" >
-            <el-popover placement="left" :width="700" trigger="click">
+          <el-table-column prop="djress1" label="出售" width="60">
+            <el-popover placement="left" z-index="99999" :width="600" trigger="click">
               <template #reference>
                 <el-button link type="primary" size="small">出售</el-button>
               </template>
               <div class="item-actions">
                 <span class="item-span">单价：</span>
-                <el-input maxlength="6" autofocus="true" style="width: 70px;color: #f75e02;" />
+                <el-input maxlength="6" autofocus style="width: 70px;" v-model="addForSaleData.sellPricejin"
+                  @keyup="addForSaleData.sellPricejin = addForSaleData.sellPricejin.replace(/[\D\s]/g, '')" />
                 <img class="qianimage" src="@/assets/png/jin.png" alt="jin" />
-                <el-input maxlength="2" style="width: 50px" />
+                <el-input maxlength="2" style="width: 50px" v-model="addForSaleData.sellPriceyin"
+                  @keyup="addForSaleData.sellPriceyin = addForSaleData.sellPriceyin.replace(/[\D\s]/g, '')" />
                 <img class="qianimage" src="@/assets/png/yin.png" alt="yin" />
-                <el-input maxlength="2" style="width: 50px" />
+                <el-input maxlength="2" style="width: 50px" v-model="addForSaleData.sellPricetong"
+                  @keyup="addForSaleData.sellPricetong = addForSaleData.sellPricetong.replace(/[\D\s]/g, '')" />
                 <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
                 <span class="item-span" style="margin-left:10px;">数量：</span>
-                <el-input class="shulianginput" maxlength="5" style="width: 82px" />
-                <el-button class="itembutton" type="success">添加</el-button>
+                <el-input class="shulianginput" maxlength="5" style="width: 82px" v-model="addForSaleData.sellPriceress"
+                  @keyup="addForSaleData.sellPriceress = addForSaleData.sellPriceress.replace(/[\D\s]/g, '')" />
+                <el-button class="itembutton" type="success" @click="addForSale">添加</el-button>
               </div>
               <el-divider />
-              <el-table :data="tosellData" show-summary="true">
+              <el-table :data="tosellData" show-summary :summary-method="getSummaries" max-height="400">
                 <el-table-column width="110" property="timeToSell" label="售出时间" />
-                <el-table-column width="130" property="unitPrice" label="售出单价" />
+                <el-table-column width="130" property="unitPriceText" label="售出单价" />
                 <el-table-column width="90" property="quantitySold" label="售出数量" />
-                <el-table-column width="160" property="totalSales" label="售出总额" />
-                <el-table-column width="160" property="profits" label="售出利润" />
+                <el-table-column width="160" property="totalSalesText" label="售出总额" />
+                <el-table-column fixed="right" label="状态" width="60">
+                  <template #default="scope">
+                    <el-button link type="primary" size="small" @click.prevent="deletetosell(scope.$index)">
+                      删除
+                    </el-button>
+                  </template>
+                </el-table-column>
               </el-table>
             </el-popover>
           </el-table-column>
@@ -115,17 +127,25 @@
 
 <script setup>
 import msg from '@/utils/message.js'
-import { ref, reactive } from "vue";
+import { ref, reactive, h } from "vue";
 import { storeToRefs } from 'pinia';
 import { useJx3book } from "@/pinia/useJx3book/useJx3book";
 const Jx3Store = useJx3book()
 const { tableData, wupindata } = storeToRefs(Jx3Store);
 
+const now = new Date()
 const iconAddress = ref("");
 const nameArticle = ref("");
-const tableRef = ref(null);
 let tosellData = reactive([])
+const sellindex = ref('')
+let addForSaleData = reactive({
+  sellPricejin: '',
+  sellPriceyin: '',
+  sellPricetong: '',
+  sellPriceress: '',
+})
 
+// 添加物品列表 
 function addName () {
   if (nameArticle.value) {
     Jx3Store.wupindata.push({
@@ -138,19 +158,10 @@ function addName () {
       dj: "",//买入单价
       ress: "",//买入数量
       djress: "",//买入成本
-      tosellData: [{
-        timeToSell: '2024-07-22',//售出时间
-        unitPrice: '123', // 售出单价
-        quantitySold: '10',//售出数量
-        totalSales: '1230',//售出总额
-        profits: '230',//利润
-      },{
-        timeToSell: '2024-07-22',//售出时间
-        unitPrice: '123', // 售出单价
-        quantitySold: '10',//售出数量
-        totalSales: '1230',//售出总额
-        profits: '230',//利润
-      }]
+      djressnum: "",//买入成本铜
+      profits: "",//利润
+      tosellData: [],
+      sums: []
     })
     localStorage.setItem('wupin', JSON.stringify(Jx3Store.wupindata))
     nameArticle.value = ''
@@ -161,14 +172,15 @@ function addName () {
   }
 }
 
+// 添加买入物品价格
 function addData (index) {
   let data = Jx3Store.wupindata[index]
   console.log(data);
   if ((data.jin || data.yin || data.tong) && data.ress) {
-    const now = new Date()
     data.date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
     let he = data.jin + zeroPad(data.yin) + zeroPad(data.tong)
     data.dj = numPad(he)
+    data.djressnum = data.ress * he
     data.djress = numPad(data.ress * he)
     const clonedItem = JSON.parse(JSON.stringify(data));
     Jx3Store.tableData.push(clonedItem);
@@ -176,13 +188,50 @@ function addData (index) {
   } else {
     msg.error('请填写单价和数量')
   }
-
 }
 
+
+//查看售出列表
 function sellTheGoods (row) {
-  tosellData =row.tosellData
-  console.log(row.tosellData)
+  tosellData = row.tosellData
+  sellindex.value = Jx3Store.tableData.indexOf(row)
 }
+
+//添加售出
+function addForSale () {
+  let idata = Jx3Store.tableData[sellindex.value]
+
+  if ((addForSaleData.sellPricejin || addForSaleData.sellPriceyin || addForSaleData.sellPricetong) && addForSaleData.sellPriceress) {
+    let he = addForSaleData.sellPricejin + zeroPad(addForSaleData.sellPriceyin) + zeroPad(addForSaleData.sellPricetong)
+    idata.tosellData.push({
+      timeToSell: `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,//售出时间
+      unitPrice: he, // 售出单价
+      quantitySold: addForSaleData.sellPriceress,//售出数量
+      totalSales: he * addForSaleData.sellPriceress, //售出总额
+      unitPriceText: numPad(he),
+      totalSalesText: numPad(he * addForSaleData.sellPriceress)
+    })
+
+    // 计算利润
+    let sumsdata = [0, 0]
+    tosellData.forEach(item => {
+      sumsdata[0] += parseInt(item.quantitySold); // 更新售出数量
+      sumsdata[1] += parseFloat(item.totalSales); // 更新售出总额
+    });
+    idata.sums = sumsdata
+
+    if (sumsdata[1] > idata.djressnum) {
+      idata.profits = numPad(sumsdata[1] - idata.djressnum)
+    } else if (sumsdata[1] < idata.djressnum) {
+      idata.profits = `-${numPad(idata.djressnum - sumsdata[1])}`
+    }
+    localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
+    msg.success('添加售出')
+  } else {
+    msg.error('请填写售出单价和数量')
+  }
+}
+
 // 定义一个函数，用于将数字转换为砖、金、银、铜的表示
 function numPad (amount) {
   const units = ['砖', '金', '银', '铜'];
@@ -199,6 +248,7 @@ function numPad (amount) {
   return result.join('');
 }
 
+// 定义一个函数，用于将数字转换为01的表示
 const zeroPad = (num) => {
   let s = num + "";
   while (s.length < 2) {
@@ -207,16 +257,50 @@ const zeroPad = (num) => {
   return s;
 }
 
+// 删除物品列表
 const deleteName = (index) => {
   console.log(index);
   Jx3Store.wupindata.splice(index, 1)
   localStorage.setItem('wupin', JSON.stringify(Jx3Store.wupindata))
 }
 
+// 删除表格数据
 const deleteRow = (index) => {
   Jx3Store.tableData.splice(index, 1)
   localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
 }
+
+// 删除售出列表
+const deletetosell = (index) => {
+  Jx3Store.tableData[sellindex.value].tosellData.splice(index, 1)
+  let idata = Jx3Store.tableData[sellindex.value]
+  let sumsdata = [0, 0]
+  tosellData.forEach(item => {
+    sumsdata[0] += parseInt(item.quantitySold); // 更新售出数量
+    sumsdata[1] += parseFloat(item.totalSales); // 更新售出总额
+  });
+  idata.sums = sumsdata
+
+  if (sumsdata[1] > idata.djressnum) {
+    idata.profits = numPad(sumsdata[1] - idata.djressnum)
+  } else if (sumsdata[1] < idata.djressnum) {
+    idata.profits = `-${numPad(idata.djressnum - sumsdata[1])}`
+  }
+  localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
+}
+
+const getSummaries = ({ data }) => {
+  const sums = ['合计', '😁', 0, 0, '😁']; // 初始化数组，预填充静态值
+
+  // 计算售出数量和售出总额
+  data.forEach(item => {
+    sums[2] += parseInt(item.quantitySold); // 更新售出数量
+    sums[3] += parseFloat(item.totalSales); // 更新售出总额
+  });
+  sums[3] = numPad(sums[3]);
+  return sums;
+};
+
 </script>
 
 <style scoped lang="less">
@@ -238,13 +322,13 @@ const deleteRow = (index) => {
 
 .containerright {
   background-color: #f8f8f8;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
 }
 
 .navbar {
   display: flex;
   align-items: center;
-  background-color: #f8f8f8;
+  background-color: #FFF;
   padding: 10px;
   border-radius: 5px;
 }
@@ -297,9 +381,11 @@ const deleteRow = (index) => {
 
 .container {
   width: 20rem;
-  height: 100%;
+  height: 35rem;
   padding: 0 1.25rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  background-color: #FFF;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+  overflow: overlay;
 }
 
 .item {
@@ -329,7 +415,7 @@ const deleteRow = (index) => {
 }
 
 .item-text {
-  flex: 1;
+  // flex: 1;
   color: #7c1df1;
 }
 

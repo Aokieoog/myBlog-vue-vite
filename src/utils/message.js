@@ -6,7 +6,8 @@ export default {
       type: type,
       message: data,
       offset:70,
-      grouping:true
+      grouping:true,
+      zIndex:99999
     });
   },
   /* 提示 */

@@ -11,6 +11,14 @@ const routes = [
     component: () => import('@/views/Login/login.vue')
   },
   {
+    path: '/jx3home',
+    name: 'jx3home',
+    meta: {
+      fullPageDisplay: true,
+      title: '欢迎'
+    },
+    component: () => import('@/views/Home/jx3home.vue')
+  },{
     path: '/home',
     name: 'home',
     meta: {

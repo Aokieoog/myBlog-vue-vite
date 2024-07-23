@@ -2,10 +2,10 @@
 import { reactive, ref } from 'vue'
 
 const datalist = reactive([
-    { sidebar: '首页', toa: 'home', icon: 'icon-shouye' },
-    { sidebar: '休息一下', toa: 'PhotoAlbum', icon: 'icon-tupian' },
-    { sidebar: '今日油价', toa: 'oilPrices', icon: 'icon-pinglun' },
-    { sidebar: '网络地址', toa: 'diary', icon: 'icon-dingdan' },
+    // { sidebar: '首页', toa: 'home', icon: 'icon-shouye' },
+    // { sidebar: '休息一下', toa: 'PhotoAlbum', icon: 'icon-tupian' },
+    // { sidebar: '今日油价', toa: 'oilPrices', icon: 'icon-pinglun' },
+    // { sidebar: '网络地址', toa: 'diary', icon: 'icon-dingdan' },
     { sidebar: '剑三账本', toa: 'js3book', icon: 'icon-dingdan' },
     // { sidebar: '分类', toa: 'home', icon: 'icon-quan' },
     // { sidebar: '设置', toa: 'home', icon: 'icon-gengduo' }
