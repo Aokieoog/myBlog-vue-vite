@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import util from '@/utils/util'
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'login',
     meta: {
       fullPageDisplay: true, //需要全页展示的组件
@@ -11,7 +11,7 @@ const routes = [
     component: () => import('@/views/Login/login.vue')
   },
   {
-    path: '/jx3home',
+    path: '/',
     name: 'jx3home',
     meta: {
       fullPageDisplay: true,
@@ -50,7 +50,7 @@ const routes = [
     name: 'js3book',
     meta: {
       fullPageDisplay: false, //不需要全页展示的组件
-      title: '剑三记账本'
+      title: '账单'
     },
     component: () => import('@/views/Js3book/js3book.vue')
   },
@@ -145,13 +145,13 @@ const router = createRouter({
 
 // initApp()
 
-router.beforeEach((to, from, next) => {
-  let token = util.getCookie('token')
-  document.title = to.meta.title
-  if (!token && to.meta.fullPageDisplay == false) {
-    next({ path: '/' })
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   let token = util.getCookie('token')
+//   document.title = to.meta.title
+//   if (!token && to.meta.fullPageDisplay == false) {
+//     next({ path: '/' })
+//   } else {
+//     next()
+//   }
+// })
 export default router

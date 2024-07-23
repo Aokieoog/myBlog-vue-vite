@@ -67,13 +67,15 @@ const route = useRoute();
   display:flex;
   margin-top:3.75rem;
 }
-html, body {
-  font-size: 16px;
-  background-color: #efefef;
-}
+// html, body {
+//   height: 100vh;
+//   width: 100vw;
+//   font-size: 16px;
+//   background-color: #cb3838;
+// }
 /* 全局路由 */
 .globalRouting {
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
