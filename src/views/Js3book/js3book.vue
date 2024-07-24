@@ -332,7 +332,6 @@ const getSummaries = ({ data }) => {
   display: flex;
   align-items: center;
   width: 15rem;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, #d1d5db 0px 0px 0px 1px inset;
   border-radius: 0.2rem;
 }
 
