@@ -445,7 +445,6 @@ const getSummaries = ({ data }) => {
 .divicon-table {
   display: flex;
   align-items: center;
-  justify-content: center
 }
 
 .icon-table {
