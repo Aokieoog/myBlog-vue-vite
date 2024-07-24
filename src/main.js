@@ -18,12 +18,16 @@ import message from './utils/message.js'
 /* echarts */
 import * as echarts from 'echarts'
 import { createPinia } from 'pinia'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 /* 需要vue3.3版本否则报错 */
 
 
 const app = createApp(App)
 const pinia = createPinia()
 
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
 app.config.globalProperties.$echarts = echarts
 app.use(router)
 app.use(ElementPlus)

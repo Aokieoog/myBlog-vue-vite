@@ -4,12 +4,14 @@
       <span style="margin-right: 1.25rem;">地址:</span>
       <el-input v-model="iconAddress" type="url" @keyup="iconAddress = iconAddress.replace(/\s/g, '')"
         placeholder="请输入图标地址" style="width: 20rem;" />
+      <!-- <el-icon color="#aeaeae" @click="centerDialogVisible = true">
+        <Warning />
+      </el-icon> -->
       <span style="margin: 0 1.25rem;">名称:</span>
       <el-input class="nameArticle" v-model="nameArticle" type="text"
         @keyup="nameArticle = nameArticle.replace(/\s/g, '')" placeholder="请输入物品名称" style="width: 10rem;"
         maxlength="10" />
       <el-button class="active" @click="addName">添加</el-button>
-      <!-- <input type="text" placeholder="请输入搜索内容" /> -->
     </div>
 
     <div class="container-wrapper">
@@ -34,7 +36,7 @@
                 <el-button class="itembutton" type="success" @click="addData(index)" round>添加</el-button>
               </div>
               <template #reference>
-                <div style="display: flex; align-items: center;width: 15rem;">
+                <div class="itemimage">
                   <img class="icon" v-if="item.image" :src="item.image" alt="Icon" />
                   <div class="item-text">{{ item.name }}</div>
                 </div>
@@ -70,7 +72,7 @@
               <span style="color: #f75e02;">{{ scope.row.djress }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="profits" label="总利润" width="160">
+          <el-table-column prop="profits" label="总利润(5%手续费)" width="160">
             <template #default="scope">
               <span style="color: #f75e02;">{{ scope.row.profits }}</span>
             </template>
@@ -123,6 +125,27 @@
       </div>
     </div>
   </div>
+  <el-dialog v-model="centerDialogVisible" title="图标指南" width="500" center>
+    <el-divider content-position="left">例如:</el-divider>
+    <div>
+      <img style="width: 18px;height: 18px;" src="https://icon.jx3box.com/icon/602.png" />
+      <span>芍药</span>
+      <span>https://icon.jx3box.com/icon/602.png</span>
+    </div>
+    <div>
+      <img style="width: 18px;height: 18px;" src="https://icon.jx3box.com/icon/3109.png" />
+      <span>虫草</span>
+      <span>https://icon.jx3box.com/icon/3109.png</span>
+    </div>
+    <p>观察链接发现,他们的编号不同,芍药602,虫草3109,所以我们只需要知道物品编号即可.</p>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button type="primary" @click="centerDialogVisible = false">
+          Confirm
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup>
@@ -138,6 +161,7 @@ const iconAddress = ref("");
 const nameArticle = ref("");
 let tosellData = reactive([])
 const sellindex = ref('')
+const centerDialogVisible = ref(false)
 let addForSaleData = reactive({
   sellPricejin: '',
   sellPriceyin: '',
@@ -221,9 +245,9 @@ function addForSale () {
     idata.sums = sumsdata
 
     if (sumsdata[1] > idata.djressnum) {
-      idata.profits = numPad(sumsdata[1] - idata.djressnum)
-    } else if (sumsdata[1] < idata.djressnum) {
-      idata.profits = `-${numPad(idata.djressnum - sumsdata[1])}`
+      idata.profits = numPad((sumsdata[1] * 0.95) - idata.djressnum)
+    } else if (sumsdata[1] <= idata.djressnum) {
+      idata.profits = `-${numPad(idata.djressnum - (sumsdata[1] * 0.95))}`
     }
     localStorage.setItem('jx3', JSON.stringify(Jx3Store.tableData))
     msg.success('添加售出')
@@ -304,6 +328,23 @@ const getSummaries = ({ data }) => {
 </script>
 
 <style scoped lang="less">
+.itemimage {
+  display: flex;
+  align-items: center;
+  width: 15rem;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, #d1d5db 0px 0px 0px 1px inset;
+  border-radius: 0.2rem;
+}
+
+.itemimage:hover {
+  background-color: #8f58fd;
+  box-shadow: rgba(255, 255, 255, 0.25) 0px 1px 1px, rgba(255, 255, 255, 0.13) 0px 0px 1px 1px;
+
+  .item-text {
+    color: white;
+  }
+}
+
 .itembutton {
   margin-left: 10px;
 }
@@ -416,8 +457,10 @@ const getSummaries = ({ data }) => {
 
 .item-text {
   // flex: 1;
+  // color: black;
   color: #7c1df1;
 }
+
 
 .item-span {
   font-size: 14px;
