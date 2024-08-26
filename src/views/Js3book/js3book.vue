@@ -9,7 +9,7 @@
       </el-icon> -->
       <span style="margin: 0 1.25rem;">名称:</span>
       <el-input class="nameArticle" v-model="nameArticle" type="text"
-        @keyup="nameArticle = nameArticle.replace(/\s/g, '')" placeholder="请输入物品名称" style="width: 10rem;"
+        @keyup="nameArticle = nameArticle.replace(/\s/g, '')" @Keyup.enter="addName" placeholder="请输入物品名称" style="width: 10rem;"
         maxlength="10" />
       <el-button class="active" @click="addName">添加</el-button>
     </div>
@@ -32,7 +32,7 @@
                 <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
                 <span class="item-span" style="margin-left:10px;">数量：</span>
                 <el-input class="shulianginput" v-model="item.ress"
-                  @keyup="item.ress = item.ress.replace(/[\D\s]/g, '')" maxlength="5" style="width: 82px" />
+                  @keyup="item.ress = item.ress.replace(/[\D\s]/g, '')" maxlength="5" style="width: 82px" @Keyup.enter="addData(index)" />
                 <el-button class="itembutton" type="success" @click="addData(index)" round>添加</el-button>
               </div>
               <template #reference>
@@ -95,7 +95,7 @@
                 <img class="qianimage" src="@/assets/png/tong.png" alt="tong" />
                 <span class="item-span" style="margin-left:10px;">数量：</span>
                 <el-input class="shulianginput" maxlength="5" style="width: 82px" v-model="addForSaleData.sellPriceress"
-                  @keyup="addForSaleData.sellPriceress = addForSaleData.sellPriceress.replace(/[\D\s]/g, '')" />
+                  @keyup="addForSaleData.sellPriceress = addForSaleData.sellPriceress.replace(/[\D\s]/g, '')" @Keyup.enter="addForSale" />
                 <el-button class="itembutton" type="success" @click="addForSale">添加</el-button>
               </div>
               <el-divider />
@@ -174,7 +174,7 @@ function addName () {
   if (nameArticle.value) {
     Jx3Store.wupindata.push({
       name: nameArticle.value,
-      image: iconAddress.value || 'https://icon.jx3box.com/icon/1241.png',
+      image: `https://icon.jx3box.com/icon/`+iconAddress.value+`.png`,
       date: "",
       jin: "",
       yin: "",

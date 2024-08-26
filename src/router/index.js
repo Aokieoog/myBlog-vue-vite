@@ -106,6 +106,14 @@ const routes = [
       title: 'ip'
     },
     component: () => import('@/views/Diary/diary.vue')
+  },{
+    path: '/jx3user',
+    name: 'jx3user',
+    meta: {
+      fullPageDisplay: false,
+      title: 'jx3user'
+    },
+    component: () => import('@/views/Js3book/Jx3user.vue')
   },
   {
     path: '/Swiper',
