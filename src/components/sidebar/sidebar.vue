@@ -6,7 +6,8 @@ const datalist = reactive([
     // { sidebar: '休息一下', toa: 'PhotoAlbum', icon: 'icon-tupian' },
     // { sidebar: '今日油价', toa: 'oilPrices', icon: 'icon-pinglun' },
     // { sidebar: '网络地址', toa: 'diary', icon: 'icon-dingdan' },
-    { sidebar: '剑三账本', toa: 'js3book', icon: 'icon-dingdan' },
+    { sidebar: '交易行账本', toa: 'js3book', icon: 'icon-dingdan' },
+    { sidebar: '外观账本', toa: 'appearance', icon: 'icon-dingdan' },
     // { sidebar: '分类', toa: 'home', icon: 'icon-quan' },
     // { sidebar: '设置', toa: 'home', icon: 'icon-gengduo' }
   ]

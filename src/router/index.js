@@ -114,6 +114,14 @@ const routes = [
       title: 'jx3user'
     },
     component: () => import('@/views/Js3book/Jx3user.vue')
+  },{
+    path: '/appearance',
+    name: 'appearance',
+    meta: {
+      fullPageDisplay: false,
+      title: 'appearance'
+    },
+    component: () => import('@/views/Js3book/appearance.vue')
   },
   {
     path: '/Swiper',

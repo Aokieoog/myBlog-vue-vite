@@ -371,6 +371,7 @@ const getSummaries = ({ data }) => {
   background-color: #FFF;
   padding: 10px;
   border-radius: 5px;
+  margin-top: 10px;
 }
 
 .navbar button {
