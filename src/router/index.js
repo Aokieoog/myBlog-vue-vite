@@ -162,7 +162,7 @@ const router = createRouter({
 // initApp()
 
 // router.beforeEach((to, from, next) => {
-//   let token = util.getCookie('token')
+//   let token = util.getCookie('access_token')
 //   document.title = to.meta.title
 //   if (!token && to.meta.fullPageDisplay == false) {
 //     next({ path: '/' })

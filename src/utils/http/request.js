@@ -6,13 +6,17 @@ import util from '@/utils/util.js'
 const request = axios.create({
   // 获取环境变量中的 API 基础路径
   baseURL: import.meta.env.VITE_BASE_URL,
-  timeout: 10000 // 请求超时时间
+  timeout: 3000, // 请求超时时间
 })
 
 // 请求拦截器
 request.interceptors.request.use(
   config => {
     // 在这里做一些请求前的处理，例如添加 token 等
+    let token = util.getCookie('access_token')
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;  // 假设使用 Bearer 方式携带 token
+    }
     return config
   },
   error => {
@@ -25,7 +29,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     // 在这里对返回的数据进行处理，例如格式化日期等
-    let token = util.getCookie('token')
+    let token = util.getCookie('access_token')
     if (!token && location.pathname !== '/') {
       msg.error('登陆失效,请重新登录')
       setTimeout(() => {

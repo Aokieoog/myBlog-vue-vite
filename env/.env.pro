@@ -1,1 +1,1 @@
-VITE_BASE_URL= https://www.mxnzp.com
+VITE_BASE_URL= "https://jx3api.btcsg.top"
