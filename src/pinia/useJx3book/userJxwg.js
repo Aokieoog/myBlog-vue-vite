@@ -7,7 +7,8 @@ export const useJxwg = defineStore('wgtableData', {
   // 其他配置...
   state: () => {
     return {
-      tableData:[],
+      tableDatakcs:[],
+      tableDatascs:[],
     }
   },
 })

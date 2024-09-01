@@ -29,13 +29,13 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     // 在这里对返回的数据进行处理，例如格式化日期等
-    let token = util.getCookie('access_token')
-    if (!token && location.pathname !== '/') {
-      msg.error('登陆失效,请重新登录')
-      setTimeout(() => {
-        router.push('/')
-      },1000)
-    }
+    // let token = util.getCookie('access_token')
+    // if (!token) {
+    //   msg.error('登陆失效,请重新登录')
+    //   setTimeout(() => {
+    //     router.push('/')
+    //   },1000)
+    // }
     return response.data
   },
   error => {
