@@ -22,3 +22,14 @@ export function post(url, data, config) {
     })
   })
 }
+export function patch(url, data, config) {
+  return new Promise((resolve, reject) => {
+    request.patch(url, data, config)
+    .then(response => {
+      resolve(response)
+    })
+    .catch(error => {
+      reject(error)
+    })
+  })
+}

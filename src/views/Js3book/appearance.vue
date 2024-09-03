@@ -2,7 +2,7 @@
   <div>
     <div class="navbar">
       <div>
-        <el-select v-model="optionvalue"  style="width: 110px;">
+        <el-select v-model="optionvalue" style="width: 110px;">
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </div>
@@ -45,7 +45,7 @@
         </el-dialog>
       </div>
     </div>
-    <div v-show="optionvalue==0" class="tablebox">
+    <div v-show="optionvalue == 0" class="tablebox">
       <el-table :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
         <!-- <el-table-column prop="subalias" label="名称"  /> -->
         <el-table-column prop="name" label="官方名称" sortable />
@@ -54,24 +54,24 @@
         <el-table-column prop="cost" label="成本" sortable />
         <el-table-column prop="zone1price" label="电信价格" sortable />
         <el-table-column prop="zone2price" label="双线价格" sortable />
-        <el-table-column prop="wblprice" label="万宝楼在售" sortable />
+        <el-table-column prop="wblprice" label="万宝楼" sortable />
         <el-table-column prop="wblprice" label="单件利润" sortable />
         <el-table-column prop="wblprice" label="总利润" sortable />
 
         <el-table-column prop="desc" label="操作" width="190">
           <template #default="scope">
-            <el-button link type="success" @click.prevent="deleteRow(scope.$index)">
+            <el-button link type="success" @click="Chushou(csshow)">
               出售
             </el-button>
             <!-- <el-button size="small">出售</el-button> -->
-            <el-button link type="primary">编辑</el-button>
-            <el-button link type="danger">删除</el-button>
+            <el-button link type="primary" @click="Bianji()">编辑</el-button>
+            <el-button link type="danger" @click="dialogVisibleb = true">删除</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="desc" label="备注" />
+        <el-table-column prop="desc" min-width="180" label="备注" />
       </el-table>
     </div>
-    <div v-show="optionvalue==1" class="tablebox">
+    <div v-show="optionvalue == 1" class="tablebox">
       <el-table :data="tableDatascs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
         <!-- <el-table-column prop="subalias" label="名称"  /> -->
         <el-table-column prop="name" label="官方名称" sortable />
@@ -81,36 +81,70 @@
         <el-table-column prop="zone1price" label="当前价格" sortable />
         <el-table-column prop="zone2price" label="出售价格" sortable />
         <el-table-column prop="wblprice" label="利润" sortable />
-        <el-table-column prop="wblprice" label="备注"  sortable />
+        <el-table-column prop="wblprice" label="备注" sortable />
         <el-table-column prop="desc" label="操作" width="150">
           <template #default="scope">
-            <el-button link type="success" @click.prevent="deleteRow(scope.$index)">
+            <el-button link type="success" @click="dialogVisibleb = true">
               出售
             </el-button>
-            <el-button link type="primary">编辑</el-button>
+            <el-button link type="primary"  @click="dialogVisibleb = true">编辑</el-button>
             <el-button link type="danger">删除</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="desc" label="备注" />
       </el-table>
     </div>
+    <el-dialog v-model="dialogVisibleb" title="Tips" width="500" center :before-close="handleClose">
+      
+      <el-form :model="form" label-width="100px" style="max-width: 400px">
+            <el-form-item v-show="bjshow" label="名称:">
+              <el-input type="text" v-model="form.name"></el-input>
+            </el-form-item>
+            <el-form-item v-show="bjshow" label="区服:">
+              <el-input type="text" v-model="form.username">
+              </el-input>
+            </el-form-item>
+            <el-form-item v-show="bjshow" label="数量:">
+              <el-input   v-model="form.possword" />
+            </el-form-item>
+            <el-form-item v-show="bjshow" label="成本:">
+              <el-input  v-model="form.possword" />
+            </el-form-item>
+            <el-form-item v-show="csshow && !bjshow" label="售价:">
+              <el-input  v-model="form.possword" />
+            </el-form-item>
+            <el-form-item v-show="csshow || bjshow" label="备注:">
+              <el-input  type="textarea" maxlength="30" v-model="form.possword" />
+            </el-form-item>
+          </el-form>
+      
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button style="width: 12.5rem;" type="primary" @click="QRBianji()">
+            确认
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { post, get } from '@/utils/http/http';
+import { post, get,patch } from '@/utils/http/http';
 import { ref, reactive, onMounted } from 'vue';
 import cookie from '@/utils/http/cookie.js'
 import util from '@/utils/util.js'
 import { useJxwg } from "@/pinia/useJx3book/userJxwg.js";
 import { storeToRefs } from 'pinia';
 const store = useJxwg()
-const { tableDatakcs,tableDatascs} = storeToRefs(store);
+const { tableDatakcs, tableDatascs } = storeToRefs(store);
 
 const dialogVisible = ref(false)
+const dialogVisibleb = ref(false)
+const csshow = ref(false)
+const bjshow = ref(false)
+
 const loginshow = ref(false)
-// const tableDatakc = ref([])
-// const tableDatasc = ref([])
 const data = ref({
   nameshow: true,
   usernameshow: true,
@@ -126,6 +160,16 @@ const options = ref([
   { value: '0', label: '库存外观' },
   { value: '1', label: '已售外观' },
 ])
+const fromdata = reactive({
+  cost: '280',
+  desc: '备注@qq备注备注备注备注',
+  id: 'fb6a824e-9062-4abb-b762-cdd40dbceb15',
+  name:'金发·昼锦',
+  quantity:'1',
+  sale:'0',
+  saleprice: '0',
+  zone: '电信区',
+})
 onMounted(() => {
   Mystocks()
 })
@@ -148,14 +192,35 @@ async function Login (params) {
 }
 async function Mystocks (params) {
   let resmystocks = await get('/stock/mystocks')
-  const tableDatakc=resmystocks.filter(item=>item.sale==0)
-  const tableDatasc=resmystocks.filter(item=>item.sale==1)
+  const tableDatakc = resmystocks.filter(item => item.sale == 0)
+  const tableDatasc = resmystocks.filter(item => item.sale == 1)
   store.tableDatakcs = tableDatakc
   store.tableDatascs = tableDatasc
   let token = util.getCookie('access_token')
   if (token) {
     loginshow.value = true
   }
+}
+async function QRBianji (params) {
+  let res = await patch('/stock/stockupdate',fromdata)
+  console.log(res);
+  
+}
+// 出售
+function Chushou(params) {
+  dialogVisibleb.value = true
+  csshow.value = true
+}
+// 编辑
+function Bianji(params) {
+  dialogVisibleb.value = true
+  bjshow.value = true
+}
+// 遮罩销毁
+function handleClose(done) {
+  dialogVisibleb.value = false
+  csshow.value = false
+  bjshow.value = false
 }
 
 
@@ -181,11 +246,13 @@ async function Mystocks (params) {
   cursor: pointer;
   font-size: 16px;
 }
-.spannav{
+
+.spannav {
   font-weight: 600;
 
 }
-.tablebox{
+
+.tablebox {
   margin-top: 1.25rem;
 }
 </style>
