@@ -8,15 +8,21 @@
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">库存成本:</span>
-        <span style="color: red;">Primary</span>
+        <span style="color: red;">1500</span>
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">预期利润:</span>
-        <span style="color: green;">Primary</span>
+        <span style="color: green;">1520</span>
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">已获利润:</span>
-        <span style="color: green;">Primary</span>
+        <span style="color: green;">360</span>
+      </div>
+      <!-- <div>
+        <el-button>添加外观名称</el-button>
+      </div> -->
+      <div>
+        <el-button color="#8f58fd" @click="dialogVisiblek = true">增加库存</el-button>
       </div>
       <div style="display: flex;align-items: center;">
         <el-button v-show="!loginshow" type="primary" class="active" @click="dialogVisible = true">登录</el-button>
@@ -44,6 +50,33 @@
           </div>
         </el-dialog>
       </div>
+      <el-dialog v-model="dialogVisiblek" title="新增库存" width="500" center>
+        <el-form style="max-width: 600px" :model="ruleForm" fit-input-width="true" class="demo-ruleForm" :size="formSize"
+          status-icon>
+          <el-form-item label="名称" prop="name">
+            <el-autocomplete v-model="ruleForm.name" :fetch-suggestions="querySearch" placeholder="请输入名称" value-key="subalias" popper-class="autoel"
+              @select="handleSelect" />
+          </el-form-item>
+          <el-form-item label="大区" prop="location">
+            <el-radio-group v-model="radio1">
+              <el-radio-button label="电信区" value="电信区" />
+              <el-radio-button label="双线区" value="双线区" />
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="数量" prop="location">
+            <el-input></el-input>
+          </el-form-item>
+          <el-form-item label="成本" prop="location">
+            <el-input></el-input>
+          </el-form-item>
+          <el-form-item label="备注" prop="location">
+            <el-input></el-input>
+          </el-form-item>
+        </el-form>
+        <div style="display: flex;justify-content: center;margin-top: 1.25rem;">
+          <el-button style="width: 12.5rem;" type="primary" @click="addkc">新增</el-button>
+        </div>
+      </el-dialog>
     </div>
     <div v-show="optionvalue == 0" class="tablebox">
       <el-table :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
@@ -60,11 +93,11 @@
 
         <el-table-column prop="desc" label="操作" width="190">
           <template #default="scope">
-            <el-button link type="success" @click="Chushou(csshow)">
+            <el-button link type="success" @click="Chushou(scope.row)">
               出售
             </el-button>
             <!-- <el-button size="small">出售</el-button> -->
-            <el-button link type="primary" @click="Bianji()">编辑</el-button>
+            <el-button link type="primary" @click="Bianji(scope.row)">编辑</el-button>
             <el-button link type="danger" @click="dialogVisibleb = true">删除</el-button>
           </template>
         </el-table-column>
@@ -87,7 +120,7 @@
             <el-button link type="success" @click="dialogVisibleb = true">
               出售
             </el-button>
-            <el-button link type="primary"  @click="dialogVisibleb = true">编辑</el-button>
+            <el-button link type="primary" @click="dialogVisibleb = true">编辑</el-button>
             <el-button link type="danger">删除</el-button>
           </template>
         </el-table-column>
@@ -95,29 +128,29 @@
       </el-table>
     </div>
     <el-dialog v-model="dialogVisibleb" title="Tips" width="500" center :before-close="handleClose">
-      
-      <el-form :model="form" label-width="100px" style="max-width: 400px">
-            <el-form-item v-show="bjshow" label="名称:">
-              <el-input type="text" v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item v-show="bjshow" label="区服:">
-              <el-input type="text" v-model="form.username">
-              </el-input>
-            </el-form-item>
-            <el-form-item v-show="bjshow" label="数量:">
-              <el-input   v-model="form.possword" />
-            </el-form-item>
-            <el-form-item v-show="bjshow" label="成本:">
-              <el-input  v-model="form.possword" />
-            </el-form-item>
-            <el-form-item v-show="csshow && !bjshow" label="售价:">
-              <el-input  v-model="form.possword" />
-            </el-form-item>
-            <el-form-item v-show="csshow || bjshow" label="备注:">
-              <el-input  type="textarea" maxlength="30" v-model="form.possword" />
-            </el-form-item>
-          </el-form>
-      
+
+      <el-form :model="fromdata" label-width="100px" style="max-width: 400px">
+        <el-form-item v-show="bjshow" label="名称:">
+          <el-input type="text" v-model="fromdata.name"></el-input>
+        </el-form-item>
+        <el-form-item v-show="bjshow" label="区服:">
+          <el-input type="text" v-model="fromdata.zone">
+          </el-input>
+        </el-form-item>
+        <el-form-item v-show="bjshow" label="数量:">
+          <el-input v-model="fromdata.quantity" />
+        </el-form-item>
+        <el-form-item v-show="bjshow" label="成本:">
+          <el-input v-model="fromdata.cost" />
+        </el-form-item>
+        <el-form-item v-show="csshow && !bjshow" label="售价:">
+          <el-input v-model="fromdata.saleprice" />
+        </el-form-item>
+        <el-form-item v-show="csshow || bjshow" label="备注:">
+          <el-input type="textarea" maxlength="30" v-model="fromdata.desc" />
+        </el-form-item>
+      </el-form>
+
       <template #footer>
         <div class="dialog-footer">
           <el-button style="width: 12.5rem;" type="primary" @click="QRBianji()">
@@ -130,7 +163,7 @@
 </template>
 
 <script setup>
-import { post, get,patch } from '@/utils/http/http';
+import { post, get, patch } from '@/utils/http/http';
 import { ref, reactive, onMounted } from 'vue';
 import cookie from '@/utils/http/cookie.js'
 import util from '@/utils/util.js'
@@ -141,6 +174,15 @@ const { tableDatakcs, tableDatascs } = storeToRefs(store);
 
 const dialogVisible = ref(false)
 const dialogVisibleb = ref(false)
+const dialogVisiblek = ref(false)
+
+const radio1 = ref('电信区')
+// const state2 = ref('')
+const restaurants = ref([])
+const ruleForm = reactive({
+  name: '',
+})
+
 const csshow = ref(false)
 const bjshow = ref(false)
 
@@ -161,18 +203,17 @@ const options = ref([
   { value: '1', label: '已售外观' },
 ])
 const fromdata = reactive({
-  cost: '280',
-  desc: '备注@qq备注备注备注备注',
-  id: 'fb6a824e-9062-4abb-b762-cdd40dbceb15',
-  name:'金发·昼锦',
-  quantity:'1',
-  sale:'0',
-  saleprice: '0',
-  zone: '电信区',
+  cost: '', // 成本
+  desc: '', // 备注
+  id: '',
+  name: '', // 名称
+  quantity: '', // 数量
+  sale: '', // 售出1
+  saleprice: '', // 销售价格
+  zone: '', // 区服
 })
-onMounted(() => {
-  Mystocks()
-})
+const paradata = ref({})
+
 
 async function Login (params) {
   let data = {
@@ -202,28 +243,76 @@ async function Mystocks (params) {
   }
 }
 async function QRBianji (params) {
-  let res = await patch('/stock/stockupdate',fromdata)
+  let res = await ('/stock/stockupdate', fromdata)
   console.log(res);
-  
+
 }
 // 出售
-function Chushou(params) {
+function Chushou (params) {
   dialogVisibleb.value = true
   csshow.value = true
+  paradata.value = params
+  console.log(paradata.value);
+  // fromdata.saleprice = params.saleprice
 }
 // 编辑
-function Bianji(params) {
+function Bianji (params) {
   dialogVisibleb.value = true
   bjshow.value = true
+  paradata.value = params
+  console.log(paradata.value);
+
 }
 // 遮罩销毁
-function handleClose(done) {
+function handleClose (done) {
   dialogVisibleb.value = false
   csshow.value = false
   bjshow.value = false
 }
 
+// 查询名称
+let timeout
+const querySearch = (queryString, cb) => {
+  const results = queryString
+    ? restaurants.value.filter(createFilter(queryString))
+    : restaurants.value
+  console.log(results);
+  clearTimeout(timeout)
+  timeout = setTimeout(() => {
+    cb(results)
+  }, 1500 * Math.random())
+}
+const createFilter = (queryString) => {
 
+  return (restaurant) => {
+    // console.log(queryString,restaurant.subalias);
+    // const restaurantName = restaurant?.value || '';
+    return restaurant.subalias.toLowerCase().indexOf(queryString.toLowerCase()) !== -1
+
+  }
+}
+const loadAll = async () => {
+  try {
+    let data = {
+      name: ruleForm.name // 确保 ruleForm 是定义的
+    }
+    let loaddata = await get('/fashion/fashionname', data) // 异步获取数据
+    // console.log('loaddata', loaddata)
+    return loaddata // 假设 loaddata 是一个数组
+  } catch (error) {
+    console.error('Error loading data:', error)
+    return [] // 如果出错，返回空数组
+  }
+}
+
+const handleSelect = (item) => {
+  console.log(item)
+}
+
+onMounted(async () => {
+  await Mystocks() // 确保 Mystocks 是定义的
+  restaurants.value = await loadAll() // 确保 loadAll 是异步的
+})
 
 </script>
 
@@ -254,5 +343,8 @@ function handleClose(done) {
 
 .tablebox {
   margin-top: 1.25rem;
+}
+.autoel{
+  width: 20.5rem;
 }
 </style>
