@@ -36,10 +36,15 @@ request.interceptors.response.use(
     //     router.push('/')
     //   },1000)
     // }
-    return response.data
+    if (response.status == '200') {
+      return response.data
+    }else{
+      msg.error('响应失败')
+    }
   },
   error => {
     // 对响应错误做些什么
+    msg.error('响应失败')
     return Promise.reject(error)
   }
 )

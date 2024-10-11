@@ -18,12 +18,10 @@
         <span class="spannav" style="margin: 1.25rem;">已获利润:</span>
         <span style="color: #f75e23;">360</span>
       </div>
-      <!-- <div>
-        <el-button>添加外观名称</el-button>
-      </div> -->
       <div>
-        <el-button color="#8f58fd" @click="dialogVisiblek = true">增加库存</el-button>
+        <el-button color="#8f58fd" @click="addkcheader">增加库存</el-button>
       </div>
+      <!-- 登录 -->
       <div style="display: flex;align-items: center;">
         <el-button v-show="!loginshow" type="primary" class="active" @click="dialogVisible = true">登录</el-button>
         <el-avatar v-show="loginshow" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
@@ -50,7 +48,8 @@
           </div>
         </el-dialog>
       </div>
-      <el-dialog v-model="dialogVisiblek" title="新增库存" width="500" center>
+      <!-- 新增弹窗 -->
+      <el-dialog v-model="dialogVisiblek" :before-close="handleClose" :title="bjshow ? '编辑' : '新增'" width="500" center>
         <el-form style="max-width: 600px" :model="ruleForm" fit-input-width="true" class="demo-ruleForm"
           :size="formSize" status-icon>
           <el-form-item label="时间" prop="date">
@@ -58,8 +57,7 @@
           </el-form-item>
           <el-form-item label="名称" prop="name">
             <el-autocomplete style="width: 400px;" v-model="ruleForm.name" :fetch-suggestions="querySearch"
-              placeholder="请输入名称" :popper-append-to-body="false" value-key="subalias" fit-input-width
-              @change="handleSelect" />
+              placeholder="请输入名称" :popper-append-to-body="false" value-key="subalias" fit-input-width />
           </el-form-item>
           <el-form-item label="区服" prop="location">
             <el-radio-group v-model="radio1" size="small" @change="radio1change">
@@ -121,10 +119,11 @@
           </el-form-item>
         </el-form>
         <div style="display: flex;justify-content: center;margin-top: 1.25rem;">
-          <el-button style="width: 12.5rem;" type="primary" @click="addkc">新增</el-button>
+          <el-button style="width: 12.5rem;" type="primary" @click="addkc">确认</el-button>
         </div>
       </el-dialog>
     </div>
+    <!-- 库存外观 -->
     <div v-show="optionvalue == 0" class="tablebox">
       <el-table :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%"
         @row-click=handleMouseEnter>
@@ -169,10 +168,11 @@
         </el-table-column>
         <el-table-column prop="desc" label="备注" :show-overflow-tooltip="true" />
       </el-table>
-      <div class="demo-image__lazy">
+      <!-- <div class="demo-image__lazy">
         <el-image v-for="url in urls" :key="url" :src="url" />
-      </div>
+      </div> -->
     </div>
+    <!-- 已售外观 -->
     <div v-show="optionvalue == 1" class="tablebox">
       <el-table :data="tableDatascs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
         <!-- <el-table-column prop="subalias" label="名称"  /> -->
@@ -196,35 +196,34 @@
         <el-table-column prop="desc" label="备注" />
       </el-table>
     </div>
+    <!-- 操作栏弹窗 -->
     <el-dialog v-model="dialogVisibleb" :title="csshow ? '出售' : (bjshow ? '编辑' : '删除')" width="500" center
       :before-close="handleClose">
       <el-form :model="fromdata" label-width="100px" style="max-width: 400px">
-        <el-form-item v-show="bjshow" label="名称:">
-          <el-input type="text" v-model="fromdata.name"></el-input>
-        </el-form-item>
-        <el-form-item v-show="bjshow" label="区服:">
-          <el-input type="text" v-model="fromdata.zone">
-          </el-input>
-        </el-form-item>
-        <el-form-item v-show="bjshow" label="数量:">
-          <el-input v-model="fromdata.quantity" />
-        </el-form-item>
-        <el-form-item v-show="bjshow" label="成本:">
-          <el-input v-model="fromdata.cost" />
-        </el-form-item>
-        <el-form-item v-show="csshow && !bjshow" label="出售单价:">
+        <el-form-item v-show="csshow" label="出售单价:">
           <el-input v-model="fromdata.saleprice" />
         </el-form-item>
-        <el-form-item v-show="csshow || bjshow" label="备注:">
+        <el-form-item v-show="csshow" label="数量:">
+          <el-radio-group v-model="radio4" @change="radio4change">
+              <div>
+                <el-radio-button label="1" value="1" />
+                <el-radio-button label="2" value="2" />
+                <el-radio-button label="3" value="3" />
+                <el-radio-button label="4" value="4" />
+              </div>
+            </el-radio-group>
+            <el-input style="width: 50px;margin-left: 20px;" maxlength="3" v-model="fromdata.quantity"></el-input>
+        </el-form-item>
+        <el-form-item v-show="csshow" label="备注:">
           <el-input type="textarea" maxlength="30" v-model="fromdata.desc" />
         </el-form-item>
       </el-form>
-      <p style="text-align: center;" v-show="!csshow && !bjshow">
+      <p style="text-align: center;" v-show="!csshow">
         ⚠️--------确认删除？--------⚠️
       </p>
       <template #footer>
         <div class="dialog-footer">
-          <el-button style="width: 12.5rem;" type="primary" @click="QRBianji()">
+          <el-button style="width: 12.5rem;" type="primary" @click="Sold()">
             确认
           </el-button>
         </div>
@@ -251,19 +250,23 @@ const dialogVisiblek = ref(false)
 const radio1 = ref('请选择区服')
 const radio2 = ref('1')
 const radio3 = ref('200')
+const radio4 = ref('')
 // radio2 = ruleForm.quantity
 // const state2 = ref('')
 const restaurants = ref([])
 const ruleForm = reactive({
-  open_at: new Date(),
-  name: '',
-  cost: '200',
-  desc: '',
-  zone: '',
-  quantity: '1',
+  cost: '', // 成本
+  desc: '', // 备注
+  id: '',
+  name: '', // 名称
+  open_at: '', // 创建时间
+  quantity: '', // 数量
+  sale: '', // 售出1,在库0
+  saleprice: '', // 出售价格
+  zone: '', // 区服
 })
 
-const urls = reactive(['',''])
+const urls = reactive(['', ''])
 
 const csshow = ref(false) // 出售
 const bjshow = ref(false) // 编辑
@@ -289,12 +292,12 @@ const fromdata = reactive({
   desc: '', // 备注
   id: '',
   name: '', // 名称
+  open_at: '',
   quantity: '', // 数量
   sale: '', // 售出1
   saleprice: '', // 销售价格
   zone: '', // 区服
 })
-const paradata = ref({})
 
 
 async function Login (params) {
@@ -324,29 +327,30 @@ async function Mystocks (params) {
     loginshow.value = true
   }
 }
-async function QRBianji (params) {
-  let res = await ('/stock/stockupdate', fromdata)
-  console.log(res);
-
+async function Sold () {
+  const res = await patch('/stock/stocksell', fromdata)
+  console.log(res.status);
+  
 }
 // 出售
 function Chushou (params) {
   dialogVisibleb.value = true
   csshow.value = true
-  paradata.value = params
-  console.log(paradata.value);
-  // fromdata.saleprice = params.saleprice
 }
 // 编辑
 function Bianji (params) {
-  dialogVisibleb.value = true
+  dialogVisiblek.value = true
   bjshow.value = true
-  paradata.value = params
-  console.log(paradata.value);
-
+  const { zone, quantity, cost, open_at, name, desc, id, sale, saleprice } = params
+  radio1.value = zone
+  radio2.value = quantity
+  radio3.value = cost
+  Object.assign(ruleForm, { open_at, name, cost, desc, zone, quantity, id, sale, saleprice })
+  Object.assign(fromdata, { open_at, name, cost, desc, zone, quantity, id, sale, saleprice })
 }
 // 遮罩销毁
-function handleClose (done) {
+function handleClose () {
+  dialogVisiblek.value = false
   dialogVisibleb.value = false
   csshow.value = false
   bjshow.value = false
@@ -358,19 +362,14 @@ const querySearch = (queryString, cb) => {
   const results = queryString
     ? restaurants.value.filter(createFilter(queryString))
     : restaurants.value
-  console.log(results);
   clearTimeout(timeout)
   timeout = setTimeout(() => {
     cb(results)
   }, 1500 * Math.random())
 }
 const createFilter = (queryString) => {
-
   return (restaurant) => {
-    // console.log(queryString,restaurant.subalias);
-    // const restaurantName = restaurant?.value || '';
     return restaurant.subalias.toLowerCase().indexOf(queryString.toLowerCase()) !== -1
-
   }
 }
 const loadAll = async () => {
@@ -379,16 +378,10 @@ const loadAll = async () => {
       name: ruleForm.name // 确保 ruleForm 是定义的
     }
     let loaddata = await get('/fashion/fashionname', data) // 异步获取数据
-    // console.log('loaddata', loaddata)
     return loaddata // 假设 loaddata 是一个数组
   } catch (error) {
-    console.error('Error loading data:', error)
     return [] // 如果出错，返回空数组
   }
-}
-
-const handleSelect = (item) => {
-  console.log(item)
 }
 
 // 区服
@@ -403,25 +396,70 @@ const radio2change = (val) => {
 const radio3change = (val) => {
   ruleForm.cost = val
 }
+// 出售数量
+const radio4change = (val) => {
+  fromdata.quantity = val
+}
 
-// 新增
+// 新增初始化
+const addkcheader = () => {
+  dialogVisiblek.value = true
+  Object.assign(ruleForm, {
+    cost: '200', // 成本
+    desc: '', // 备注
+    id: '',
+    name: '', // 名称
+    open_at: new Date(),
+    quantity: '1', // 数量
+    sale: '', // 售出1
+    saleprice: '', // 销售价格
+    zone: '', // 区服
+  })
+}
+
+// 新增编辑提交
 async function addkc () {
-  const params = ruleForm
-  const res = await post('/stock/stockcreate', params)
-  if (res) {
-    msg.success('添加成功')
-    dialogVisiblek.value = false
-    await Mystocks()
+  const { open_at, name, cost, desc, zone, quantity, id, sale, saleprice } = ruleForm
+  if (bjshow.value) {
+    let params = {
+      open_at,
+      name,
+      cost,
+      desc,
+      zone,
+      quantity,
+      id,
+      sale,
+      saleprice
+    }
+    const res = await patch('/stock/stockupdate', params)
+    if (res) {
+      msg.success('编辑成功')
+      dialogVisiblek.value = false
+      await Mystocks()
+    }
+    bjshow.value = false
   } else {
-    msg.error('添加失败')
+    let params = {
+      open_at,
+      name,
+      cost,
+      desc,
+      zone,
+      quantity,
+    }
+    const res = await post('/stock/stockcreate', params)
+    if (res) {
+      msg.success('添加成功')
+      dialogVisiblek.value = false
+      await Mystocks()
+    }
   }
 }
 
-const handleMouseEnter = (row, column)=>{
+const handleMouseEnter = (row, column) => {
   urls[0] = row.priceview
   urls[1] = row.view
-  console.log(row.priceview,urls);
-  // row.priceview
 }
 
 onMounted(async () => {
@@ -473,11 +511,13 @@ onMounted(async () => {
   z-index: 999;
   background-color: #fff;
 }
+
 .demo-image__lazy .el-image {
   display: block;
   // height: 100%;
   margin-bottom: 10px;
 }
+
 .demo-image__lazy .el-image:last-child {
   margin-bottom: 0;
 }
