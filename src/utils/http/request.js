@@ -36,11 +36,7 @@ request.interceptors.response.use(
     //     router.push('/')
     //   },1000)
     // }
-    if (response.status == '200') {
-      return response.data
-    }else{
-      msg.error('响应失败')
-    }
+    return response
   },
   error => {
     // 对响应错误做些什么

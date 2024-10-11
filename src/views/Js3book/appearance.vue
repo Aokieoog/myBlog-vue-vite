@@ -8,15 +8,15 @@
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">库存成本:</span>
-        <span style="color: green;">1500</span>
+        <span style="color: green;">{{ sumta }}</span>
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">预期利润:</span>
-        <span style="color: #f75e23;">1520</span>
+        <span :style="sumtasc>0?'color: red;':'color:green'">{{ sumtasc }}</span>
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">已获利润:</span>
-        <span style="color: #f75e23;">360</span>
+        <span :style="sumtakc>0?'color: red;':'color:green'">{{ sumtakc }}</span>
       </div>
       <div>
         <el-button color="#8f58fd" @click="addkcheader">增加库存</el-button>
@@ -127,9 +127,9 @@
     <div v-show="optionvalue == 0" class="tablebox">
       <el-table :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%"
         @row-click=handleMouseEnter>
+        <el-table-column :show-overflow-tooltip="true" prop="open_at" label="日期" sortable />
         <el-table-column width="180" :show-overflow-tooltip="true" prop="official_name" label="官方名称" sortable />
         <el-table-column prop="subalias" :show-overflow-tooltip="true" label="名称" />
-        <el-table-column :show-overflow-tooltip="true" prop="created_at" label="入库日期" sortable />
         <el-table-column prop="zone" label="区服" sortable />
         <el-table-column prop="quantity" label="数量" sortable>
           <template #default="scope">
@@ -143,57 +143,79 @@
         </el-table-column>
         <!-- <el-table-column prop="zone1price" label="电信价格" sortable />
         <el-table-column prop="zone2price" label="双线价格" sortable /> -->
-        <el-table-column prop="wblprice" label="万宝楼单价" sortable />
-        <el-table-column prop="wblprice" label="单件利润" sortable>
+        <el-table-column prop="wblprice" label="万宝楼单价" sortable>
+          <template #default="scope">
+            <span style="color: #409eff;">{{ scope.row.wblprice }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="wblprice1" label="单件利润" sortable>
           <template #default="scope">
             <span :style="{ color: scope.row.wblprice - scope.row.cost > 0 ? 'red' : 'green' }">{{ scope.row.wblprice -
               scope.row.cost }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="wblprice" label="总利润" sortable>
+        <el-table-column prop="wblprice2" label="总利润" sortable>
           <template #default="scope">
             <span :style="{ color: scope.row.wblprice - scope.row.cost > 0 ? 'red' : 'green' }">{{
               (scope.row.wblprice * scope.row.quantity) - (scope.row.cost * scope.row.quantity) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="desc" label="操作" width="190">
+        <el-table-column prop="desc1" label="操作" width="190">
           <template #default="scope">
             <el-button link type="success" @click="Chushou(scope.row)">
               出售
             </el-button>
             <!-- <el-button size="small">出售</el-button> -->
             <el-button link type="primary" @click="Bianji(scope.row)">编辑</el-button>
-            <el-button link type="danger" @click="dialogVisibleb = true">删除</el-button>
+            <el-button link type="danger" @click="Shanchu(scope.row)">删除</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="desc" label="备注" :show-overflow-tooltip="true" />
       </el-table>
-      <!-- <div class="demo-image__lazy">
+      <div class="demo-image__lazy">
         <el-image v-for="url in urls" :key="url" :src="url" />
-      </div> -->
+      </div>
     </div>
     <!-- 已售外观 -->
     <div v-show="optionvalue == 1" class="tablebox">
       <el-table :data="tableDatascs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
-        <!-- <el-table-column prop="subalias" label="名称"  /> -->
-        <el-table-column prop="name" label="官方名称" sortable />
+        <el-table-column prop="updated_at" :show-overflow-tooltip="true" label="日期" sortable />
+        <el-table-column width="180" :show-overflow-tooltip="true" prop="official_name" label="官方名称" sortable />
+        <el-table-column width="200" prop="subalias" :show-overflow-tooltip="true" label="名称" />
         <el-table-column prop="zone" label="区服" sortable />
-        <el-table-column prop="quantity" label="数量" sortable />
-        <el-table-column prop="cost" label="成本" sortable />
-        <el-table-column prop="zone1price" label="当前价格" sortable />
-        <el-table-column prop="zone2price" label="出售价格" sortable />
-        <el-table-column prop="wblprice" label="利润" sortable />
-        <el-table-column prop="wblprice" label="备注" sortable />
-        <el-table-column prop="desc" label="操作" width="150">
+        <el-table-column prop="quantity" label="数量" sortable>
           <template #default="scope">
-            <el-button link type="success" @click="dialogVisibleb = true">
-              出售
-            </el-button>
-            <el-button link type="primary" @click="dialogVisibleb = true">编辑</el-button>
-            <el-button link type="danger">删除</el-button>
+            <span style="color: #409eff;">{{ scope.row.quantity }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="desc" label="备注" />
+        <el-table-column prop="cost" label="成本（单）" sortable>
+          <template #default="scope">
+            <span style="color: green;">{{ scope.row.cost }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="wblprice" label="万宝楼单价" sortable>
+          <template #default="scope">
+            <span style="color: #409eff;">{{ scope.row.wblprice }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="saleprice" label="出售单价" sortable>
+          <template #default="scope">
+            <span style="color: #f75e23;">{{ scope.row.saleprice
+              }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="wblprice1" label="总利润" sortable>
+          <template #default="scope">
+            <span :style="{ color: scope.row.saleprice - scope.row.cost > 0 ? 'red' : 'green' }">{{
+              (scope.row.saleprice * scope.row.quantity) - (scope.row.cost * scope.row.quantity) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="desc1" label="操作">
+          <template #default="scope">
+            <el-button link type="danger" @click="Shanchu(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="desc" :show-overflow-tooltip="true" label="备注" />
       </el-table>
     </div>
     <!-- 操作栏弹窗 -->
@@ -205,14 +227,14 @@
         </el-form-item>
         <el-form-item v-show="csshow" label="数量:">
           <el-radio-group v-model="radio4" @change="radio4change">
-              <div>
-                <el-radio-button label="1" value="1" />
-                <el-radio-button label="2" value="2" />
-                <el-radio-button label="3" value="3" />
-                <el-radio-button label="4" value="4" />
-              </div>
-            </el-radio-group>
-            <el-input style="width: 50px;margin-left: 20px;" maxlength="3" v-model="fromdata.quantity"></el-input>
+            <div>
+              <el-radio-button label="1" value="1" />
+              <el-radio-button label="2" value="2" />
+              <el-radio-button label="3" value="3" />
+              <el-radio-button label="4" value="4" />
+            </div>
+          </el-radio-group>
+          <el-input style="width: 50px;margin-left: 20px;" maxlength="3" v-model="fromdata.quantity"></el-input>
         </el-form-item>
         <el-form-item v-show="csshow" label="备注:">
           <el-input type="textarea" maxlength="30" v-model="fromdata.desc" />
@@ -234,8 +256,8 @@
 
 <script setup>
 import msg from '@/utils/message.js'
-import { post, get, patch } from '@/utils/http/http';
-import { ref, reactive, onMounted } from 'vue';
+import { post, get, patch, DELETE } from '@/utils/http/http';
+import { ref, reactive, onMounted, computed } from 'vue';
 import cookie from '@/utils/http/cookie.js'
 import util from '@/utils/util.js'
 import { useJxwg } from "@/pinia/useJx3book/userJxwg.js";
@@ -251,6 +273,9 @@ const radio1 = ref('请选择区服')
 const radio2 = ref('1')
 const radio3 = ref('200')
 const radio4 = ref('')
+const sumtasc = ref('')// 利润
+const sumtakc = ref('')// 利润
+const sumta = ref('')// 库存成本
 // radio2 = ruleForm.quantity
 // const state2 = ref('')
 const restaurants = ref([])
@@ -310,16 +335,38 @@ async function Login (params) {
       'Content-type': 'application/x-www-form-urlencoded'
     }
   })
-  if (restoken.access_token) {
+  if (restoken.data.access_token) {
     dialogVisible.value = false
-    cookie(restoken.access_token)
+    cookie(restoken.data.access_token)
   }
   Mystocks()
 }
+// 我的列表
 async function Mystocks (params) {
   let resmystocks = await get('/stock/mystocks')
-  const tableDatakc = resmystocks.filter(item => item.sale == 0)
-  const tableDatasc = resmystocks.filter(item => item.sale == 1)
+  const tableDatakc = resmystocks.data.filter(item => item.sale == 0)
+  const tableDatasc = resmystocks.data.filter(item => item.sale == 1)
+  // 预期利润
+  sumtasc.value = tableDatakc.reduce((sum, item) => {
+    if (item.sale === 0) {
+      return sum + (item.quantity * (item.wblprice - item.cost));
+    }
+    return sum;
+  }, 0);
+  // 已获利润
+  sumtakc.value = tableDatasc.reduce((sum, item) => {
+    if (item.sale === 1) {
+      return sum + (item.quantity * (item.saleprice-item.cost));
+    }
+    return sum;
+  }, 0);
+  // 库存成本
+  sumta.value = tableDatakc.reduce((sum, item) => {
+    if (item.sale === 0) {
+      return sum + (item.quantity *  item.cost);
+    }
+    return sum;
+  }, 0);
   store.tableDatakcs = tableDatakc
   store.tableDatascs = tableDatasc
   let token = util.getCookie('access_token')
@@ -327,15 +374,12 @@ async function Mystocks (params) {
     loginshow.value = true
   }
 }
-async function Sold () {
-  const res = await patch('/stock/stocksell', fromdata)
-  console.log(res.status);
-  
-}
 // 出售
 function Chushou (params) {
   dialogVisibleb.value = true
   csshow.value = true
+  const { zone, cost, open_at, name, id, sale, } = params
+  Object.assign(fromdata, { zone, cost, open_at, name, id, sale, })
 }
 // 编辑
 function Bianji (params) {
@@ -346,8 +390,14 @@ function Bianji (params) {
   radio2.value = quantity
   radio3.value = cost
   Object.assign(ruleForm, { open_at, name, cost, desc, zone, quantity, id, sale, saleprice })
-  Object.assign(fromdata, { open_at, name, cost, desc, zone, quantity, id, sale, saleprice })
 }
+// 删除
+function Shanchu (params) {
+  dialogVisibleb.value = true
+  const { id } = params
+  Object.assign(fromdata, { id })
+}
+
 // 遮罩销毁
 function handleClose () {
   dialogVisiblek.value = false
@@ -378,7 +428,7 @@ const loadAll = async () => {
       name: ruleForm.name // 确保 ruleForm 是定义的
     }
     let loaddata = await get('/fashion/fashionname', data) // 异步获取数据
-    return loaddata // 假设 loaddata 是一个数组
+    return loaddata.data // 假设 loaddata 是一个数组
   } catch (error) {
     return [] // 如果出错，返回空数组
   }
@@ -416,6 +466,39 @@ const addkcheader = () => {
     zone: '', // 区服
   })
 }
+// 出售
+async function Sold (e) {
+  if (csshow.value) {
+    let params = {
+      open_at: fromdata.open_at,
+      name: fromdata.name,
+      cost: fromdata.cost,
+      desc: fromdata.desc,
+      zone: fromdata.zone,
+      quantity: fromdata.quantity,
+      id: fromdata.id,
+      sale: '1',
+      saleprice: fromdata.saleprice,
+    }
+    const res = await patch('/stock/stocksell', params)
+    if (res.status == 200) {
+      msg.success('出售成功')
+      dialogVisibleb.value = false
+      await Mystocks()
+    }
+  } else {
+    let params = { id: fromdata.id }
+    console.log(fromdata.id);
+    const res = await DELETE('/stock/delete', params)
+    if (res.status == 204) {
+      msg.success('删除成功')
+      dialogVisibleb.value = false
+      await Mystocks()
+    } else {
+      msg.error('删除失败')
+    }
+  }
+}
 
 // 新增编辑提交
 async function addkc () {
@@ -433,7 +516,7 @@ async function addkc () {
       saleprice
     }
     const res = await patch('/stock/stockupdate', params)
-    if (res) {
+    if (res.status === 200) {
       msg.success('编辑成功')
       dialogVisiblek.value = false
       await Mystocks()
@@ -449,10 +532,12 @@ async function addkc () {
       quantity,
     }
     const res = await post('/stock/stockcreate', params)
-    if (res) {
+    if (res.status === 201) {
       msg.success('添加成功')
       dialogVisiblek.value = false
       await Mystocks()
+    } else {
+      msg.error('添加失败')
     }
   }
 }
@@ -509,7 +594,7 @@ onMounted(async () => {
   position: sticky;
   bottom: 0;
   z-index: 999;
-  background-color: #fff;
+  background-color: #efefef;
 }
 
 .demo-image__lazy .el-image {

@@ -33,3 +33,11 @@ export function patch(url, data, config) {
     })
   })
 }
+export async function DELETE(url, params) {
+  try {
+    const response = await request.delete(url, { params });
+    return response; // 成功时返回响应
+  } catch (error) {
+    return Promise.reject(error); // 出错时拒绝并返回错误
+  }
+}
