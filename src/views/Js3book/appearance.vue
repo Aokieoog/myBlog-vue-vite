@@ -8,15 +8,15 @@
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">库存成本:</span>
-        <span style="color: red;">1500</span>
+        <span style="color: green;">1500</span>
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">预期利润:</span>
-        <span style="color: green;">1520</span>
+        <span style="color: #f75e23;">1520</span>
       </div>
       <div>
         <span class="spannav" style="margin: 1.25rem;">已获利润:</span>
-        <span style="color: green;">360</span>
+        <span style="color: #f75e23;">360</span>
       </div>
       <!-- <div>
         <el-button>添加外观名称</el-button>
@@ -51,26 +51,73 @@
         </el-dialog>
       </div>
       <el-dialog v-model="dialogVisiblek" title="新增库存" width="500" center>
-        <el-form style="max-width: 600px" :model="ruleForm" fit-input-width="true" class="demo-ruleForm" :size="formSize"
-          status-icon>
-          <el-form-item label="名称" prop="name">
-            <el-autocomplete v-model="ruleForm.name" :fetch-suggestions="querySearch" placeholder="请输入名称" value-key="subalias" popper-class="autoel"
-              @select="handleSelect" />
+        <el-form style="max-width: 600px" :model="ruleForm" fit-input-width="true" class="demo-ruleForm"
+          :size="formSize" status-icon>
+          <el-form-item label="时间" prop="date">
+            <el-date-picker v-model="ruleForm.open_at" type="date" :size="size" />
           </el-form-item>
-          <el-form-item label="大区" prop="location">
-            <el-radio-group v-model="radio1">
-              <el-radio-button label="电信区" value="电信区" />
-              <el-radio-button label="双线区" value="双线区" />
+          <el-form-item label="名称" prop="name">
+            <el-autocomplete style="width: 400px;" v-model="ruleForm.name" :fetch-suggestions="querySearch"
+              placeholder="请输入名称" :popper-append-to-body="false" value-key="subalias" fit-input-width
+              @change="handleSelect" />
+          </el-form-item>
+          <el-form-item label="区服" prop="location">
+            <el-radio-group v-model="radio1" size="small" @change="radio1change">
+              <div>
+                <el-radio-button label="请选择区服" value="请选择区服" />
+                <el-radio-button label="电信区 双梦" value="电信区 双梦" />
+                <el-radio-button label="无界区" value="无界区" />
+              </div>
+              <div>
+                <el-radio-button label="双线区 纵月" value="双线区 纵月" />
+                <el-radio-button label="双线区 飞龙" value="双线区 飞龙" />
+                <el-radio-button label="双线区 念破" value="双线区 念破" />
+                <el-radio-button label="双线区 青梅" value="双线区 青梅" />
+              </div>
+              <div>
+                <el-radio-button label="电信区 长安" value="电信区 长安" />
+                <el-radio-button label="电信区 龙虎" value="电信区 龙虎" />
+                <el-radio-button label="电信区 碟服" value="电信区 碟服" />
+                <el-radio-button label="电信区 煎蛋" value="电信区 煎蛋" />
+              </div>
+              <div>
+                <el-radio-button label="电信区 姨妈" value="电信区 姨妈" />
+                <el-radio-button label="电信区 绝代" value="电信区 绝代" />
+                <el-radio-button label="电信区 唯满侠" value="电信区 唯满侠" />
+                <el-radio-button label="电信区 六合一" value="电信区 六合一" />
+              </div>
+              <div>
+
+              </div>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="数量" prop="location">
-            <el-input></el-input>
+          <el-form-item label="数量" prop="quantity">
+            <el-radio-group v-model="radio2" @change="radio2change">
+              <div>
+                <el-radio-button label="1" value="1" />
+                <el-radio-button label="2" value="2" />
+                <el-radio-button label="3" value="3" />
+                <el-radio-button label="4" value="4" />
+                <el-radio-button label="5" value="5" />
+                <el-radio-button label="10" value="10" />
+              </div>
+            </el-radio-group>
+            <el-input style="width: 50px;margin-left: 20px;" maxlength="3" v-model="ruleForm.quantity"></el-input>
           </el-form-item>
-          <el-form-item label="成本" prop="location">
-            <el-input></el-input>
+          <el-form-item label="成本" prop="cost">
+            <el-radio-group v-model="radio3" @change="radio3change">
+              <div>
+                <el-radio-button label="200" value="200" />
+                <el-radio-button label="280" value="280" />
+                <el-radio-button label="520" value="520" />
+                <el-radio-button label="888" value="888" />
+                <el-radio-button label="1200" value="1200" />
+              </div>
+            </el-radio-group>
+            <el-input style="width: 55px;margin-left: 20px;" maxlength="4" v-model="ruleForm.cost"></el-input>
           </el-form-item>
-          <el-form-item label="备注" prop="location">
-            <el-input></el-input>
+          <el-form-item label="备注" prop="desc">
+            <el-input v-model="ruleForm.desc"></el-input>
           </el-form-item>
         </el-form>
         <div style="display: flex;justify-content: center;margin-top: 1.25rem;">
@@ -81,16 +128,32 @@
     <div v-show="optionvalue == 0" class="tablebox">
       <el-table :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
         <!-- <el-table-column prop="subalias" label="名称"  /> -->
-        <el-table-column prop="name" label="官方名称" sortable />
+        <el-table-column width="200" :show-overflow-tooltip="true" prop="name" label="官方名称" sortable />
+        <el-table-column :show-overflow-tooltip="true" prop="created_at" label="入库日期" sortable />
         <el-table-column prop="zone" label="区服" sortable />
-        <el-table-column prop="quantity" label="数量" sortable />
-        <el-table-column prop="cost" label="成本" sortable />
-        <el-table-column prop="zone1price" label="电信价格" sortable />
-        <el-table-column prop="zone2price" label="双线价格" sortable />
-        <el-table-column prop="wblprice" label="万宝楼" sortable />
-        <el-table-column prop="wblprice" label="单件利润" sortable />
-        <el-table-column prop="wblprice" label="总利润" sortable />
-
+        <el-table-column prop="quantity" label="数量" sortable>
+          <template #default="scope">
+            <span style="color: #409eff;">{{ scope.row.quantity }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="cost" label="成本" sortable>
+          <template #default="scope">
+            <span style="color: green;">{{ scope.row.cost }}</span>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column prop="zone1price" label="电信价格" sortable />
+        <el-table-column prop="zone2price" label="双线价格" sortable /> -->
+        <el-table-column prop="wblprice" label="万宝楼在售" sortable />
+        <el-table-column prop="wblprice" label="单件利润" sortable>
+          <template #default="scope">
+            <span :style="{color: scope.row.wblprice-scope.row.cost > 0 ? 'red' : 'green'}">{{ scope.row.wblprice- scope.row.cost }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="wblprice" label="总利润" sortable>
+          <template #default="scope">
+            <span :style="{color: scope.row.wblprice-scope.row.cost > 0 ? 'red' : 'green'}">{{ (scope.row.wblprice*scope.row.quantity) - (scope.row.cost*scope.row.quantity) }}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="desc" label="操作" width="190">
           <template #default="scope">
             <el-button link type="success" @click="Chushou(scope.row)">
@@ -101,7 +164,7 @@
             <el-button link type="danger" @click="dialogVisibleb = true">删除</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="desc" min-width="180" label="备注" />
+        <el-table-column prop="desc" label="备注" :show-overflow-tooltip="true" />
       </el-table>
     </div>
     <div v-show="optionvalue == 1" class="tablebox">
@@ -127,8 +190,7 @@
         <el-table-column prop="desc" label="备注" />
       </el-table>
     </div>
-    <el-dialog v-model="dialogVisibleb" title="Tips" width="500" center :before-close="handleClose">
-
+    <el-dialog v-model="dialogVisibleb" :title="csshow?'出售':'编辑'" width="500" center :before-close="handleClose">
       <el-form :model="fromdata" label-width="100px" style="max-width: 400px">
         <el-form-item v-show="bjshow" label="名称:">
           <el-input type="text" v-model="fromdata.name"></el-input>
@@ -143,7 +205,7 @@
         <el-form-item v-show="bjshow" label="成本:">
           <el-input v-model="fromdata.cost" />
         </el-form-item>
-        <el-form-item v-show="csshow && !bjshow" label="售价:">
+        <el-form-item v-show="csshow && !bjshow" label="出售单价:">
           <el-input v-model="fromdata.saleprice" />
         </el-form-item>
         <el-form-item v-show="csshow || bjshow" label="备注:">
@@ -163,6 +225,7 @@
 </template>
 
 <script setup>
+import msg from '@/utils/message.js'
 import { post, get, patch } from '@/utils/http/http';
 import { ref, reactive, onMounted } from 'vue';
 import cookie from '@/utils/http/cookie.js'
@@ -176,15 +239,23 @@ const dialogVisible = ref(false)
 const dialogVisibleb = ref(false)
 const dialogVisiblek = ref(false)
 
-const radio1 = ref('电信区')
+const radio1 = ref('请选择区服')
+const radio2 = ref('1')
+const radio3 = ref('200')
+// radio2 = ruleForm.quantity
 // const state2 = ref('')
 const restaurants = ref([])
 const ruleForm = reactive({
+  open_at: new Date(),
   name: '',
+  cost: '200',
+  desc: '',
+  zone: '',
+  quantity: '1',
 })
 
-const csshow = ref(false)
-const bjshow = ref(false)
+const csshow = ref(false) // 出售
+const bjshow = ref(false) // 编辑
 
 const loginshow = ref(false)
 const data = ref({
@@ -309,6 +380,32 @@ const handleSelect = (item) => {
   console.log(item)
 }
 
+// 区服
+const radio1change = (val) => {
+  ruleForm.zone = val
+}
+// 数量
+const radio2change = (val) => {
+  ruleForm.quantity = val
+}
+// 成本
+const radio3change = (val) => {
+  ruleForm.cost = val
+}
+
+// 新增
+async function addkc() {
+  const params = ruleForm
+  const res = await post('/stock/stockcreate', params)
+  if (res) {
+    msg.success('添加成功')
+    dialogVisiblek.value = false
+    await Mystocks()
+  }else {
+    msg.error('添加失败')
+  }
+}
+
 onMounted(async () => {
   await Mystocks() // 确保 Mystocks 是定义的
   restaurants.value = await loadAll() // 确保 loadAll 是异步的
@@ -344,7 +441,8 @@ onMounted(async () => {
 .tablebox {
   margin-top: 1.25rem;
 }
-.autoel{
-  width: 20.5rem;
+
+:deep(.el-input__inner) {
+  color: #409eff;
 }
 </style>
