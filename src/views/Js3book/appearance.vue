@@ -1,131 +1,134 @@
 <template>
   <div>
-    <div class="navbar">
-      <div>
-        <el-select v-model="optionvalue" style="width: 110px;">
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
-      </div>
-      <div>
-        <span class="spannav" style="margin: 1.25rem;">库存成本:</span>
-        <span style="color: green;">{{ sumta }}</span>
-      </div>
-      <div>
-        <span class="spannav" style="margin: 1.25rem;">预期利润:</span>
-        <span :style="sumtasc>0?'color: red;':'color:green'">{{ sumtasc }}</span>
-      </div>
-      <div>
-        <span class="spannav" style="margin: 1.25rem;">已获利润:</span>
-        <span :style="sumtakc>0?'color: red;':'color:green'">{{ sumtakc }}</span>
-      </div>
-      <div>
-        <el-button color="#8f58fd" @click="addkcheader">增加库存</el-button>
-      </div>
-      <!-- 登录 -->
-      <div style="display: flex;align-items: center;">
-        <el-button v-show="!loginshow" type="primary" class="active" @click="dialogVisible = true">登录</el-button>
-        <el-avatar v-show="loginshow" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
-        <el-dialog v-model="dialogVisible" title="账号登录" width="500" center>
-          <el-form :model="form" label-width="100px" style="max-width: 400px">
-            <el-form-item v-show="!data.nameshow" label="用户名:">
-              <el-input type="text" v-model="form.name"></el-input>
+    <!-- <el-affix :offset="45"> -->
+      <div class="navbar">
+        <div>
+          <el-select v-model="optionvalue" style="width: 6.875rem;">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </div>
+        <div>
+          <span class="spannav" style="margin: 1.25rem;">库存成本:</span>
+          <span style="color: green;">{{ sumta }}</span>
+        </div>
+        <div>
+          <span class="spannav" style="margin: 1.25rem;">预期利润:</span>
+          <span :style="sumtasc > 0 ? 'color: red;' : 'color:green'">{{ sumtasc }}</span>
+        </div>
+        <div>
+          <span class="spannav" style="margin: 1.25rem;">已获利润:</span>
+          <span :style="sumtakc > 0 ? 'color: red;' : 'color:green'">{{ sumtakc }}</span>
+        </div>
+        <div>
+          <el-button color="#8f58fd" @click="addkcheader">增加库存</el-button>
+        </div>
+        <!-- 登录 -->
+        <div style="display: flex;align-items: center;">
+          <el-button v-show="!loginshow" type="primary" class="active" @click="dialogVisible = true">登录</el-button>
+          <el-avatar v-show="loginshow" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+          <el-dialog v-model="dialogVisible" title="账号登录" width="500" center>
+            <el-form :model="form" label-width="6.25rem" style="max-width: 25rem">
+              <el-form-item v-show="!data.nameshow" label="用户名:">
+                <el-input type="text" v-model="form.name"></el-input>
+              </el-form-item>
+              <el-form-item label="邮箱:">
+                <el-input type="emil" v-model="form.username">
+                  <template #append>.com</template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label="密码:">
+                <el-input type="password" v-model="form.possword" />
+              </el-form-item>
+            </el-form>
+            <div style="display:flex;justify-content:space-around;">
+              <a @click="">注册</a>
+              <a @click="">忘记密码</a>
+            </div>
+            <div style="display: flex;justify-content: center;margin-top: 1.25rem;">
+              <el-button style="width: 12.5rem;" type="primary" @click="Login">登录</el-button>
+            </div>
+          </el-dialog>
+        </div>
+        <!-- 新增弹窗 -->
+        <el-dialog v-model="dialogVisiblek" :before-close="handleClose" :title="bjshow ? '编辑' : '新增'" width="500"
+          center>
+          <el-form style="max-width: 37.5rem" :model="ruleForm" fit-input-width="true" class="demo-ruleForm"
+            :size="formSize" status-icon>
+            <el-form-item label="时间" prop="date">
+              <el-date-picker v-model="ruleForm.open_at" type="date" :size="size" />
             </el-form-item>
-            <el-form-item label="邮箱:">
-              <el-input type="emil" v-model="form.username">
-                <template #append>.com</template>
-              </el-input>
+            <el-form-item label="名称" prop="name">
+              <el-autocomplete style="width: 25rem;" v-model="ruleForm.name" :fetch-suggestions="querySearch"
+                placeholder="请输入名称" :popper-append-to-body="false" value-key="subalias" fit-input-width />
             </el-form-item>
-            <el-form-item label="密码:">
-              <el-input type="password" v-model="form.possword" />
+            <el-form-item label="区服" prop="location">
+              <el-radio-group v-model="radio1" size="small" @change="radio1change">
+                <div>
+                  <el-radio-button label="请选择区服" value="请选择区服" />
+                  <el-radio-button label="电信区 双梦" value="电信区 双梦" />
+                  <el-radio-button label="无界区" value="无界区" />
+                </div>
+                <div>
+                  <el-radio-button label="双线区 纵月" value="双线区 纵月" />
+                  <el-radio-button label="双线区 飞龙" value="双线区 飞龙" />
+                  <el-radio-button label="双线区 念破" value="双线区 念破" />
+                  <el-radio-button label="双线区 青梅" value="双线区 青梅" />
+                </div>
+                <div>
+                  <el-radio-button label="电信区 长安" value="电信区 长安" />
+                  <el-radio-button label="电信区 龙虎" value="电信区 龙虎" />
+                  <el-radio-button label="电信区 碟服" value="电信区 碟服" />
+                  <el-radio-button label="电信区 煎蛋" value="电信区 煎蛋" />
+                </div>
+                <div>
+                  <el-radio-button label="电信区 姨妈" value="电信区 姨妈" />
+                  <el-radio-button label="电信区 绝代" value="电信区 绝代" />
+                  <el-radio-button label="电信区 唯满侠" value="电信区 唯满侠" />
+                  <el-radio-button label="电信区 六合一" value="电信区 六合一" />
+                </div>
+                <div>
+
+                </div>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item label="数量" prop="quantity">
+              <el-radio-group v-model="radio2" @change="radio2change">
+                <div>
+                  <el-radio-button label="1" value="1" />
+                  <el-radio-button label="2" value="2" />
+                  <el-radio-button label="3" value="3" />
+                  <el-radio-button label="4" value="4" />
+                  <el-radio-button label="5" value="5" />
+                  <el-radio-button label="10" value="10" />
+                </div>
+              </el-radio-group>
+              <el-input style="width: 3.125rem;margin-left: 1.25rem;" maxlength="3" v-model="ruleForm.quantity"></el-input>
+            </el-form-item>
+            <el-form-item label="成本" prop="cost">
+              <el-radio-group v-model="radio3" @change="radio3change">
+                <div>
+                  <el-radio-button label="200" value="200" />
+                  <el-radio-button label="280" value="280" />
+                  <el-radio-button label="520" value="520" />
+                  <el-radio-button label="888" value="888" />
+                  <el-radio-button label="1200" value="1200" />
+                </div>
+              </el-radio-group>
+              <el-input style="width: 3.4375rem;margin-left: 1.25rem;" maxlength="4" v-model="ruleForm.cost"></el-input>
+            </el-form-item>
+            <el-form-item label="备注" prop="desc">
+              <el-input v-model="ruleForm.desc"></el-input>
             </el-form-item>
           </el-form>
-          <div style="display:flex;justify-content:space-around;">
-            <a @click="">注册</a>
-            <a @click="">忘记密码</a>
-          </div>
           <div style="display: flex;justify-content: center;margin-top: 1.25rem;">
-            <el-button style="width: 12.5rem;" type="primary" @click="Login">登录</el-button>
+            <el-button style="width: 12.5rem;" type="primary" @click="addkc">确认</el-button>
           </div>
         </el-dialog>
       </div>
-      <!-- 新增弹窗 -->
-      <el-dialog v-model="dialogVisiblek" :before-close="handleClose" :title="bjshow ? '编辑' : '新增'" width="500" center>
-        <el-form style="max-width: 600px" :model="ruleForm" fit-input-width="true" class="demo-ruleForm"
-          :size="formSize" status-icon>
-          <el-form-item label="时间" prop="date">
-            <el-date-picker v-model="ruleForm.open_at" type="date" :size="size" />
-          </el-form-item>
-          <el-form-item label="名称" prop="name">
-            <el-autocomplete style="width: 400px;" v-model="ruleForm.name" :fetch-suggestions="querySearch"
-              placeholder="请输入名称" :popper-append-to-body="false" value-key="subalias" fit-input-width />
-          </el-form-item>
-          <el-form-item label="区服" prop="location">
-            <el-radio-group v-model="radio1" size="small" @change="radio1change">
-              <div>
-                <el-radio-button label="请选择区服" value="请选择区服" />
-                <el-radio-button label="电信区 双梦" value="电信区 双梦" />
-                <el-radio-button label="无界区" value="无界区" />
-              </div>
-              <div>
-                <el-radio-button label="双线区 纵月" value="双线区 纵月" />
-                <el-radio-button label="双线区 飞龙" value="双线区 飞龙" />
-                <el-radio-button label="双线区 念破" value="双线区 念破" />
-                <el-radio-button label="双线区 青梅" value="双线区 青梅" />
-              </div>
-              <div>
-                <el-radio-button label="电信区 长安" value="电信区 长安" />
-                <el-radio-button label="电信区 龙虎" value="电信区 龙虎" />
-                <el-radio-button label="电信区 碟服" value="电信区 碟服" />
-                <el-radio-button label="电信区 煎蛋" value="电信区 煎蛋" />
-              </div>
-              <div>
-                <el-radio-button label="电信区 姨妈" value="电信区 姨妈" />
-                <el-radio-button label="电信区 绝代" value="电信区 绝代" />
-                <el-radio-button label="电信区 唯满侠" value="电信区 唯满侠" />
-                <el-radio-button label="电信区 六合一" value="电信区 六合一" />
-              </div>
-              <div>
-
-              </div>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="数量" prop="quantity">
-            <el-radio-group v-model="radio2" @change="radio2change">
-              <div>
-                <el-radio-button label="1" value="1" />
-                <el-radio-button label="2" value="2" />
-                <el-radio-button label="3" value="3" />
-                <el-radio-button label="4" value="4" />
-                <el-radio-button label="5" value="5" />
-                <el-radio-button label="10" value="10" />
-              </div>
-            </el-radio-group>
-            <el-input style="width: 50px;margin-left: 20px;" maxlength="3" v-model="ruleForm.quantity"></el-input>
-          </el-form-item>
-          <el-form-item label="成本" prop="cost">
-            <el-radio-group v-model="radio3" @change="radio3change">
-              <div>
-                <el-radio-button label="200" value="200" />
-                <el-radio-button label="280" value="280" />
-                <el-radio-button label="520" value="520" />
-                <el-radio-button label="888" value="888" />
-                <el-radio-button label="1200" value="1200" />
-              </div>
-            </el-radio-group>
-            <el-input style="width: 55px;margin-left: 20px;" maxlength="4" v-model="ruleForm.cost"></el-input>
-          </el-form-item>
-          <el-form-item label="备注" prop="desc">
-            <el-input v-model="ruleForm.desc"></el-input>
-          </el-form-item>
-        </el-form>
-        <div style="display: flex;justify-content: center;margin-top: 1.25rem;">
-          <el-button style="width: 12.5rem;" type="primary" @click="addkc">确认</el-button>
-        </div>
-      </el-dialog>
-    </div>
+    <!-- </el-affix> -->
     <!-- 库存外观 -->
     <div v-show="optionvalue == 0" class="tablebox">
-      <el-table :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%"
+      <el-table highlight-current-row  :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%"
         @row-click=handleMouseEnter>
         <el-table-column :show-overflow-tooltip="true" prop="open_at" label="日期" sortable />
         <el-table-column width="180" :show-overflow-tooltip="true" prop="official_name" label="官方名称" sortable />
@@ -172,13 +175,14 @@
         </el-table-column>
         <el-table-column prop="desc" label="备注" :show-overflow-tooltip="true" />
       </el-table>
-      <div class="demo-image__lazy">
+      <div class="demo-image__lazy" v-show="imageshow">
         <el-image v-for="url in urls" :key="url" :src="url" />
+        <el-button style="margin:10px 10px;" @click="imageshow = false">关闭</el-button>
       </div>
     </div>
     <!-- 已售外观 -->
     <div v-show="optionvalue == 1" class="tablebox">
-      <el-table :data="tableDatascs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
+      <el-table highlight-current-row :data="tableDatascs" :default-sort="{ prop: 'date', order: 'descending' }" style="width: 100%">
         <el-table-column prop="updated_at" :show-overflow-tooltip="true" label="日期" sortable />
         <el-table-column width="180" :show-overflow-tooltip="true" prop="official_name" label="官方名称" sortable />
         <el-table-column width="200" prop="subalias" :show-overflow-tooltip="true" label="名称" />
@@ -221,7 +225,7 @@
     <!-- 操作栏弹窗 -->
     <el-dialog v-model="dialogVisibleb" :title="csshow ? '出售' : (bjshow ? '编辑' : '删除')" width="500" center
       :before-close="handleClose">
-      <el-form :model="fromdata" label-width="100px" style="max-width: 400px">
+      <el-form :model="fromdata" label-width="6.25rem" style="max-width: 25rem">
         <el-form-item v-show="csshow" label="出售单价:">
           <el-input v-model="fromdata.saleprice" />
         </el-form-item>
@@ -234,7 +238,7 @@
               <el-radio-button label="4" value="4" />
             </div>
           </el-radio-group>
-          <el-input style="width: 50px;margin-left: 20px;" maxlength="3" v-model="fromdata.quantity"></el-input>
+          <el-input style="width: 3.125rem;margin-left: 1.25rem;" maxlength="3" v-model="fromdata.quantity"></el-input>
         </el-form-item>
         <el-form-item v-show="csshow" label="备注:">
           <el-input type="textarea" maxlength="30" v-model="fromdata.desc" />
@@ -268,6 +272,7 @@ const { tableDatakcs, tableDatascs } = storeToRefs(store);
 const dialogVisible = ref(false)
 const dialogVisibleb = ref(false)
 const dialogVisiblek = ref(false)
+const imageshow = ref(false)
 
 const radio1 = ref('请选择区服')
 const radio2 = ref('1')
@@ -356,14 +361,14 @@ async function Mystocks (params) {
   // 已获利润
   sumtakc.value = tableDatasc.reduce((sum, item) => {
     if (item.sale === 1) {
-      return sum + (item.quantity * (item.saleprice-item.cost));
+      return sum + (item.quantity * (item.saleprice - item.cost));
     }
     return sum;
   }, 0);
   // 库存成本
   sumta.value = tableDatakc.reduce((sum, item) => {
     if (item.sale === 0) {
-      return sum + (item.quantity *  item.cost);
+      return sum + (item.quantity * item.cost);
     }
     return sum;
   }, 0);
@@ -543,6 +548,7 @@ async function addkc () {
 }
 
 const handleMouseEnter = (row, column) => {
+  imageshow.value = true
   urls[0] = row.priceview
   urls[1] = row.view
 }
@@ -559,15 +565,15 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   background-color: #FFF;
-  padding: 10px;
-  margin-top: 10px;
+  padding: 0.625rem;
+  margin-top: 0.625rem;
   border-radius: 5px;
   justify-content: space-between;
 }
 
 .navbar button {
   border: none;
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   margin: 0 5px;
   border-radius: 5px;
   cursor: pointer;
@@ -588,22 +594,37 @@ onMounted(async () => {
 }
 
 .demo-image__lazy {
+  animation: myfirst 1s;
   display: flex;
   justify-content: space-between;
-  height: 400px;
   position: sticky;
+  margin-top: .625rem;
   bottom: 0;
   z-index: 999;
-  background-color: #efefef;
+  height: 25rem;
+  background-color: #fff6e9;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
 }
 
 .demo-image__lazy .el-image {
   display: block;
-  // height: 100%;
-  margin-bottom: 10px;
+  margin: 1.25rem 1.25rem;
 }
 
 .demo-image__lazy .el-image:last-child {
   margin-bottom: 0;
+}
+
+@keyframes myfirst {
+  0% {
+    height: 0;
+    background-color: #fff;
+  }
+
+  100% {
+    height: 25rem;
+    background-color: #fff6e9;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  }
 }
 </style>
