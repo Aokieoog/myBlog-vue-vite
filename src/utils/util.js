@@ -8,5 +8,8 @@ export default {
       }
     }
     return null
+  },
+  removeCookie(name) {
+    document.cookie = name + '=; Max-Age=0; path=/';
   }
 }
