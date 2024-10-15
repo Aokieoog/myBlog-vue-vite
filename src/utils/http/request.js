@@ -38,11 +38,11 @@ request.interceptors.response.use(
     // }
     return response
   },
-  error => {
-    // 对响应错误做些什么
-    msg.error('响应失败')
-    return Promise.reject(error)
-  }
+  // error => {
+  //   // 对响应错误做些什么
+  //   msg.error('响应失败')
+  //   return Promise.reject(error)
+  // }
 )
 
 export default request

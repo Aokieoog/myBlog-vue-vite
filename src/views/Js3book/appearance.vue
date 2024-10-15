@@ -20,14 +20,13 @@
         <span :style="sumtakc > 0 ? 'color: red;' : 'color:green'">{{ sumtakc }}</span>
       </div>
       <div>
-        <el-button color="#8f58fd" @click="addkcheader">增加库存</el-button>
+        <el-button :disabled="!loginshow" color="#8f58fd" @click="addkcheader">增加库存</el-button>
       </div>
       <!-- 登录 -->
       <div style="display: flex;align-items: center;">
         <el-button v-show="!loginshow" type="primary" class="active" @click="dialogVisible = true">登录</el-button>
         <el-dropdown v-show="loginshow">
-          <el-avatar  src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-           />
+          <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item @click="logout">退出</el-dropdown-item>
@@ -35,21 +34,21 @@
           </template>
         </el-dropdown>
         <!-- 登录弹窗 -->
-        <el-dialog v-model="dialogVisible" :title="zhuceshow?'注册':'登录'" width="500" center>
+        <el-dialog v-model="dialogVisible" :title="zhuceshow ? '注册账号' : passshow ? '登录账号' : '找回密码'" width="500" center>
           <el-form :model="form" label-width="6.25rem" style="max-width: 25rem">
             <el-form-item v-show="zhuceshow" label="用户名:">
-              <el-input type="text" v-model="form.name"></el-input>
+              <el-input type="text" v-model="form.user_name"></el-input>
             </el-form-item>
-            <el-form-item label="邮箱:">
-              <el-input type="emil" v-model="form.username">
+            <el-form-item label="注册邮箱:">
+              <el-input type="emil" v-model="form.mail">
                 <template #append>.com</template>
               </el-input>
             </el-form-item>
             <el-form-item v-show="zhuceshow" label="QQ:">
-              <el-input type="text" v-model="form.QQ" />
+              <el-input type="text" v-model="form.qq" />
             </el-form-item>
-            <el-form-item v-show="passshow" label="密码:">
-              <el-input type="password" v-model="form.possword" />
+            <el-form-item v-show="passshow" label="登录密码:">
+              <el-input type="password" v-model="form.password" />
             </el-form-item>
           </el-form>
           <div style="display:flex;justify-content:space-around;">
@@ -58,8 +57,10 @@
             <a @click="posswrodBtn">忘记密码</a>
           </div>
           <div style="display: flex;justify-content: center;margin-top: 1.25rem;">
-            <el-button v-if="!loginshow" style="width: 12.5rem;" type="primary" @click="Login">登录</el-button>
-            <el-button v-else style="width: 12.5rem;" type="primary" @click="Zhuce">确认</el-button>
+            <el-button v-show="!zhuceshow && passshow" style="width: 12.5rem;" type="primary"
+              @click="Login">登录</el-button>
+            <el-button v-show="zhuceshow || !passshow" style="width: 12.5rem;" type="primary"
+              @click="zhuceshow?Zhuceq():FindPassword()">确认</el-button>
           </div>
         </el-dialog>
       </div>
@@ -289,7 +290,6 @@ import cookie from '@/utils/http/cookie.js'
 import util from '@/utils/util.js'
 import { useJxwg } from "@/pinia/useJx3book/userJxwg.js";
 import { storeToRefs } from 'pinia';
-import router from '@/router';
 const store = useJxwg()
 const { tableDatakcs, tableDatascs } = storeToRefs(store);
 
@@ -305,8 +305,6 @@ const radio4 = ref('')
 const sumtasc = ref('')// 利润
 const sumtakc = ref('')// 利润
 const sumta = ref('')// 库存成本
-// radio2 = ruleForm.quantity
-// const state2 = ref('')
 const restaurants = ref([])
 const ruleForm = reactive({
   cost: '', // 成本
@@ -327,15 +325,11 @@ const bjshow = ref(false) // 编辑
 const loginshow = ref(false)// 弹窗显示
 const passshow = ref(true) // 登录项
 const zhuceshow = ref(false) // 注册项
-const data = ref({
-  nameshow: true,
-  usernameshow: true,
-  possword: true
-})
 const form = reactive({
-  name: '',
-  username: '853532673@qq',
-  possword: '1592248183',
+  user_name: '',
+  mail: '',
+  qq: '',
+  password: '',
 })
 const optionvalue = ref('0')
 const options = ref([
@@ -359,30 +353,42 @@ function ZhuceBtn () {
   passshow.value = true
 }
 // 登录按钮
-function logBtn() {
+function logBtn () {
   passshow.value = true
   zhuceshow.value = false
 }
 // 忘记密码按钮
-function posswrodBtn() {
+function posswrodBtn () {
   zhuceshow.value = false
   passshow.value = false
 }
 // 注册
-async function Zhuce() {
-  let params = {
-    user_name: fromdata.email,
-    mail: fromdata.password,
-    qq:'',
-    password:''
+async function Zhuceq () {
+  let { user_name, qq, password } = form;
+  let data = {
+    mail: form.mail + '.com',
+    password,
+    qq,
+    user_name,
+  };
+  try {
+    let res = await post('/user/usercreate', data);
+    if (res.status === 201) {
+      passshow.value = true
+      zhuceshow.value = false
+      msg.success('注册成功');
+    }
+  } catch (error) {
+    if (error.response.data.detail == 'User Already Exists') {
+      msg.error('用户已存在');
+    }
   }
-  const res = await post('/user/usercreate', params)
 }
 // 登录
-async function Login (params) {
+async function Login () {
   let data = {
-    username: form.username + '.com',
-    password: form.possword
+    username: form.mail + '.com',
+    password: form.password
   }
   let restoken = await post('/user/token', data, {
     headers: {
@@ -396,19 +402,40 @@ async function Login (params) {
     restaurants.value = await loadAll()
   }
 }
+// 找回密码
+async function FindPassword () {
+  let data = {
+    email: form.mail + '.com',
+  }
+  try {
+    let res = await post('/user/request-reset', data)
+    if (res.status === 200) {
+    msg.success('密码重置链接发送到电子邮件')
+  }
+  } catch (error) {
+    if (error.response.data.detail == 'User not found') {
+      msg.error('请联系管理员')
+    }
+  }
+}
 // 退出
 function logout () {
   util.removeCookie('access_token')
   msg.success('退出成功')
   loginshow.value = false
-  router.go(0); // 刷新当前页面
+  tableDatakcs.value = [];
+  tableDatascs.value = [];
+  sumtasc.value = ''// 利润
+  sumtakc.value = ''// 利润
+  sumta.value = ''// 库存成本
+  // router.go(0); // 刷新当前页面
 }
 // 我的列表
 async function Mystocks (params) {
   let token = util.getCookie('access_token')
   if (token) {
     loginshow.value = true
-  }else{
+  } else {
     return msg.success('请先登录')
   }
   let resmystocks = await get('/stock/mystocks')
