@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="navbar">
-      <span style="margin-right: 1.25rem;">地址:</span>
+      <span style="margin-right: 1.25rem;">图标编码:</span>
       <el-input v-model="iconAddress" type="url" @keyup="iconAddress = iconAddress.replace(/\s/g, '')"
-        placeholder="请输入图标地址" style="width: 20rem;" />
+        placeholder="图标编码" style="width: 20rem;" />
       <!-- <el-icon color="#aeaeae" @click="centerDialogVisible = true">
         <Warning />
       </el-icon> -->
       <span style="margin: 0 1.25rem;">名称:</span>
       <el-input class="nameArticle" v-model="nameArticle" type="text"
-        @keyup="nameArticle = nameArticle.replace(/\s/g, '')" @Keyup.enter="addName" placeholder="请输入物品名称" style="width: 10rem;"
+        @keyup="nameArticle = nameArticle.replace(/\s/g, '')" @Keyup.enter="addName" placeholder="物品名称" style="width: 10rem;"
         maxlength="10" />
       <el-button class="active" @click="addName">添加</el-button>
     </div>
