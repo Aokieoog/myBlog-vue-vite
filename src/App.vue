@@ -1,8 +1,6 @@
 <script setup>
 import Sidebar from '@/components/sidebar/sidebar.vue';
-import Header from '@/components/header/header.vue';
 import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
 
 const route = useRoute();
 /**

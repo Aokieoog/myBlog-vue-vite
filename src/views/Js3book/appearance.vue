@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-affix :offset="45">
+    <!-- <el-affix :offset="45"> -->
     <div class="navbar">
       <div>
         <el-select v-model="optionvalue" style="width: 6.875rem;">
@@ -140,7 +140,7 @@
         </div>
       </el-dialog>
     </div>
-    </el-affix>
+    <!-- </el-affix> -->
     <!-- 库存外观 -->
     <div v-show="optionvalue == 0" class="tablebox">
       <el-table highlight-current-row :data="tableDatakcs" :default-sort="{ prop: 'date', order: 'descending' }"

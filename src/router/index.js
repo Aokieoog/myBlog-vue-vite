@@ -1,15 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import util from '@/utils/util'
 const routes = [
-  {
-    path: '/login',
-    name: 'login',
-    meta: {
-      fullPageDisplay: true, //需要全页展示的组件
-      title: '登录'
-    },
-    component: () => import('@/views/Login/login.vue')
-  },
   {
     path: '/',
     name: 'jx3home',
@@ -18,14 +8,6 @@ const routes = [
       title: '欢迎'
     },
     component: () => import('@/views/Home/jx3home.vue')
-  },{
-    path: '/home',
-    name: 'home',
-    meta: {
-      fullPageDisplay: false,
-      title: '主页'
-    },
-    component: () => import('@/views/Home/home.vue')
   },
   {
     path: '/:pathMatch(.*)',
@@ -37,15 +19,6 @@ const routes = [
     component: () => import('@/views/404.vue')
   },
   {
-    path: '/oilPrices',//今日油价
-    name: 'oilPrices',
-    meta: {
-      fullPageDisplay: false, //不需要全页展示的组件
-      title: '今日油价'
-    },
-    component: () => import('@/views/OilPrices/oilPrices.vue')
-  },
-  {
     path: '/js3book',//剑三记账本
     name: 'js3book',
     meta: {
@@ -53,15 +26,6 @@ const routes = [
       title: '账单'
     },
     component: () => import('@/views/Js3book/js3book.vue')
-  },
-  {
-    path: '/searchBox',
-    name: 'searchBox',
-    meta: {
-      fullPageDisplay: false,
-      title: '搜索框'
-    },
-    component: () => import('@/components/searchBox/searchBox.vue')
   },
   {
     path: '/lineChart',
@@ -91,22 +55,6 @@ const routes = [
     component: () => import('@/components/echarts/pieLike.vue')
   },
   {
-    path: '/PhotoAlbum',
-    name: 'PhotoAlbum',
-    meta: {
-      fullPageDisplay: false,
-    },
-    component: () => import('@/views/PhotoAlbum/PhotoAlbum.vue')
-  },
-  {
-    path: '/diary',
-    name: 'diary',
-    meta: {
-      fullPageDisplay: false,
-      title: 'ip'
-    },
-    component: () => import('@/views/Diary/diary.vue')
-  },{
     path: '/jx3user',
     name: 'jx3user',
     meta: {

@@ -1,12 +1,13 @@
 <template>
   <div class="container">
-    <h1>感谢使用剑侠3记账本</h1>
+    <!-- <h1>感谢使用剑侠3记账本</h1> -->
     <h2>公告</h2>
+    <p><span style="color: red;">PS：</span>如果在双梦遇到一个叫‘<span style="color: red;">咩气气</span>’的纯阳请给她一串糖葫芦。😊</p>
+    <p><span style="color: blue;">下个计划：</span>适配手机端（因博主一个人做时间有限，更新时间待定，先计划着。）😭</p>
     <el-card style="width: 40rem;height: 30rem;" @click="gobook">
       <el-divider content-position="left">2024年10月15日</el-divider>
       <p>增加了外观统计页面</p>
       <p>使用了废牛记账本的API，因此与<span style="color: red;">废牛记账本数据互通</span>。</p>
-      <p><span style="color: red;">PS：</span>如果在双梦遇到一个叫‘<span style="color: red;">咩气气</span>’的纯阳请给她一串糖葫芦。😊</p>
       <el-divider content-position="left">2024年7月23日</el-divider>
       <p>修改收益计算规则,修改后收益扣除交易行<span style="color: red;">5%</span>的手续费</p>
       <p>“剑侠3记账本”是为剑网三做的一个交易行记账功能</p>
@@ -17,9 +18,8 @@
     <p>使用方法:<el-link class="url" href="http://qs.ieoog.com/index.php/archives/28/" target="_blank">点我</el-link></p>
   </div>
   <div class="img">
-      <el-image style="width: 6.25rem; height: 6.25rem" :src="image"></el-image>
+      <img style="width: 6.25rem; height: 6.25rem" src="@/assets/png/miemie.png" />
       <p>糖葫芦🍬😄</p>
-      <!-- <el-image style="width: 100px; height: 100px" :src="image"></el-image> -->
   </div>
 
 
@@ -27,9 +27,6 @@
 
 <script setup>
 import router from '@/router';
-import { ref, reactive } from 'vue';
-
-const image = ref('/src/assets/png/miemie.png')
 
 const gobook = () => {
   router.push({ path: '/js3book' })

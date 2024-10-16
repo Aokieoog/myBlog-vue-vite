@@ -1,24 +1,18 @@
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref,computed } from 'vue'
+import { useRoute } from 'vue-router';
 
 const datalist = reactive([
-    // { sidebar: '首页', toa: 'home', icon: 'icon-shouye' },
-    // { sidebar: '休息一下', toa: 'PhotoAlbum', icon: 'icon-tupian' },
-    // { sidebar: '今日油价', toa: 'oilPrices', icon: 'icon-pinglun' },
-    // { sidebar: '网络地址', toa: 'diary', icon: 'icon-dingdan' },
-    { sidebar: '交易行账本', toa: 'js3book', icon: 'icon-dingdan' },
-    { sidebar: '外观账本', toa: 'appearance', icon: 'icon-dingdan' },
-    // { sidebar: '分类', toa: 'home', icon: 'icon-quan' },
-    // { sidebar: '设置', toa: 'home', icon: 'icon-gengduo' }
+    { sidebar: '交易行账本', toa: 'js3book', icon: 'icon-dingdan',index: 0 },
+    { sidebar: '外观账本', toa: 'appearance', icon: 'icon-dingdan' ,index: 1},
   ]
 )
+const route = useRoute();
 const isCollapse = ref(false)
-const handleOpen = (key, keyPath) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key, keyPath) => {
-  console.log(key, keyPath)
-}
+
+const toacomputed = computed(() => {
+  return route.path.slice(1); // 返回当前路径
+})
 </script>
 
 <template>
@@ -28,14 +22,13 @@ const handleClose = (key, keyPath) => {
       mode="horizontal"
       background-color="#24292e"
       text-color="#ffffff"
-      :default-active="$route.path"
+      :default-active="toacomputed"
       :collapse="isCollapse"
       class="sidmenu"
       @close="handleClose"
       @open="handleOpen"
     >
       <el-menu-item v-for="(item,i) in datalist" :key="i" :index="item.toa">
-        <!-- <svg-icon :iconName="item.icon"></svg-icon>&nbsp; -->
         <template #title>{{ item.sidebar }}</template>
       </el-menu-item>
     </el-menu>
