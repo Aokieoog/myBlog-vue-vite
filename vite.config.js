@@ -19,7 +19,13 @@ export default () =>  defineConfig({
         changeOrigin: true, //支持跨域
         //重写路径,替换/dev
         rewrite: (path) => path.replace(/^\/dev/, '') // 重写路径，替换 /dev
-      }
+      },
+      // '/jx3': {
+      //   target: "http://jx.ieoog.com/jx3", //目标url
+      //   changeOrigin: true, //支持跨域
+      //   //重写路径,替换/dev
+      //   rewrite: (path) => path.replace(/^\/jx/, '') // 重写路径，替换 /dev
+      // }
     }
   }
 })
