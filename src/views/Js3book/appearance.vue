@@ -387,10 +387,8 @@ async function Zhuceq () {
 // 登录
 async function Login () {
   let data = {
-    username: '',
-    password: ''
-    // username: form.mail + '.com',
-    // password: form.password
+    username: form.mail + '.com',
+    password: form.password
   }
   let restoken = await post('/user/token', data, {
     headers: {
